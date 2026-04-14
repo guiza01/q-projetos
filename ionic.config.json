@@ -1,0 +1,7 @@
+{
+  "name": "q-projetos-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
