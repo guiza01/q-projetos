@@ -37,7 +37,10 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/project-edit/project-edit.module').then((m) => m.ProjectEditPageModule),
   },
-];
+  {
+    path: 'adm-projects',
+    loadChildren: () => import('./pages/adm-projects/adm-projects.module').then( m => m.AdmProjectsPageModule)
+  },
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

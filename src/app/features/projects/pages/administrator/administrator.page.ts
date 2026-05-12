@@ -33,8 +33,8 @@ export class AdministratorPage implements OnInit {
         this.errorMessage = error.message;
         this.isLoading = false;
       },
-    });
-  }
+    }); 
+  } 
 
   onProjectCreate(): void {
     // TODO: Implementar navegação para criação de projeto
@@ -55,4 +55,4 @@ export class AdministratorPage implements OnInit {
     // TODO: Implementar navegação para gerenciamento de usuários
     console.log('Manage users');
   }
-}
+} 

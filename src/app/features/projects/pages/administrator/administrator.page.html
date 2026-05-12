@@ -1,37 +1,209 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Administrador</ion-title>
+
+    <ion-buttons slot="start">
+      <ion-button>
+        <ion-icon name="menu-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title class="title-center">
+      Q-Projetos
+    </ion-title>
+
+    <ion-buttons slot="end">
+
+      <ion-button>
+        <ion-icon name="notifications-outline"></ion-icon>
+      </ion-button>
+
+      <ion-avatar class="avatar">
+        <img src="" />
+      </ion-avatar>
+
+    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Administrador</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
-  <div class="ion-padding">
-    <ion-button expand="block" color="success" (click)="onProjectCreate()">
-      Criar Novo Projeto
-    </ion-button>
+  <div class="dashboard-container">
 
-    <ion-button expand="block" color="secondary" (click)="onManageUsers()">
-      Gerenciar Usuários
-    </ion-button>
+    <!-- TÍTULO -->
+    <h2>Dashboard</h2>
 
-    <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+    <!-- CARDS -->
+    <div class="stats-grid">
 
-    <ion-text color="danger" *ngIf="!isLoading && errorMessage">
-      <p>{{ errorMessage }}</p>
-    </ion-text>
+      <ion-card class="stat-card">
+        <ion-card-content>
 
-    <ng-container *ngIf="!isLoading && !errorMessage">
-      <app-project-card *ngFor="let project of projects" [project]="project"></app-project-card>
+          <div class="icon blue">
+            <ion-icon name="document-text"></ion-icon>
+          </div>
 
-      <ion-text *ngIf="projects.length === 0">
-        <p>Nenhum projeto encontrado.</p>
-      </ion-text>
-    </ng-container>
+          <div>
+            <h1>128</h1>
+            <p>Projetos cadastrados</p>
+          </div>
+
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="stat-card">
+        <ion-card-content>
+
+          <div class="icon blue">
+            <ion-icon name="checkmark"></ion-icon>
+          </div>
+
+          <div>
+            <h1>76</h1>
+            <p>Projetos publicados</p>
+          </div>
+
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="stat-card">
+        <ion-card-content>
+
+          <div class="icon blue">
+            <ion-icon name="time"></ion-icon>
+          </div>
+
+          <div>
+            <h1>15</h1>
+            <p>Pendentes de moderação</p>
+          </div>
+
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="stat-card">
+        <ion-card-content>
+
+          <div class="icon blue">
+            <ion-icon name="people"></ion-icon>
+          </div>
+
+          <div>
+            <h1>100</h1>
+            <p>Leads (Interesses)</p>
+          </div>
+
+        </ion-card-content>
+      </ion-card>
+
+    </div>
+
+    <!-- TABELA -->
+    <ion-card>
+
+      <ion-card-header>
+        <ion-card-title>
+          Pendentes de moderação
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <div class="table-header">
+          <p>Projeto</p>
+          <p>Coordenador</p>
+          <p>Tipo</p>
+        </div>
+
+        <div class="table-row">
+          <p>Gamificação no ensino</p>
+          <p>Ricardo Alves</p>
+          <p>Ensino</p>
+        </div>
+
+        <div class="table-row">
+          <p>Saúde Mental</p>
+          <p>Juliana Costa</p>
+          <p>Extensão</p>
+        </div>
+
+        <div class="table-row">
+          <p>IA para energia solar</p>
+          <p>Carlos Ferreira</p>
+          <p>Pesquisa</p>
+        </div>
+
+      </ion-card-content>
+
+    </ion-card>
+
+    <!-- LEADS -->
+    <ion-card>
+
+      <ion-card-header>
+        <ion-card-title>
+          Leads Recentes
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <div class="table-header">
+          <p>Nome</p>
+          <p>Projeto</p>
+        </div>
+
+        <div class="table-row">
+          <p>Maria Eduarda</p>
+          <p>IA na Educação</p>
+        </div>
+
+        <div class="table-row">
+          <p>João Pedro</p>
+          <p>Sustentabilidade</p>
+        </div>
+
+        <div class="table-row">
+          <p>Ana Beatriz</p>
+          <p>Pesquisa em energia</p>
+        </div>
+
+      </ion-card-content>
+
+    </ion-card>
+
   </div>
+
 </ion-content>
+
+<!-- FOOTER -->
+
+<ion-footer>
+  <ion-tab-bar slot="bottom" class="custom-tabbar">
+    <ion-tab-button tab="dashboard" routerLink="/projects/administrator">
+      <ion-icon name="home-outline"></ion-icon>
+      <ion-label>Dashboard</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="projects" routerLink="/projects/adm-projects">
+      <ion-icon name="document-text-outline"></ion-icon>
+      <ion-label>Projetos</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="leads">
+      <ion-icon name="heart-outline"></ion-icon>
+      <ion-label>Leads</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="users">
+      <ion-icon name="person-outline"></ion-icon>
+      <ion-label>Usuários</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="more">
+      <ion-icon name="ellipsis-horizontal"></ion-icon>
+      <ion-label>Mais</ion-label>
+    </ion-tab-button>
+
+  </ion-tab-bar>
+</ion-footer>
