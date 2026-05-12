@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 import { ProjectsService } from '../../services/projects.service';
 import { Project } from '../../models/project.model';
 
@@ -11,6 +10,7 @@ import { Project } from '../../models/project.model';
 })
 export class ProjectListPage implements OnInit {
   projects: Project[] = [];
+  filteredProjects: Project[] = []; // Usaremos esta lista no HTML
   isLoading = false;
   errorMessage = '';
 
@@ -27,6 +27,7 @@ export class ProjectListPage implements OnInit {
     this.projectsService.list().subscribe({
       next: (projects) => {
         this.projects = projects;
+        this.filteredProjects = projects; // Inicialmente, mostra tudo
         this.isLoading = false;
       },
       error: (error: Error) => {
@@ -34,5 +35,20 @@ export class ProjectListPage implements OnInit {
         this.isLoading = false;
       },
     });
+  }
+
+  handleSearch(event: any) {
+    const searchTerm = event.target.value.toLowerCase();
+    
+    if (!searchTerm) {
+      this.filteredProjects = this.projects;
+      return;
+    }
+
+    // Se o seu modelo usa outro nome (como 'nome' em vez de 'title'), altere abaixo
+    this.filteredProjects = this.projects.filter(p => 
+      (p as any).title?.toLowerCase().includes(searchTerm) || 
+      (p as any).nome?.toLowerCase().includes(searchTerm)
+    );
   }
 }
