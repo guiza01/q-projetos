@@ -134,16 +134,29 @@ ion-content {
   color: #111827;
 }
 .status {
-  background: #dcfce7;
-  color: #15803d;
-
+  display: inline-block;
   padding: 4px 10px;
-  border-radius: 20px;
-
-  font-size: 12px;
+  border-radius: 12px;
+  font-size: 11px;
   font-weight: 600;
-
+  width: fit-content;
   height: fit-content;
+}
+
+
+.publicado {
+  background: #dff7e8;
+  color: #1f9d55;
+}
+
+.pendente {
+  background: #fff4d9;
+  color: #d48806;
+}
+
+.encerrado {
+  background: #ffe5e5;
+  color: #e53935;
 }
 
 .categoria {
