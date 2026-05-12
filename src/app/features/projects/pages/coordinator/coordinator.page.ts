@@ -7,8 +7,9 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class CoordinatorPage {
+  mostrarMeusProjetos = false;
   mostrarProjetosAtivos = false;
-  mostrarLeads = false;
+  mostrarInteressados = false;
   mostrarProjetosEncerrados = false;
 
   projetos = [
@@ -59,21 +60,36 @@ export class CoordinatorPage {
     }
   ];
 
+  get projetosAtivos() {
+    return this.projetos.filter((projeto) => projeto.status !== 'Encerrado');
+  }
+
   get projetosEncerrados() {
     return this.projetos.filter((projeto) => projeto.status === 'Encerrado');
+  }
+
+  toggleMeusProjetos(): void {
+    this.mostrarMeusProjetos = !this.mostrarMeusProjetos;
+    if (this.mostrarMeusProjetos) {
+      this.mostrarProjetosAtivos = false;
+      this.mostrarInteressados = false;
+      this.mostrarProjetosEncerrados = false;
+    }
   }
 
   toggleProjetosAtivos(): void {
     this.mostrarProjetosAtivos = !this.mostrarProjetosAtivos;
     if (this.mostrarProjetosAtivos) {
-      this.mostrarLeads = false;
+      this.mostrarMeusProjetos = false;
+      this.mostrarInteressados = false;
       this.mostrarProjetosEncerrados = false;
     }
   }
 
-  toggleLeads(): void {
-    this.mostrarLeads = !this.mostrarLeads;
-    if (this.mostrarLeads) {
+  toggleInteressados(): void {
+    this.mostrarInteressados = !this.mostrarInteressados;
+    if (this.mostrarInteressados) {
+      this.mostrarMeusProjetos = false;
       this.mostrarProjetosAtivos = false;
       this.mostrarProjetosEncerrados = false;
     }
@@ -82,8 +98,9 @@ export class CoordinatorPage {
   toggleProjetosEncerrados(): void {
     this.mostrarProjetosEncerrados = !this.mostrarProjetosEncerrados;
     if (this.mostrarProjetosEncerrados) {
+      this.mostrarMeusProjetos = false;
       this.mostrarProjetosAtivos = false;
-      this.mostrarLeads = false;
+      this.mostrarInteressados = false;
     }
   }
 
