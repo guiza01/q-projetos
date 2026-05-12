@@ -46,57 +46,111 @@
       <p>Meus Projetos</p>
     </div>
 
-    <div class="card-info">
+    <div class="card-info" (click)="toggleLeads()">
       <h2>23</h2>
       <p>Leads</p>
     </div>
 
-    <div class="card-info">
+    <div class="card-info" (click)="toggleProjetosAtivos()">
       <h2>03</h2>
       <p>Projetos Ativos</p>
     </div>
 
-    <div class="card-info">
+    <div class="card-info" (click)="toggleProjetosEncerrados()">
       <h2>02</h2>
       <p>Projetos Encerrados</p>
     </div>
 
   </div>
 
-  <div class="titulo-projetos">
-    <h2>Meus Projetos</h2>
-    <span>Ver todos</span>
+  <div class="titulo-projetos" *ngIf="mostrarProjetosAtivos">
+    <h2>Projetos Ativos</h2>
+    <span (click)="toggleProjetosAtivos()">Fechar</span>
   </div>
 
-  <div
-    class="card-projeto"
-    *ngFor="let projeto of projetos"
-  >
+  <ng-container *ngIf="mostrarProjetosAtivos">
+    <div
+      class="card-projeto"
+      *ngFor="let projeto of projetos"
+    >
 
-    <img [src]="projeto.imagem">
+      <img [src]="projeto.imagem">
 
-    <div class="conteudo-projeto">
+      <div class="conteudo-projeto">
 
-      <div class="linha-topo">
-        <h3>{{ projeto.titulo }}</h3>
+        <div class="linha-topo">
+          <h3>{{ projeto.titulo }}</h3>
 
-        <span class="status">
-          {{ projeto.status }}
-        </span>
+          <span class="status">
+            {{ projeto.status }}
+          </span>
+        </div>
+
+        <p class="categoria">
+          {{ projeto.categoria }}
+        </p>
+
+        <p class="infos">
+          Vagas: {{ projeto.vagas }} •
+          Inscrições: {{ projeto.inscricoes }}
+        </p>
+
       </div>
 
-      <p class="categoria">
-        {{ projeto.categoria }}
-      </p>
-
-      <p class="infos">
-        Vagas: {{ projeto.vagas }} •
-        Inscrições: {{ projeto.inscricoes }}
-      </p>
-
     </div>
+  </ng-container>
 
+  <div class="titulo-projetos" *ngIf="mostrarLeads">
+    <h2>Leads</h2>
+    <span (click)="toggleLeads()">Fechar</span>
   </div>
+
+  <ng-container *ngIf="mostrarLeads">
+    <div class="card-lead" *ngFor="let lead of leads">
+      <div class="conteudo-projeto">
+        <div class="linha-topo">
+          <h3>{{ lead.nome }}</h3>
+          <span class="status">
+            {{ lead.status }}
+          </span>
+        </div>
+        <p class="categoria">Projeto: {{ lead.projeto }}</p>
+        <p class="infos">Email: {{ lead.email }}</p>
+      </div>
+    </div>
+  </ng-container>
+
+  <div class="titulo-projetos" *ngIf="mostrarProjetosEncerrados">
+    <h2>Projetos Encerrados</h2>
+    <span (click)="toggleProjetosEncerrados()">Fechar</span>
+  </div>
+
+  <ng-container *ngIf="mostrarProjetosEncerrados">
+    <div
+      class="card-projeto"
+      *ngFor="let projeto of projetosEncerrados"
+    >
+      <img [src]="projeto.imagem">
+
+      <div class="conteudo-projeto">
+        <div class="linha-topo">
+          <h3>{{ projeto.titulo }}</h3>
+          <span class="status">
+            {{ projeto.status }}
+          </span>
+        </div>
+
+        <p class="categoria">
+          {{ projeto.categoria }}
+        </p>
+
+        <p class="infos">
+          Vagas: {{ projeto.vagas }} •
+          Inscrições: {{ projeto.inscricoes }}
+        </p>
+      </div>
+    </div>
+  </ng-container>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button>

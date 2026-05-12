@@ -41,6 +41,13 @@ ion-content {
   padding: 20px;
 
   box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.card-info:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 .card-info h2 {
@@ -72,6 +79,12 @@ ion-content {
 .titulo-projetos span {
   color: #040404;
   font-weight: 600;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.titulo-projetos span:hover {
+  color: #2563eb;
 }
 .card-projeto {
   background: white;
@@ -83,6 +96,17 @@ ion-content {
 
   display: flex;
   gap: 12px;
+
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.05);
+}
+
+.card-lead {
+  background: white;
+
+  margin: 0 20px 16px;
+  padding: 18px;
+
+  border-radius: 18px;
 
   box-shadow: 0 2px 10px rgba(255, 255, 255, 0.05);
 }
