@@ -54,36 +54,28 @@
         class="tab"
         [class.active]="abaSelecionada === 'Todos'"
         (click)="selecionarAba('Todos')">
-
         Todos
-
       </div>
 
       <div
         class="tab"
         [class.active]="abaSelecionada === 'Pendentes'"
         (click)="selecionarAba('Pendentes')">
-
         Pendentes
-
       </div>
 
       <div
         class="tab"
         [class.active]="abaSelecionada === 'Publicados'"
         (click)="selecionarAba('Publicados')">
-
         Publicados
-
       </div>
 
       <div
         class="tab"
         [class.active]="abaSelecionada === 'Encerrados'"
         (click)="selecionarAba('Encerrados')">
-
         Encerrados
-
       </div>
 
     </div>
@@ -226,27 +218,29 @@
 
 <ion-footer>
   <ion-tab-bar slot="bottom" class="custom-tabbar">
-    <ion-tab-button tab="dashboard" routerLink="/projects/administrator">
+    <ion-tab-button routerLink="/projects/administrator"
+    routerLinkActive="active-tab">
       <ion-icon name="home-outline"></ion-icon>
       <ion-label>Dashboard</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="projects" routerLink="/projects/adm-projects">
+    <ion-tab-button routerLink="/projects/adm-projects"
+    routerLinkActive="active-tab">
       <ion-icon name="document-text-outline"></ion-icon>
       <ion-label>Projetos</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="leads">
+    <ion-tab-button>
       <ion-icon name="heart-outline"></ion-icon>
       <ion-label>Leads</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="users">
+    <ion-tab-button>
       <ion-icon name="person-outline"></ion-icon>
       <ion-label>Usuários</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="more">
+    <ion-tab-button>
       <ion-icon name="ellipsis-horizontal"></ion-icon>
       <ion-label>Mais</ion-label>
     </ion-tab-button>

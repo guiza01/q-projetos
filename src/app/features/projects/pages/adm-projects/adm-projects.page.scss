@@ -182,3 +182,12 @@ ion-searchbar {
   font-size: 22px;
   color: black;
 }
+
+.active-tab {
+  --color: #2196f3;
+}
+
+.active-tab ion-icon,
+.active-tab ion-label {
+  color: #2196f3 !important;
+}
