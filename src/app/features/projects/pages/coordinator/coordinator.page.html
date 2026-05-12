@@ -20,10 +20,10 @@
           class="bell-icon">
         </ion-icon>
 
-        <img
-          src="https://i.pravatar.cc/150?img=32"
-          class="header-avatar"
-        />
+       <ion-icon
+  name="person-circle-outline"
+  class="header-avatar-icon">
+</ion-icon>
 
       </div>
 
@@ -39,29 +39,86 @@
 
   </div>
 
-  <div class="cards-info">
+ <div class="cards-info">
 
-    <div class="card-info">
-      <h2>05</h2>
-      <p>Meus Projetos</p>
-    </div>
+  <div class="card-info" (click)="toggleMeusProjetos()">
+    <ion-icon
+      name="folder-open-outline"
+      class="icon-meus-projetos">
+    </ion-icon>
 
-    <div class="card-info" (click)="toggleLeads()">
-      <h2>23</h2>
-      <p>Leads</p>
-    </div>
+    <h2>03</h2>
+    <p>Meus Projetos</p>
+  </div>
 
-    <div class="card-info" (click)="toggleProjetosAtivos()">
-      <h2>03</h2>
-      <p>Projetos Ativos</p>
-    </div>
+  <div class="card-info" (click)="toggleInteressados()">
+    <ion-icon
+      name="people-outline"
+      class="icon-interessados">
+    </ion-icon>
 
-    <div class="card-info" (click)="toggleProjetosEncerrados()">
-      <h2>02</h2>
-      <p>Projetos Encerrados</p>
+    <h2>03</h2>
+    <p>Interessados</p>
+  </div>
+
+  <div class="card-info" (click)="toggleProjetosAtivos()">
+    <ion-icon
+      name="star-outline"
+      class="icon-ativos">
+    </ion-icon>
+
+    <h2>02</h2>
+    <p>Projetos Ativos</p>
+  </div>
+
+  <div class="card-info" (click)="toggleProjetosEncerrados()">
+    <ion-icon
+      name="close-circle-outline"
+      class="icon-encerrados">
+    </ion-icon>
+
+    <h2>01</h2>
+    <p>Projetos Encerrados</p>
+  </div>
+
+</div>
+
+<div class="titulo-projetos" *ngIf="mostrarMeusProjetos">
+  <h2>Meus Projetos</h2>
+  <span (click)="toggleMeusProjetos()">Fechar</span>
+</div>
+
+<ng-container *ngIf="mostrarMeusProjetos">
+  <div
+    class="card-projeto"
+    *ngFor="let projeto of projetos"
+  >
+
+    <img [src]="projeto.imagem">
+
+    <div class="conteudo-projeto">
+
+      <div class="linha-topo">
+        <h3>{{ projeto.titulo }}</h3>
+
+        <span class="status">
+          {{ projeto.status }}
+        </span>
+      </div>
+
+      <p class="categoria">
+        {{ projeto.categoria }}
+      </p>
+
+      <p class="infos">
+        Vagas: {{ projeto.vagas }} •
+        Inscrições: {{ projeto.inscricoes }}
+      </p>
+
     </div>
 
   </div>
+</ng-container>
 
   <div class="titulo-projetos" *ngIf="mostrarProjetosAtivos">
     <h2>Projetos Ativos</h2>
@@ -71,9 +128,8 @@
   <ng-container *ngIf="mostrarProjetosAtivos">
     <div
       class="card-projeto"
-      *ngFor="let projeto of projetos"
+      *ngFor="let projeto of projetosAtivos"
     >
-
       <img [src]="projeto.imagem">
 
       <div class="conteudo-projeto">
@@ -94,18 +150,16 @@
           Vagas: {{ projeto.vagas }} •
           Inscrições: {{ projeto.inscricoes }}
         </p>
-
       </div>
-
     </div>
   </ng-container>
 
-  <div class="titulo-projetos" *ngIf="mostrarLeads">
-    <h2>Leads</h2>
-    <span (click)="toggleLeads()">Fechar</span>
+  <div class="titulo-projetos" *ngIf="mostrarInteressados">
+    <h2>Interessados</h2>
+    <span (click)="toggleInteressados()">Fechar</span>
   </div>
 
-  <ng-container *ngIf="mostrarLeads">
+  <ng-container *ngIf="mostrarInteressados">
     <div class="card-lead" *ngFor="let lead of leads">
       <div class="conteudo-projeto">
         <div class="linha-topo">
