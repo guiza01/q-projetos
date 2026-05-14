@@ -13,4 +13,24 @@ ion-button {
 ion-text {
   display: block;
   margin-bottom: 16px;
+
+}
+//últimas mudanças feitas aqui em baixo
+.login-content {
+  --background: #ffffff;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: flex-start;
+
+  padding-top: 320px;
+
+  height: 100%;
+
+  max-width: 350px;
+
+  margin: auto;
 }
