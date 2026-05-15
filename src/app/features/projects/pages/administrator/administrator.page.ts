@@ -14,6 +14,62 @@ export class AdministratorPage implements OnInit {
   isLoading = false;
   errorMessage = '';
 
+  mostrarProjetos = false;
+  mostrarPublicados = false;
+  mostrarPendentes = false;
+  mostrarLeads = false;
+
+  projetos = [
+  {
+    titulo: 'Gamificação no Ensino de Matemática',
+    coordenador: 'Ricardo Alves',
+    tipo: 'Ensino',
+    status: 'Publicado',
+    inscricoes: 'abertas',
+    imagem: 'assets/img/projeto1.png'
+  },
+
+  {
+    titulo: 'Saúde mental universitária',
+    coordenador: 'Juliana Costa',
+    tipo: 'Extensão',
+    status: 'Pendente',
+    inscricoes: 'abertas',
+    imagem: 'assets/img/projeto2.png'
+  },
+
+  {
+    titulo: 'Novos Materiais para Energia Solar',
+    coordenador: 'Carlos Mendes',
+    tipo: 'Pesquisa',
+    status: 'Edição',
+    inscricoes: 'fechadas',
+    imagem: 'assets/img/projeto3.png'
+  }
+];
+
+  leads = [
+
+    {
+      nome: 'Maria Eduarda',
+      projeto: 'IA na Educação',
+      email: 'maria@email.com'
+    },
+
+    {
+      nome: 'João Pedro',
+      projeto: 'Sustentabilidade',
+      email: 'joao@email.com'
+    },
+
+    {
+      nome: 'Ana Beatriz',
+      projeto: 'Pesquisa em Energia',
+      email: 'ana@email.com'
+    }
+
+  ];
+
   constructor(private readonly projectsService: ProjectsService) {}
 
   ngOnInit(): void {
@@ -54,5 +110,36 @@ export class AdministratorPage implements OnInit {
   onManageUsers(): void {
     // TODO: Implementar navegação para gerenciamento de usuários
     console.log('Manage users');
+  }
+
+   fecharTudo() {
+    this.mostrarProjetos = false;
+    this.mostrarPublicados = false;
+    this.mostrarPendentes = false;
+    this.mostrarLeads = false;
+  }
+
+  toggleProjetos() {
+    const estado = this.mostrarProjetos;
+    this.fecharTudo();
+    this.mostrarProjetos = !estado;
+  }
+
+  togglePublicados() {
+    const estado = this.mostrarPublicados;
+    this.fecharTudo();
+    this.mostrarPublicados = !estado;
+  }
+
+  togglePendentes() {
+    const estado = this.mostrarPendentes;
+    this.fecharTudo();
+    this.mostrarPendentes = !estado;
+  }
+
+  toggleLeads() {
+    const estado = this.mostrarLeads;
+    this.fecharTudo();
+    this.mostrarLeads = !estado;
   }
 } 

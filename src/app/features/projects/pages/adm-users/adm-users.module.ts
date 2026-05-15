@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { AdmProjectsPageRoutingModule } from './adm-projects-routing.module';
+import { AdmUsersPageRoutingModule } from './adm-users-routing.module';
 
-import { AdmProjectsPage } from './adm-projects.page';
+import { AdmUsersPage } from './adm-users.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AdmProjectsPageRoutingModule
+    AdmUsersPageRoutingModule
   ],
-  declarations: [AdmProjectsPage]
+  declarations: [AdmUsersPage]
 })
-export class AdmProjectsPageModule {}
+export class AdmUsersPageModule {}

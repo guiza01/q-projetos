@@ -36,11 +36,11 @@ const routes: Routes = [
     path: 'edit',
     loadChildren: () =>
       import('./pages/project-edit/project-edit.module').then((m) => m.ProjectEditPageModule),
+  },  {
+    path: 'adm-users',
+    loadChildren: () => import('./pages/adm-users/adm-users.module').then( m => m.AdmUsersPageModule)
   },
-  {
-    path: 'adm-projects',
-    loadChildren: () => import('./pages/adm-projects/adm-projects.module').then( m => m.AdmProjectsPageModule)
-  }
+
 ];
 
 @NgModule({
