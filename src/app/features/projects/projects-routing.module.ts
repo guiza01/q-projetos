@@ -40,6 +40,10 @@ const routes: Routes = [
     path: 'adm-users',
     loadChildren: () => import('./pages/adm-users/adm-users.module').then( m => m.AdmUsersPageModule)
   },
+  {
+    path: 'adm-more',
+    loadChildren: () => import('./pages/adm-more/adm-more.module').then( m => m.AdmMorePageModule)
+  },
 
 ];
 
