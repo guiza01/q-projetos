@@ -41,6 +41,13 @@ ion-content {
   padding: 20px;
 
   box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.card-info:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 .card-info h2 {
@@ -72,6 +79,12 @@ ion-content {
 .titulo-projetos span {
   color: #040404;
   font-weight: 600;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.titulo-projetos span:hover {
+  color: #2563eb;
 }
 .card-projeto {
   background: white;
@@ -83,6 +96,17 @@ ion-content {
 
   display: flex;
   gap: 12px;
+
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.05);
+}
+
+.card-lead {
+  background: white;
+
+  margin: 0 20px 16px;
+  padding: 18px;
+
+  border-radius: 18px;
 
   box-shadow: 0 2px 10px rgba(255, 255, 255, 0.05);
 }
@@ -110,16 +134,29 @@ ion-content {
   color: #111827;
 }
 .status {
-  background: #dcfce7;
-  color: #15803d;
-
+  display: inline-block;
   padding: 4px 10px;
-  border-radius: 20px;
-
-  font-size: 12px;
+  border-radius: 12px;
+  font-size: 11px;
   font-weight: 600;
-
+  width: fit-content;
   height: fit-content;
+}
+
+
+.publicado {
+  background: #dff7e8;
+  color: #1f9d55;
+}
+
+.pendente {
+  background: #fff4d9;
+  color: #d48806;
+}
+
+.encerrado {
+  background: #ffe5e5;
+  color: #e53935;
 }
 
 .categoria {
@@ -165,7 +202,7 @@ ion-fab-button {
 }
 
 .logo span {
-  color: #2563eb !important;
+  color: #111827 !important;
 }
 
 .right-icons {
@@ -183,4 +220,49 @@ ion-fab-button {
   width: 38px;
   height: 38px;
   border-radius: 50%;
+}
+.card-info ion-icon {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.icon-meus-projetos {
+  color: #2563eb;
+}
+
+.icon-interessados {
+  color: #16a34a;
+}
+
+.icon-ativos {
+  color: #eab308;
+}
+
+.icon-encerrados {
+  color: #dc2626;
+}
+.header-avatar-icon {
+  font-size: 38px;
+  color: #111827;
+}
+.custom-tab-bar {
+  --background: #ffffff;
+  border-top: 1px solid #e5e5e5;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.custom-tab-bar ion-tab-button {
+  --color: #8c8c8c;
+  --color-selected: #2563eb;
+  font-size: 12px;
+}
+
+.custom-tab-bar ion-icon {
+  font-size: 24px;
+}
+
+.custom-tab-bar ion-label {
+  font-size: 12px;
+  margin-top: 4px;
 }

@@ -10,52 +10,43 @@ const routes: Routes = [
   {
     path: 'list',
     loadChildren: () =>
-      import('./pages/project-list/project-list.module').then(
-        (m) => m.ProjectListPageModule
-      ),
+      import('./pages/project-list/project-list.module').then((m) => m.ProjectListPageModule),
   },
   {
     path: 'login',
     loadChildren: () =>
-      import('./pages/login/login.module').then(
-        (m) => m.LoginPageModule
-      ),
+      import('./pages/login/login.module').then((m) => m.LoginPageModule),
   },
   {
     path: 'coordinator',
     loadChildren: () =>
-      import('./pages/coordinator/coordinator.module').then(
-        (m) => m.CoordinatorPageModule
-      ),
+      import('./pages/coordinator/coordinator.module').then((m) => m.CoordinatorPageModule),
   },
   {
     path: 'administrator',
     loadChildren: () =>
-      import('./pages/administrator/administrator.module').then(
-        (m) => m.AdministratorPageModule
-      ),
+      import('./pages/administrator/administrator.module').then((m) => m.AdministratorPageModule),
   },
   {
     path: 'visitor',
     loadChildren: () =>
-      import('./pages/visitor/visitor.module').then(
-        (m) => m.VisitorPageModule
-      ),
+      import('./pages/visitor/visitor.module').then((m) => m.VisitorPageModule),
   },
   {
     path: 'edit',
     loadChildren: () =>
-      import('./pages/project-edit/project-edit.module').then(
-        (m) => m.ProjectEditPageModule
-      ),
+      import('./pages/project-edit/project-edit.module').then((m) => m.ProjectEditPageModule),
   },
   {
-    path: 'adm-projects',
-    loadChildren: () =>
-      import('./pages/adm-projects/adm-projects.module').then(
-        (m) => m.AdmProjectsPageModule
-      ),
+    path: 'adm-users',
+    loadChildren: () => import('./pages/adm-users/adm-users.module').then( m => m.AdmUsersPageModule)
   },
+  {
+    path: 'adm-more',
+    loadChildren: () => import('./pages/adm-more/adm-more.module').then( m => m.AdmMorePageModule)
+  },
+];
+
 ];
 
 @NgModule({

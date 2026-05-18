@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { AdmProjectsPageRoutingModule } from './adm-projects-routing.module';
+import { AdmMorePageRoutingModule } from './adm-more-routing.module';
 
-import { AdmProjectsPage } from './adm-projects.page';
+import { AdmMorePage } from './adm-more.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AdmProjectsPageRoutingModule
+    AdmMorePageRoutingModule
   ],
-  declarations: [AdmProjectsPage]
+  declarations: [AdmMorePage]
 })
-export class AdmProjectsPageModule {}
+export class AdmMorePageModule {}
