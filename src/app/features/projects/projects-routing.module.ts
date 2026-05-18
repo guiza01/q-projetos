@@ -36,7 +36,8 @@ const routes: Routes = [
     path: 'edit',
     loadChildren: () =>
       import('./pages/project-edit/project-edit.module').then((m) => m.ProjectEditPageModule),
-  },  {
+  },
+  {
     path: 'adm-users',
     loadChildren: () => import('./pages/adm-users/adm-users.module').then( m => m.AdmUsersPageModule)
   },
@@ -44,6 +45,7 @@ const routes: Routes = [
     path: 'adm-more',
     loadChildren: () => import('./pages/adm-more/adm-more.module').then( m => m.AdmMorePageModule)
   },
+];
 
 ];
 
