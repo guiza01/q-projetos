@@ -1,6 +1,26 @@
+body {
+  background: #ffffff !important;
+}
+
+ion-content {
+  --background: #ffffff;
+}
+
+ion-toolbar {
+  --background: #ffffff;
+}
+
+ion-card {
+  --background: #ffffff;
+}
+
 ion-spinner {
   display: block;
   margin: 32px auto;
+}
+
+.titulo-bar{
+  color: black
 }
 
 ion-button {
@@ -18,6 +38,7 @@ ion-toolbar ion-button {
 .title-center {
   text-align: center;
   font-weight: bold;
+  color: black;
 }
 
 .avatar {
@@ -27,43 +48,32 @@ ion-toolbar ion-button {
 
 .stats-grid {
   display: grid;
-
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-
   gap: 12px;
-
   margin-bottom: 24px;
 }
 
 .stat-card {
   margin: 0;
-
   border-radius: 18px;
-
   box-shadow: none;
-
   border: 1px solid #e5e7eb;
-
   cursor: pointer;
 }
 
 .stat-card ion-card-content {
   display: flex;
   align-items: center;
-
   gap: 12px;
 }
 
 .icon {
   width: 52px;
   height: 52px;
-
   border-radius: 50%;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   flex-shrink: 0;
 }
 
@@ -78,20 +88,15 @@ ion-toolbar ion-button {
 
 .stat-card h1 {
   margin: 0;
-
   font-size: 28px;
   font-weight: 700;
-
   color: #111827;
 }
 
 .stat-card p {
   margin: 4px 0 0;
-
   font-size: 13px;
-
   color: #6b7280;
-
   line-height: 1.3;
 }
 
@@ -103,25 +108,20 @@ ion-toolbar ion-button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   margin-bottom: 14px;
 }
 
 .section-title h2 {
   margin: 0;
-
   font-size: 20px;
   font-weight: 700;
-
   color: #111827;
 }
 
 .section-title span {
   color: #2196f3;
-
   font-size: 14px;
   font-weight: 600;
-
   cursor: pointer;
 }
 
@@ -264,6 +264,14 @@ ion-tab-button ion-icon {
   }
 }
 
+ion-fab-button ion-icon {
+  color: white !important;
+}
+
+ion-fab-button::part(native) {
+  color: white !important;
+}
+
 .fab-option {
   display: flex;
   align-items: center;
@@ -286,4 +294,16 @@ ion-tab-button ion-icon {
 .fab-dark {
   --background: #38404d;
   --color: white;
+}
+
+.published {
+  background: #22c55e;
+}
+
+.pending {
+  background: #f59e0b;
+}
+
+.editing {
+  background: #3b82f6;
 }

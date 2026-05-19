@@ -40,6 +40,8 @@ export class AdmUsersPage implements OnInit {
     }
   ];
 
+  textoBusca = '';
+
   usuariosFiltrados = this.usuarios;
 
   constructor() { }
@@ -47,16 +49,36 @@ export class AdmUsersPage implements OnInit {
   ngOnInit() {
   }
 
+  filtrarUsuarios() {
+
+  let usuarios = this.usuarios;
+
+  // FILTRO DA ABA
+  if (this.abaSelecionada !== 'todos') {
+
+    usuarios = usuarios.filter(
+      usuario =>
+        usuario.tipo.toLowerCase() === this.abaSelecionada
+    );
+
+  }
+
+  // FILTRO DA BUSCA
+  if (this.textoBusca.trim() !== '') {
+
+    usuarios = usuarios.filter(usuario =>
+      usuario.nome.toLowerCase()
+      .includes(this.textoBusca.toLowerCase())
+    );
+
+  }
+
+    this.usuariosFiltrados = usuarios;
+  }
+
   selecionarAba(tipo: string) {
     this.abaSelecionada = tipo;
-    if (tipo === 'todos') {
-      this.usuariosFiltrados = this.usuarios;
-    } else {
-      this.usuariosFiltrados = this.usuarios.filter(
-        usuario => usuario.tipo.toLowerCase() === tipo
-      );
-
-    }
+    this.filtrarUsuarios();
   }
 
 }
