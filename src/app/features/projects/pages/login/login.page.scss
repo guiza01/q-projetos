@@ -22,7 +22,7 @@ ion-text {
   flex-direction: column;
   justify-content: flex-start;
 
-  padding-top: 70px;
+  padding-top: 20px;
 
   height: 100%;
 
@@ -77,7 +77,7 @@ ion-text {
 }
 
 .logo {
-  width: 250px;
+  width: 230px;
 
   margin: 0 auto 5px auto;
 
@@ -121,6 +121,8 @@ ion-text {
   color: #3b82f6;
 
   font-size: 14px;
+
+  font-weight: 600;
 
   margin-top: 4px;
 
@@ -182,4 +184,22 @@ ion-text {
   width: 22px;
 
   height: 22px;
+}
+
+.register-text {
+  text-align: center;
+
+  margin-top: 16px;
+
+  font-size: 14px;
+
+  color: #777;
+}
+
+.register-text a {
+  color: #3b82f6;
+
+  font-weight: 600;
+
+  margin-left: 4px;
 }
