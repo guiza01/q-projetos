@@ -1,29 +1,355 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Coordenador</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content fullscreen="true">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+  <ion-header class="header-custom">
     <ion-toolbar>
-      <ion-title size="large">Coordenador</ion-title>
+
+      <div class="header-content">
+
+        <ion-icon
+          name="menu-outline"
+          class="menu-icon">
+        </ion-icon>
+
+        <h1 class="logo">
+          <span>Q</span>-Projetos
+        </h1>
+
+        <div class="right-icons">
+
+          <ion-icon
+            name="notifications-outline"
+            class="bell-icon">
+          </ion-icon>
+
+          <ion-icon
+            name="person-circle-outline"
+            class="header-avatar-icon">
+          </ion-icon>
+
+        </div>
+
+      </div>
+
     </ion-toolbar>
   </ion-header>
 
-  <div class="ion-padding">
-    <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+  <div class="topo">
 
-    <ion-text color="danger" *ngIf="!isLoading && errorMessage">
-      <p>{{ errorMessage }}</p>
-    </ion-text>
+    <div>
+      <h1>COORDENADOR</h1>
+      <p>
+        Gerencie seus projetos, inscrições e interessados.
+      </p>
+    </div>
 
-    <ng-container *ngIf="!isLoading && !errorMessage">
-      <app-project-card *ngFor="let project of projects" [project]="project"></app-project-card>
-
-      <ion-text *ngIf="projects.length === 0">
-        <p>Nenhum projeto encontrado.</p>
-      </ion-text>
-    </ng-container>
   </div>
+
+  <div class="cards-info">
+
+    <div class="card-info" (click)="toggleMeusProjetos()">
+
+      <ion-icon
+        name="folder-open-outline"
+        class="icon-meus-projetos">
+      </ion-icon>
+
+      <h2>03</h2>
+      <p>Meus Projetos</p>
+
+    </div>
+
+    <div class="card-info" (click)="toggleInteressados()">
+
+      <ion-icon
+        name="people-outline"
+        class="icon-interessados">
+      </ion-icon>
+
+      <h2>03</h2>
+      <p>Interessados</p>
+
+    </div>
+
+    <div class="card-info" (click)="toggleProjetosAtivos()">
+
+      <ion-icon
+        name="star-outline"
+        class="icon-ativos">
+      </ion-icon>
+
+      <h2>02</h2>
+      <p>Projetos Ativos</p>
+
+    </div>
+
+    <div class="card-info" (click)="toggleProjetosEncerrados()">
+
+      <ion-icon
+        name="close-circle-outline"
+        class="icon-encerrados">
+      </ion-icon>
+
+      <h2>01</h2>
+      <p>Projetos Encerrados</p>
+
+    </div>
+
+  </div>
+
+  <!-- MEUS PROJETOS -->
+
+  <div
+    class="titulo-projetos"
+    *ngIf="mostrarMeusProjetos">
+
+    <h2>Meus Projetos</h2>
+
+    <span (click)="toggleMeusProjetos()">
+      Fechar
+    </span>
+
+  </div>
+
+  <ng-container *ngIf="mostrarMeusProjetos">
+
+    <div
+      class="card-projeto"
+      *ngFor="let projeto of projetos">
+
+      <img [src]="projeto.imagem">
+
+      <div class="conteudo-projeto">
+
+        <div class="linha-topo">
+
+          <h3>{{ projeto.titulo }}</h3>
+
+          <span
+            class="status"
+            [ngClass]="{
+              'publicado': projeto.status === 'Publicado',
+              'pendente': projeto.status === 'Pendente',
+              'encerrado': projeto.status === 'Encerrado'
+            }">
+
+            {{ projeto.status }}
+
+          </span>
+
+        </div>
+
+        <p class="categoria">
+          {{ projeto.categoria }}
+        </p>
+
+        <p class="infos">
+          Vagas: {{ projeto.vagas }} •
+          Inscrições: {{ projeto.inscricoes }}
+        </p>
+
+      </div>
+
+    </div>
+
+  </ng-container>
+
+  <!-- PROJETOS ATIVOS -->
+
+  <div
+    class="titulo-projetos"
+    *ngIf="mostrarProjetosAtivos">
+
+    <h2>Projetos Ativos</h2>
+
+    <span (click)="toggleProjetosAtivos()">
+      Fechar
+    </span>
+
+  </div>
+
+  <ng-container *ngIf="mostrarProjetosAtivos">
+
+    <div
+      class="card-projeto"
+      *ngFor="let projeto of projetosAtivos">
+
+      <img [src]="projeto.imagem">
+
+      <div class="conteudo-projeto">
+
+        <div class="linha-topo">
+
+          <h3>{{ projeto.titulo }}</h3>
+
+          <span
+            class="status"
+            [ngClass]="{
+              'publicado': projeto.status === 'Publicado',
+              'pendente': projeto.status === 'Pendente',
+              'encerrado': projeto.status === 'Encerrado'
+            }">
+
+            {{ projeto.status }}
+
+          </span>
+
+        </div>
+
+        <p class="categoria">
+          {{ projeto.categoria }}
+        </p>
+
+        <p class="infos">
+          Vagas: {{ projeto.vagas }} •
+          Inscrições: {{ projeto.inscricoes }}
+        </p>
+
+      </div>
+
+    </div>
+
+  </ng-container>
+
+  <!-- INTERESSADOS -->
+
+  <div
+    class="titulo-projetos"
+    *ngIf="mostrarInteressados">
+
+    <h2>Interessados</h2>
+
+    <span (click)="toggleInteressados()">
+      Fechar
+    </span>
+
+  </div>
+
+  <ng-container *ngIf="mostrarInteressados">
+
+    <div
+      class="card-lead"
+      *ngFor="let lead of leads">
+
+      <div class="conteudo-projeto">
+
+        <div class="linha-topo">
+
+          <h3>{{ lead.nome }}</h3>
+
+          <span class="status">
+            {{ lead.status }}
+          </span>
+
+        </div>
+
+        <p class="categoria">
+          Projeto: {{ lead.projeto }}
+        </p>
+
+        <p class="infos">
+          Email: {{ lead.email }}
+        </p>
+
+      </div>
+
+    </div>
+
+  </ng-container>
+
+  <!-- PROJETOS ENCERRADOS -->
+
+  <div
+    class="titulo-projetos"
+    *ngIf="mostrarProjetosEncerrados">
+
+    <h2>Projetos Encerrados</h2>
+
+    <span (click)="toggleProjetosEncerrados()">
+      Fechar
+    </span>
+
+  </div>
+
+  <ng-container *ngIf="mostrarProjetosEncerrados">
+
+    <div
+      class="card-projeto"
+      *ngFor="let projeto of projetosEncerrados">
+
+      <img [src]="projeto.imagem">
+
+      <div class="conteudo-projeto">
+
+        <div class="linha-topo">
+
+          <h3>{{ projeto.titulo }}</h3>
+
+          <span
+            class="status"
+            [ngClass]="{
+              'publicado': projeto.status === 'Publicado',
+              'pendente': projeto.status === 'Pendente',
+              'encerrado': projeto.status === 'Encerrado'
+            }">
+
+            {{ projeto.status }}
+
+          </span>
+
+        </div>
+
+        <p class="categoria">
+          {{ projeto.categoria }}
+        </p>
+
+        <p class="infos">
+          Vagas: {{ projeto.vagas }} •
+          Inscrições: {{ projeto.inscricoes }}
+        </p>
+
+      </div>
+
+    </div>
+
+  </ng-container>
+
+  <ion-fab
+    vertical="bottom"
+    horizontal="end"
+    slot="fixed">
+
+    <ion-fab-button>
+      +
+    </ion-fab-button>
+
+  </ion-fab>
+
 </ion-content>
+<ion-tab-bar slot="bottom" class="custom-tab-bar">
+
+  <ion-tab-button tab="dashboard">
+    <ion-icon name="home-outline"></ion-icon>
+    <ion-label>Dashboard</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button tab="projetos">
+    <ion-icon name="document-text-outline"></ion-icon>
+    <ion-label>Projetos</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button tab="interessados">
+    <ion-icon name="heart-outline"></ion-icon>
+    <ion-label>Interessados</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button tab="perfil">
+    <ion-icon name="person-outline"></ion-icon>
+    <ion-label>Perfil</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button tab="mais">
+    <ion-icon name="ellipsis-horizontal"></ion-icon>
+    <ion-label>Mais</ion-label>
+  </ion-tab-button>
+
+</ion-tab-bar>

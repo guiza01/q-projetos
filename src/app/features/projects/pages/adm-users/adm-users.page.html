@@ -1,0 +1,166 @@
+<ion-header [translucent]="true">
+
+  <ion-toolbar>
+
+    <ion-buttons slot="start">
+      <ion-button>
+        <ion-icon name="menu-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title class="title-center">
+      Q-Projetos
+    </ion-title>
+
+    <ion-buttons slot="end">
+     <!-- <ion-button>
+        <ion-icon name="notifications-outline"></ion-icon>
+      </ion-button> -->
+
+      <ion-avatar class="avatar">
+        <img src="" />
+      </ion-avatar>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <div class="page-container">
+
+    <!--<h2 class="titulo-bar">Usuários</h2> -->
+
+    <div class="search-container">
+      <ion-searchbar
+        [(ngModel)]="textoBusca"
+        (ionInput)="filtrarUsuarios()"
+        placeholder="Buscar..."
+        show-clear-button="focus">
+      </ion-searchbar>
+
+      <ion-button fill="clear" class="search-btn">
+        <ion-icon name="search"></ion-icon>
+      </ion-button>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+
+      <div
+        class="tab"
+        [class.active]="abaSelecionada === 'todos'"
+        (click)="selecionarAba('todos')">
+        Todos
+      </div>
+
+      <div
+        class="tab"
+        [class.active]="abaSelecionada === 'administrador'"
+        (click)="selecionarAba('administrador')">
+        Administrador
+      </div>
+
+      <div
+        class="tab"
+        [class.active]="abaSelecionada === 'coordenador'"
+        (click)="selecionarAba('coordenador')">
+        Coordenador
+      </div>
+
+      <div
+        class="tab"
+        [class.active]="abaSelecionada === 'usuário'"
+        (click)="selecionarAba('usuário')">
+        Usuário
+      </div>
+
+    </div>
+
+    <!-- CARDS -->
+
+    <ion-card
+      class="user-card"
+      *ngFor="let usuario of usuariosFiltrados">
+      <div class="user-content">
+        <img
+          [src]="usuario.imagem"
+          class="user-image">
+
+        <div class="user-info">
+          <div class="user-header">
+            <h3>
+              {{ usuario.nome }}
+            </h3>
+            <span
+              class="status"
+              [ngClass]="{
+                'admin': usuario.tipo === 'Administrador',
+                'coord': usuario.tipo === 'Coordenador',
+                'user': usuario.tipo === 'Usuário'
+              }">
+              {{ usuario.tipo }}
+            </span>
+          </div>
+
+          <p>
+            {{ usuario.email }}
+          </p>
+
+        </div>
+
+        <ion-button fill="clear" class="menu-btn">
+          <ion-icon name="ellipsis-vertical"></ion-icon>
+        </ion-button>
+
+      </div>
+
+    </ion-card>
+
+  </div>
+
+  <!-- FAB -->
+
+  <ion-fab
+    vertical="bottom"
+    horizontal="end"
+    slot="fixed"
+    class="custom-fab">
+
+    <ion-fab-button color="primary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+
+  </ion-fab>
+
+</ion-content>
+
+<!-- FOOTER -->
+
+<ion-footer>
+
+  <ion-tab-bar
+    slot="bottom"
+    class="custom-tabbar">
+
+    <ion-tab-button
+      routerLink="/projects/administrator">
+      <ion-icon name="home-outline"></ion-icon>
+      <ion-label>Dashboard</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button
+      routerLink="/projects/adm-users"
+      routerLinkActive="active-tab">
+      <ion-icon name="person-outline"></ion-icon>
+      <ion-label>Usuários</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button routerLink="/projects/adm-more">
+      <ion-icon name="ellipsis-horizontal"></ion-icon>
+      <ion-label>Mais</ion-label>
+    </ion-tab-button>
+
+  </ion-tab-bar>
+
+</ion-footer>

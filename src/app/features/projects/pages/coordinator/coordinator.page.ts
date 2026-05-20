@@ -1,7 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-
-import { ProjectsService } from '../../services/projects.service';
-import { Project } from '../../models/project.model';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-coordinator',
@@ -9,40 +6,102 @@ import { Project } from '../../models/project.model';
   styleUrls: ['./coordinator.page.scss'],
   standalone: false,
 })
-export class CoordinatorPage implements OnInit {
-  projects: Project[] = [];
-  isLoading = false;
-  errorMessage = '';
+export class CoordinatorPage {
+  mostrarMeusProjetos = false;
+  mostrarProjetosAtivos = false;
+  mostrarInteressados = false;
+  mostrarProjetosEncerrados = false;
 
-  constructor(private readonly projectsService: ProjectsService) {}
+  projetos = [
+    {
+      titulo: 'Projeto IFPE em Movimento',
+      categoria: 'Voluntário',
+      vagas: 30,
+      inscricoes: 'Abertas',
+      status: 'Publicado',
+      imagem: 'https://images.unsplash.com/photo-1547347298-4074fc3086f0?q=80&w=1200&auto=format&fit=crop'
+    },
+    {
+      titulo: 'Projeto Palco Livre',
+      categoria: 'Voluntário',
+      vagas: 20,
+      inscricoes: 'Abertas',
+      status: 'Pendente',
+      imagem: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=1200&auto=format&fit=crop'
+    },
+    {
+      titulo: 'Projeto Ônibus Mágico',
+       categoria: 'Bolsista',
+      vagas: 15,
+      inscricoes: 'Encerradas',
+      status: 'Encerrado',
+      imagem: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop'
+    }
+  ];
 
-  ngOnInit(): void {
-    this.loadProjects();
+  leads = [
+    {
+      nome: 'Ana Clara Santos',
+      projeto: 'Projeto IFPE em Movimento',
+      email: 'ana.santos@example.com',
+      status: 'Interessado'
+    },
+    {
+      nome: 'Bruno Almeida',
+      projeto: 'Projeto Palco Livre',
+      email: 'bruno.almeida@example.com',
+      status: 'Em contato'
+    },
+    {
+      nome: 'Carla Rodrigues',
+      projeto: 'Projeto Ônibus Mágico',
+      email: 'carla.rodrigues@example.com',
+      status: 'Confirmado'
+    }
+  ];
+
+  get projetosAtivos() {
+    return this.projetos.filter((projeto) => projeto.status !== 'Encerrado');
   }
 
-  loadProjects(): void {
-    this.isLoading = true;
-    this.errorMessage = '';
-
-    this.projectsService.list().subscribe({
-      next: (projects) => {
-        this.projects = projects;
-        this.isLoading = false;
-      },
-      error: (error: Error) => {
-        this.errorMessage = error.message;
-        this.isLoading = false;
-      },
-    });
+  get projetosEncerrados() {
+    return this.projetos.filter((projeto) => projeto.status === 'Encerrado');
   }
 
-  onProjectEdit(): void {
-    // TODO: Implementar navegação para edição de projeto
-    console.log('Edit project');
+  toggleMeusProjetos(): void {
+    this.mostrarMeusProjetos = !this.mostrarMeusProjetos;
+    if (this.mostrarMeusProjetos) {
+      this.mostrarProjetosAtivos = false;
+      this.mostrarInteressados = false;
+      this.mostrarProjetosEncerrados = false;
+    }
   }
 
-  onProjectDelete(): void {
-    // TODO: Implementar lógica de exclusão de projeto
-    console.log('Delete project');
+  toggleProjetosAtivos(): void {
+    this.mostrarProjetosAtivos = !this.mostrarProjetosAtivos;
+    if (this.mostrarProjetosAtivos) {
+      this.mostrarMeusProjetos = false;
+      this.mostrarInteressados = false;
+      this.mostrarProjetosEncerrados = false;
+    }
   }
+
+  toggleInteressados(): void {
+    this.mostrarInteressados = !this.mostrarInteressados;
+    if (this.mostrarInteressados) {
+      this.mostrarMeusProjetos = false;
+      this.mostrarProjetosAtivos = false;
+      this.mostrarProjetosEncerrados = false;
+    }
+  }
+
+  toggleProjetosEncerrados(): void {
+    this.mostrarProjetosEncerrados = !this.mostrarProjetosEncerrados;
+    if (this.mostrarProjetosEncerrados) {
+      this.mostrarMeusProjetos = false;
+      this.mostrarProjetosAtivos = false;
+      this.mostrarInteressados = false;
+    }
+  }
+
 }

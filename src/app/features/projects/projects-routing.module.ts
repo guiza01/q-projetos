@@ -37,8 +37,21 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/project-edit/project-edit.module').then((m) => m.ProjectEditPageModule),
   },
+  {
+    path: 'adm-users',
+    loadChildren: () => import('./pages/adm-users/adm-users.module').then( m => m.AdmUsersPageModule)
+  },
+  {
+    path: 'adm-more',
+    loadChildren: () => import('./pages/adm-more/adm-more.module').then( m => m.AdmMorePageModule)
+  },
 ];
 
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> 24718ccb911bf3a06813c10310660c42fc8a7f97
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],

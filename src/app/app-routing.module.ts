@@ -11,6 +11,8 @@ const routes: Routes = [
     redirectTo: 'projects',
     pathMatch: 'full',
   },
+
+
 ];
 
 @NgModule({

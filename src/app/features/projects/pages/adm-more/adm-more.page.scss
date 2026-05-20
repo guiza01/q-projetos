@@ -1,0 +1,166 @@
+body {
+  background: #ffffff !important;
+}
+
+ion-content {
+  --background: #ffffff;
+}
+
+ion-toolbar {
+  --background: #ffffff;
+}
+
+ion-card {
+  --background: #ffffff;
+}
+
+.page-container {
+  color: black;
+  padding: 16px;
+}
+
+.title-center {
+  text-align: center;
+  font-weight: bold;
+  color: black;
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+}
+
+ion-toolbar ion-button {
+  --color: black;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-between;
+
+  border-bottom: 1px solid #e0e0e0;
+
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.tab {
+  padding-bottom: 10px;
+
+  font-size: 15px;
+  color: #555;
+
+  cursor: pointer;
+}
+
+.tab.active {
+  border-bottom: 3px solid #2196f3;
+
+  color: #2196f3;
+  font-weight: bold;
+}
+
+.info-card {
+  border-radius: 18px;
+  box-shadow: none;
+  border: 1px solid #c9c8c8;
+
+  overflow: hidden;
+}
+
+.item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 16px;
+  border-bottom: 1px solid #aaaaaa;
+}
+
+.item-row:last-child {
+  border-bottom: none;
+}
+
+.item-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color:#38404d;
+}
+
+.icon-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #e8f4ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-circle ion-icon {
+  font-size: 28px;
+  color: #2196f3;
+}
+
+.item-left h3 {
+  margin: 0;
+  font-size: 18px;
+    color:#38404d;
+}
+
+.item-left p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #11c52f;
+}
+
+.item-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 18px;
+  color:#38404d
+}
+
+.item-right ion-icon {
+  font-size: 20px;
+}
+
+ion-fab-button {
+  --background: #2196f3;
+  --color: white;
+}
+
+ion-fab-button::part(native) {
+  color: white !important;
+}
+
+.custom-tabbar {
+  --background: #38404d;
+  --color: white;
+  --color-selected: white;
+
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+
+  overflow: hidden;
+
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+ion-tab-button {
+  --color: white;
+  --color-selected: #2196f3;
+
+  font-size: 11px;
+}
+
+ion-tab-button ion-icon {
+  font-size: 24px;
+}
+
+.active-tab ion-icon,
+.active-tab ion-label {
+  color: #2196f3 !important;
+}

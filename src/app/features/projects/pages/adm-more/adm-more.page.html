@@ -1,0 +1,235 @@
+<ion-header [translucent]="true">
+
+  <ion-toolbar>
+
+    <ion-buttons slot="start">
+      <ion-button>
+        <ion-icon name="menu-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title class="title-center">
+      Q-Projetos
+    </ion-title>
+
+    <ion-buttons slot="end">
+
+      <!-- <ion-button>
+        <ion-icon name="notifications-outline"></ion-icon>
+      </ion-button> -->
+
+      <ion-avatar class="avatar">
+        <img src="" />
+      </ion-avatar>
+
+    </ion-buttons>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <div class="page-container">
+
+    <h2>Mais</h2>
+
+    <!-- TABS -->
+
+    <div class="tabs">
+
+      <div
+        class="tab"
+        [class.active]="abaSelecionada === 'categorias'"
+        (click)="selecionarAba('categorias')">
+
+        Categorias
+
+      </div>
+
+      <div
+        class="tab"
+        [class.active]="abaSelecionada === 'modalidades'"
+        (click)="selecionarAba('modalidades')">
+
+        Modalidades
+
+      </div>
+
+      <div
+        class="tab"
+        [class.active]="abaSelecionada === 'tags'"
+        (click)="selecionarAba('tags')">
+
+        Tags
+
+      </div>
+
+    </div>
+
+    <!-- CATEGORIAS -->
+
+    <ion-card
+      class="info-card"
+      *ngIf="abaSelecionada === 'categorias'">
+
+      <div
+        class="item-row"
+        *ngFor="let categoria of categorias">
+
+        <div class="item-left">
+
+          <div class="icon-circle">
+            <ion-icon [name]="categoria.icone"></ion-icon>
+          </div>
+
+          <div>
+
+            <h3>{{ categoria.nome }}</h3>
+
+            <p>
+              {{ categoria.status }}
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="item-right">
+
+          <span>
+            {{ categoria.quantidade }}
+          </span>
+
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+
+        </div>
+
+      </div>
+
+    </ion-card>
+
+    <!-- MODALIDADES -->
+
+    <ion-card
+      class="info-card"
+      *ngIf="abaSelecionada === 'modalidades'">
+
+      <div
+        class="item-row"
+        *ngFor="let modalidade of modalidades">
+
+        <div class="item-left">
+
+          <div class="icon-circle">
+            <ion-icon [name]="modalidade.icone"></ion-icon>
+          </div>
+
+          <div>
+
+            <h3>{{ modalidade.nome }}</h3>
+
+            <p>
+              {{ modalidade.status }}
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="item-right">
+
+          <span>
+            {{ modalidade.quantidade }}
+          </span>
+
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+
+        </div>
+
+      </div>
+
+    </ion-card>
+
+    <!-- TAGS -->
+
+    <ion-card
+      class="info-card"
+      *ngIf="abaSelecionada === 'tags'">
+
+      <div
+        class="item-row"
+        *ngFor="let tag of tags">
+
+        <div class="item-left">
+
+          <div class="icon-circle">
+            <ion-icon [name]="tag.icone"></ion-icon>
+          </div>
+
+          <div>
+
+            <h3>{{ tag.nome }}</h3>
+
+            <p>
+              {{ tag.status }}
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="item-right">
+
+          <span>
+            {{ tag.quantidade }}
+          </span>
+
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+
+        </div>
+
+      </div>
+
+    </ion-card>
+
+  </div>
+
+</ion-content>
+
+<!-- FOOTER -->
+
+<ion-footer>
+
+  <ion-tab-bar
+    slot="bottom"
+    class="custom-tabbar">
+
+    <ion-tab-button
+      routerLink="/projects/administrator">
+
+      <ion-icon name="home-outline"></ion-icon>
+      <ion-label>Dashboard</ion-label>
+
+    </ion-tab-button>
+
+    <ion-tab-button
+      routerLink="/projects/adm-users">
+
+      <ion-icon name="person-outline"></ion-icon>
+      <ion-label>Usuários</ion-label>
+
+    </ion-tab-button>
+
+    <ion-tab-button
+      routerLink="/projects/adm-more"
+      routerLinkActive="active-tab">
+
+      <ion-icon name="ellipsis-horizontal"></ion-icon>
+      <ion-label>Mais</ion-label>
+
+    </ion-tab-button>
+
+  </ion-tab-bar>
+
+</ion-footer>
