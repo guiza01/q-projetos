@@ -53,22 +53,43 @@ export class AdministratorPage implements OnInit {
     {
       nome: 'Maria Eduarda',
       projeto: 'IA na Educação',
-      email: 'maria@email.com'
+      email: 'maria@email.com',
+      tipo: 'Bolsista'
     },
 
     {
       nome: 'João Pedro',
       projeto: 'Sustentabilidade',
-      email: 'joao@email.com'
+      email: 'joao@email.com',
+      tipo: 'Bolsista'
     },
 
     {
       nome: 'Ana Beatriz',
       projeto: 'Pesquisa em Energia',
-      email: 'ana@email.com'
+      email: 'ana@email.com',
+      tipo: 'Voluntário'
     }
 
   ];
+
+    get projetosPublicados() {
+    return this.projetos.filter(
+      projeto => projeto.status === 'Publicado'
+    );
+  }
+
+  get projetosPendentes() {
+    return this.projetos.filter(
+      projeto => projeto.status === 'Pendente'
+    );
+  }
+
+  get projetosEdicao() {
+  return this.projetos.filter(
+    projeto => projeto.status === 'Edição'
+  );
+}
 
   constructor(private readonly projectsService: ProjectsService) {}
 

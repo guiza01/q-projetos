@@ -19,6 +19,9 @@ export class ProjectEditPage implements OnInit {
   isSaving = false;
   errorMessage = '';
 
+  // 1. A sua variável que controla as 3 abas entra aqui:
+  abaSelecionada: string = 'gerais';
+
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly route: ActivatedRoute,
@@ -28,6 +31,11 @@ export class ProjectEditPage implements OnInit {
   ngOnInit(): void {
     this.initializeForm();
     this.loadProjectId();
+  }
+
+  // 2. A sua função para mudar de aba entra aqui:
+  selecionarAba(aba: string): void {
+    this.abaSelecionada = aba;
   }
 
   loadProjectId(): void {

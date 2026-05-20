@@ -1,10 +1,28 @@
+body {
+  background: #ffffff !important;
+}
+
+ion-content {
+  --background: #ffffff;
+}
+
+ion-toolbar {
+  --background: #ffffff;
+}
+
+ion-card {
+  --background: #ffffff;
+}
+
 .page-container {
+  color: black;
   padding: 16px;
 }
 
 .title-center {
   text-align: center;
   font-weight: bold;
+  color: black;
 }
 
 .avatar {
@@ -45,7 +63,7 @@ ion-toolbar ion-button {
 .info-card {
   border-radius: 18px;
   box-shadow: none;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #c9c8c8;
 
   overflow: hidden;
 }
@@ -54,10 +72,8 @@ ion-toolbar ion-button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   padding: 18px 16px;
-
-  border-bottom: 1px solid #eeeeee;
+  border-bottom: 1px solid #aaaaaa;
 }
 
 .item-row:last-child {
@@ -67,18 +83,15 @@ ion-toolbar ion-button {
 .item-left {
   display: flex;
   align-items: center;
-
   gap: 14px;
+  color:#38404d;
 }
 
 .icon-circle {
   width: 52px;
   height: 52px;
-
   border-radius: 50%;
-
   background: #e8f4ff;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -92,6 +105,7 @@ ion-toolbar ion-button {
 .item-left h3 {
   margin: 0;
   font-size: 18px;
+    color:#38404d;
 }
 
 .item-left p {
@@ -103,10 +117,9 @@ ion-toolbar ion-button {
 .item-right {
   display: flex;
   align-items: center;
-
   gap: 6px;
-
   font-size: 18px;
+  color:#38404d
 }
 
 .item-right ion-icon {
@@ -116,6 +129,10 @@ ion-toolbar ion-button {
 ion-fab-button {
   --background: #2196f3;
   --color: white;
+}
+
+ion-fab-button::part(native) {
+  color: white !important;
 }
 
 .custom-tabbar {
