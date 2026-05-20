@@ -76,8 +76,8 @@
           <div class="banner-upload">
             <ion-icon name="image-outline"></ion-icon>
             <p>Alterar imagem do banner</p>
-            <input type="file" id="banner-file" style="display: none;" />
-            <ion-button type="button" size="small" fill="outline" onclick="document.getElementById('banner-file').click()">Selecionar</ion-button>
+            <input type="file" #bannerFileInput style="display: none;" />
+            <ion-button type="button" size="small" fill="outline" (click)="bannerFileInput.click()">Selecionar</ion-button>
           </div>
         </div>
 
