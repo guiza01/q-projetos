@@ -1,13 +1,17 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="primary">
+  <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-button>
+        <ion-icon name="menu-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
 
-    <ion-title>Q-Projetos</ion-title>
+    <ion-title class="title-center">
+      Q-Projetos
+    </ion-title>
 
     <ion-buttons slot="end">
-      <ion-avatar style="width: 32px; height: 32px; margin-right: 10px;">
+      <ion-avatar class="avatar">
         <img src="assets/avatar-placeholder.png" alt="Perfil" />
       </ion-avatar>
     </ion-buttons>
@@ -20,6 +24,22 @@
       (ionInput)="handleSearch($event)">
     </ion-searchbar>
   </ion-toolbar>
+
+  <div class="filter-chips-wrapper">
+    <ion-chip [outline]="selectedStatus !== 'Todos'" color="primary" (click)="selectStatus('Todos')">
+      <ion-label>Todos</ion-label>
+    </ion-chip>
+    
+    <ion-chip [outline]="selectedStatus !== 'Em andamento'" color="warning" (click)="selectStatus('Em andamento')">
+      <ion-icon name="time-outline"></ion-icon>
+      <ion-label>Em andamento</ion-label>
+    </ion-chip>
+
+    <ion-chip [outline]="selectedStatus !== 'Concluido'" color="success" (click)="selectStatus('Concluido')">
+      <ion-icon name="checkmark-done-outline"></ion-icon>
+      <ion-label>Concluído</ion-label>
+    </ion-chip>
+  </div>
 </ion-header>
 
 <ion-content [fullscreen]="true">
@@ -45,7 +65,7 @@
     <ion-text *ngIf="!isLoading && filteredProjects.length === 0">
       <div class="ion-text-center ion-padding">
         <ion-icon name="search-outline" style="font-size: 48px; color: #ccc;"></ion-icon>
-        <p>Nenhum projeto encontrado.</p>
+        <p>Nenhum projeto encontrado para os filtros selecionados.</p>
       </div>
     </ion-text>
   </div>

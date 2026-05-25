@@ -10,9 +10,13 @@ import { Project } from '../../models/project.model';
 })
 export class ProjectListPage implements OnInit {
   projects: Project[] = [];
-  filteredProjects: Project[] = []; // Usaremos esta lista no HTML
+  filteredProjects: Project[] = [];
   isLoading = false;
   errorMessage = '';
+
+  // Variáveis para controlar os filtros atuais
+  searchTerm = '';
+  selectedStatus = 'Todos'; 
 
   constructor(private readonly projectsService: ProjectsService) {}
 
@@ -27,7 +31,7 @@ export class ProjectListPage implements OnInit {
     this.projectsService.list().subscribe({
       next: (projects) => {
         this.projects = projects;
-        this.filteredProjects = projects; // Inicialmente, mostra tudo
+        this.filteredProjects = projects;
         this.isLoading = false;
       },
       error: (error: Error) => {
@@ -37,18 +41,35 @@ export class ProjectListPage implements OnInit {
     });
   }
 
+  // Captura o texto digitado na pesquisa
   handleSearch(event: any) {
-    const searchTerm = event.target.value.toLowerCase();
-    
-    if (!searchTerm) {
-      this.filteredProjects = this.projects;
-      return;
-    }
+    this.searchTerm = event.target.value ? event.target.value.toLowerCase() : '';
+    this.applyFilters();
+  }
 
-    // Se o seu modelo usa outro nome (como 'nome' em vez de 'title'), altere abaixo
-    this.filteredProjects = this.projects.filter(p => 
-      (p as any).title?.toLowerCase().includes(searchTerm) || 
-      (p as any).nome?.toLowerCase().includes(searchTerm)
-    );
+  // Captura o clique no Chip de Filtro
+  selectStatus(status: string) {
+    this.selectedStatus = status;
+    this.applyFilters();
+  }
+
+  // Combina o Filtro de Texto + Filtro do Chip de forma segura
+  applyFilters() {
+    this.filteredProjects = this.projects.filter(project => {
+      const p = project as any;
+
+      // 1. Validação da busca por texto (testa propriedades comuns como title ou nome)
+      const matchesSearch = !this.searchTerm || 
+        (p.title && p.title.toLowerCase().includes(this.searchTerm)) ||
+        (p.nome && p.nome.toLowerCase().includes(this.searchTerm));
+
+      // 2. Validação do status vindo da API (testa propriedades comuns como status ou situacao)
+      const projectStatus = p.status || p.situacao || '';
+      
+      const matchesStatus = this.selectedStatus === 'Todos' || 
+        projectStatus.toLowerCase() === this.selectedStatus.toLowerCase();
+
+      return matchesSearch && matchesStatus;
+    });
   }
 }
