@@ -137,52 +137,19 @@
 
       <ion-card class="info-card" *ngIf="abaSelecionada === 'equipe'">
         
-        <div class="item-row">
+        <div class="item-row" *ngFor="let integrante of integrantesAdicionados; let i = index">
           <div class="item-left">
             <ion-avatar class="member-avatar">
-              <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Foto Guilherme" />
-            </ion-avatar>
-            <div>
-              <h3>Guilherme Alves</h3>
-              <p class="role-text">Coordenador</p>
-            </div>
-          </div>
-          <div class="item-right">
-            <ion-button type="button" fill="clear" color="danger">
-              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-            </ion-button>
-          </div>
-        </div>
-
-        <div class="item-row">
-          <div class="item-left">
-            <ion-avatar class="member-avatar">
-              <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Foto João" />
-            </ion-avatar>
-            <div>
-              <h3>João Silva</h3>
-              <p class="role-text">Bolsista</p>
-            </div>
-          </div>
-          <div class="item-right">
-            <ion-button type="button" fill="clear" color="danger">
-              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-            </ion-button>
-          </div>
-        </div>
-
-        <div class="item-row" *ngFor="let integrante of integrantesAdicionados">
-          <div class="item-left">
-            <ion-avatar class="member-avatar">
-              <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Foto integrante" />
+              <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Foto Integrante" />
             </ion-avatar>
             <div>
               <h3>{{ integrante.nome }}</h3>
               <p class="role-text">{{ integrante.papel }}</p>
             </div>
           </div>
+          
           <div class="item-right">
-            <ion-button type="button" fill="clear" color="danger">
+            <ion-button type="button" fill="clear" color="danger" (click)="removerIntegrante(i)">
               <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
             </ion-button>
           </div>
@@ -240,15 +207,15 @@
               [(ngModel)]="papelSelecionado"
               [ngModelOptions]="{ standalone: true }"
               (ionChange)="onPapelChange($event)">
-              <ion-select-option value="coordenador">Coordenador</ion-select-option>
-              <ion-select-option value="colaborador">Colaborador</ion-select-option>
-              <ion-select-option value="bolsista">Bolsista</ion-select-option>
-              <ion-select-option value="voluntario">Voluntário</ion-select-option>
-              <ion-select-option value="outro">Outro</ion-select-option>
+              <ion-select-option value="Coordenador">Coordenador</ion-select-option>
+              <ion-select-option value="Colaborador">Colaborador</ion-select-option>
+              <ion-select-option value="Bolsista">Bolsista</ion-select-option>
+              <ion-select-option value="Voluntario">Voluntário</ion-select-option>
+              <ion-select-option value="Outro">Outro</ion-select-option>
             </ion-select>
           </div>
 
-          <div class="modal-row" *ngIf="papelSelecionado === 'outro'">
+          <div class="modal-row" *ngIf="papelSelecionado === 'Outro'">
             <ion-label>Qual o papel desse integrante?</ion-label>
             <ion-input
               type="text"
