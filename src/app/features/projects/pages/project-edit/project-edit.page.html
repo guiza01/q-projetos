@@ -237,6 +237,8 @@
               interface="popover" 
               placeholder="Selecione a função" 
               class="custom-select"
+              [(ngModel)]="papelSelecionado"
+              [ngModelOptions]="{ standalone: true }"
               (ionChange)="onPapelChange($event)">
               <ion-select-option value="coordenador">Coordenador</ion-select-option>
               <ion-select-option value="colaborador">Colaborador</ion-select-option>

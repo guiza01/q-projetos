@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import type { IonModal } from '@ionic/angular';
 
 import { ProjectsService } from '../../services/projects.service';
 import { Project } from '../../models/project.model';
@@ -56,7 +57,7 @@ export class ProjectEditPage implements OnInit {
     }
   }
 
-  adicionarIntegrante(modal: { dismiss: () => Promise<boolean> }): void {
+  adicionarIntegrante(modal: IonModal): void {
     const nome = this.nomeIntegrante.trim();
     const papel = this.getPapelSelecionado();
 
