@@ -1,10 +1,8 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Q-Projetos</ion-title>
+    <ion-buttons slot="start"></ion-buttons>
+    <ion-title class="title-center">Q-Projetos</ion-title>
     <ion-buttons slot="end">
-      <ion-button fill="clear" aria-label="Favoritos" (click)="onFavoritesClick()">
-        <ion-icon slot="icon-only" name="star-outline"></ion-icon>
-      </ion-button>
       <ion-button fill="clear" aria-label="Login do usuário" (click)="onLoginClick()">
         <ion-icon slot="icon-only" name="person"></ion-icon>
       </ion-button>
@@ -19,71 +17,76 @@
     </ion-toolbar>
   </ion-header>
 
-  <div class="visitor-hero ion-padding">
-    <div class="hero-card">
-      <div>
-        <h2>Catálogo de Projetos</h2>
-        <p>Explore oportunidades de ensino, pesquisa e extensão, realize sua inscrição e participe!</p>
+  <div class="content-shell ion-padding">
+    <div class="visitor-hero">
+      <div class="hero-card">
+        <div>
+          <h2>Catálogo de Projetos</h2>
+          <p>Explore oportunidades de ensino, pesquisa e extensão. Acompanhe os projetos e encontre o que mais combina com você.</p>
+        </div>
+        <span class="badge-visitor">Visitante</span>
       </div>
-      <span class="badge-visitor">Visitante</span>
     </div>
-  </div>
 
-  <div class="visitor-controls ion-padding">
-    <!-- Barra de Busca -->
-    <ion-searchbar 
-      placeholder="Buscar projetos..." 
-      [value]="searchQuery" 
-      (ionInput)="onSearchChange($event)"
-      class="search-bar">
-    </ion-searchbar>
+    <div class="visitor-controls">
+      <ion-searchbar
+        placeholder="Buscar projetos..."
+        [value]="searchQuery"
+        (ionInput)="onSearchChange($event)"
+        class="search-bar">
+      </ion-searchbar>
 
-    <!-- Filtros de Status -->
-    <div class="filters-container">
-      <ion-chip 
-        *ngFor="let status of statusOptions"
-        [outline]="selectedStatus !== status"
-        (click)="onStatusFilterChange(status)">
-        <ion-icon [name]="getStatusIcon(status)"></ion-icon>
-        <ion-label>{{ getStatusLabel(status) }}</ion-label>
-      </ion-chip>
+      <div class="filters-container">
+        <ion-chip
+          *ngFor="let status of statusOptions"
+          [outline]="selectedStatus !== status"
+          (click)="onStatusFilterChange(status)">
+          <ion-icon [name]="getStatusIcon(status)"></ion-icon>
+          <ion-label>{{ getStatusLabel(status) }}</ion-label>
+        </ion-chip>
+      </div>
     </div>
-  </div>
 
-  <div class="visitor-content ion-padding">
-    <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+    <div class="visitor-content">
+      <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
 
-    <ion-text color="danger" *ngIf="!isLoading && errorMessage">
-      <p class="error-message">{{ errorMessage }}</p>
-    </ion-text>
+      <ion-text color="danger" *ngIf="!isLoading && errorMessage">
+        <p class="error-message">{{ errorMessage }}</p>
+      </ion-text>
 
-    <ng-container *ngIf="!isLoading && !errorMessage">
-      <!-- Resultado da busca -->
-      <div class="results-info" *ngIf="filteredProjects.length > 0">
-        <ion-text>
-          <p>{{ filteredProjects.length }} projeto(s) encontrado(s)</p>
-        </ion-text>
-      </div>
+      <ng-container *ngIf="!isLoading && !errorMessage">
+        <div class="results-info" *ngIf="filteredProjects.length > 0">
+          <ion-text>
+            <p>{{ filteredProjects.length }} projeto(s) encontrado(s)</p>
+          </ion-text>
+        </div>
 
-      <!-- Lista de Projetos -->
-      <div class="project-list" *ngIf="filteredProjects.length > 0">
-        <app-project-card 
-          *ngFor="let project of filteredProjects" 
-          [project]="project" 
-          (click)="onViewProjectDetails(project)"
-          class="project-card-container">
-        </app-project-card>
-      </div>
+        <div class="project-list" *ngIf="filteredProjects.length > 0">
+          <app-project-card
+            *ngFor="let project of filteredProjects"
+            [project]="project"
+            (click)="onViewProjectDetails(project)"
+            class="project-card-container">
+          </app-project-card>
+        </div>
 
-      <!-- Estado Vazio -->
-      <div class="empty-state" *ngIf="filteredProjects.length === 0">
-        <ion-icon name="search-outline"></ion-icon>
-        <ion-text>
-          <h3>Nenhum projeto encontrado</h3>
-          <p *ngIf="projects.length > 0">Tente pesquisar novamente</p>
-          <p *ngIf="projects.length === 0">Não há projetos disponíveis no momento</p>
-        </ion-text>
-      </div>
-    </ng-container>
+        <div class="empty-state" *ngIf="filteredProjects.length === 0">
+          <ion-icon name="search-outline"></ion-icon>
+          <ion-text>
+            <h3>Nenhum projeto encontrado</h3>
+            <p *ngIf="projects.length > 0">Tente pesquisar novamente</p>
+            <p *ngIf="projects.length === 0">Não há projetos disponíveis no momento</p>
+          </ion-text>
+        </div>
+      </ng-container>
+    </div>
   </div>
 </ion-content>
+
+<ion-footer translucent>
+  <ion-toolbar>
+    <div class="footer-row">
+      <ion-text color="medium"><p>Q-Projetos • Visitante</p></ion-text>
+    </div>
+  </ion-toolbar>
+</ion-footer>

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SearchbarInputEventDetail } from '@ionic/angular';
 
-import { ProjectsService } from '../../services/projects.service';
 import { Project, ProjectStatus } from '../../models/project.model';
+import { visitorMockProjects } from '../../mocks/visitor-projects.mock';
 
 @Component({
   selector: 'app-visitor',
@@ -19,7 +19,7 @@ export class VisitorPage implements OnInit {
   selectedStatus: ProjectStatus | 'all' = 'all';
   statusOptions: (ProjectStatus | 'all')[] = ['all', 'pending', 'in_progress', 'done', 'archived'];
 
-  constructor(private readonly projectsService: ProjectsService) {}
+  constructor() {}
 
   ngOnInit(): void {
     this.loadProjects();
@@ -31,17 +31,9 @@ export class VisitorPage implements OnInit {
     this.searchQuery = '';
     this.selectedStatus = 'all';
 
-    this.projectsService.list().subscribe({
-      next: (projects) => {
-        this.projects = projects;
-        this.applyFilters();
-        this.isLoading = false;
-      },
-      error: (error: Error) => {
-        this.errorMessage = error.message;
-        this.isLoading = false;
-      },
-    });
+    this.projects = visitorMockProjects;
+    this.applyFilters();
+    this.isLoading = false;
   }
 
   onSearchChange(event: Event): void {
