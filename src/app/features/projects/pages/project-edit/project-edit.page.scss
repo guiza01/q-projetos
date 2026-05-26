@@ -1,30 +1,41 @@
 // =========================================================
-// TRAVAS GLOBAIS DA TELA (Baseado no padrão do Administrador)
+// BACKGROUND
 // =========================================================
-:host {
+:host ::ng-deep {
   --ion-background-color: #ffffff !important;
   --ion-text-color: #111827 !important;
+  --ion-card-background: #ffffff !important;
+  --ion-toolbar-background: #ffffff !important;
+  --ion-item-background: #ffffff !important;
+
+  body {
+    background: #ffffff !important;
+  }
+
+  ion-content {
+    --background: #ffffff !important;
+    background: #ffffff !important;
+  }
+
+  ion-toolbar {
+    --background: #ffffff !important;
+    --color: #111827 !important;
+    color: #111827 !important;
+  }
+
+  ion-toolbar ion-button {
+    --color: #111827 !important;
+  }
+
+  ion-input, ion-textarea, ion-select {
+    --color: #111827 !important;
+    color: #111827 !important;
+  }
 }
 
-body {
-  background: #ffffff !important;
-}
-
-ion-content {
-  --background: #ffffff !important;
-}
-
-// CABEÇALHO COM O PROVÁVEL SOMBREAMENTO NATIVO DO ADMIN
-ion-toolbar {
-  --background: #ffffff !important;
-  --color: #111827 !important;
-}
-
-ion-toolbar ion-button {
-  --color: #111827 !important;
-}
-
+// =========================================================
 // CONTAINER PRINCIPAL
+// =========================================================
 .page-container {
   padding: 16px;
   background: #ffffff;
@@ -68,7 +79,7 @@ ion-toolbar ion-button {
   font-weight: bold;
 }
 
-// ESTILO DOS CARDS ARREDONDADOS (PADRÃO ADMIN/JAMILY)
+// ESTILO DOS CARDS ARREDONDADOS (PADRÃO ADMIN)
 .info-card {
   --background: #ffffff !important;
   background: #ffffff;
@@ -98,9 +109,6 @@ ion-toolbar ion-button {
   ion-input, ion-textarea, ion-select {
     --padding-start: 0px;
     --padding-end: 0px;
-    font-size: 15px;
-    color: #111827 !important;
-    --color: #111827 !important;
     width: 100%;
   }
 }
@@ -173,7 +181,7 @@ ion-toolbar ion-button {
   color: #6b7280;
 }
 
-// BOTÕES DE SALVAR E CANCELAR
+// BOTÕES DE SALVAR E CANCELAR DA PÁGINA
 .action-buttons {
   margin-top: 24px;
   display: flex;
@@ -193,105 +201,109 @@ ion-toolbar ion-button {
 }
 
 // =========================================================
-// ESTILIZAÇÃO COMPLETA DO MODAL (TRAVADA NO BRANCO)
+// MODAL
 // =========================================================
-ion-modal {
+::ng-deep ion-modal {
   --border-radius: 24px 24px 0 0 !important;
-  --background: #ffffff !important;
+  --background: #ffffff !important; 
 }
 
-.modal-toolbar {
+::ng-deep .modal-toolbar {
   --background: #ffffff !important;
   --color: #111827 !important;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb !important;
   
   ion-title {
-    font-weight: 700;
-    font-size: 18px;
+    font-weight: 700 !important;
+    font-size: 18px !important;
+    color: #111827 !important;
   }
 }
 
-.modal-body {
+::ng-deep .modal-body {
   --background: #ffffff !important;
+  background: #ffffff !important;
 }
 
-.modal-form {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  padding-top: 8px;
+::ng-deep .modal-form {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 18px !important;
+  padding-top: 8px !important;
+  background: #ffffff !important;
 }
 
-.modal-row {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+::ng-deep .modal-row {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
 
   ion-label {
-    font-size: 13px;
-    font-weight: 600;
-    color: #6b7280;
-    letter-spacing: 0.3px;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #6b7280 !important;
+    letter-spacing: 0.3px !important;
   }
 
   .custom-input, .custom-select {
     background: #f3f4f6 !important;
-    border-radius: 12px;
-    padding: 8px 12px;
-    font-size: 15px;
+    border-radius: 12px !important;
+    padding: 8px 12px !important;
+    font-size: 15px !important;
     color: #111827 !important;
     --color: #111827 !important;
   }
   
   .custom-select {
-    --padding-start: 0;
+    --padding-start: 0 !important;
   }
 }
 
-.modal-row-toggle {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #eff6ff;
-  padding: 14px;
-  border-radius: 14px;
-  margin-top: 6px;
+::ng-deep .modal-row-toggle {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  background: #eff6ff !important;
+  padding: 14px !important;
+  border-radius: 14px !important;
+  margin-top: 6px !important;
 
-  .toggle-text {
-    h3 {
-      margin: 0;
-      font-size: 15px;
-      font-weight: 600;
-      color: #111827;
-    }
-    p {
-      margin: 2px 0 0 0;
-      font-size: 12px;
-      color: #6b7280;
-    }
+  .toggle-text h3 {
+    margin: 0 !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    color: #111827 !important;
+  }
+  
+  .toggle-text p {
+    margin: 2px 0 0 0 !important;
+    font-size: 12px !important;
+    color: #6b7280 !important;
   }
 }
 
-.modal-actions {
-  margin-top: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+::ng-deep .modal-actions {
+  margin-top: 16px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
 
   .btn-modal-salvar {
-    --border-radius: 12px;
-    --box-shadow: none;
-    font-weight: bold;
-    height: 48px;
+    --border-radius: 12px !important;
+    --box-shadow: none !important;
+    font-weight: bold !important;
+    height: 48px !important;
   }
 
   .btn-modal-cancelar {
-    font-weight: 600;
-    font-size: 14px;
+    font-weight: 600 !important;
+    font-size: 14px !important;
   }
 }
 
+// =========================================================
 // RODAPÉ
+// =========================================================
 .custom-tabbar {
   --background: #38404d;
   border-top-left-radius: 24px;
