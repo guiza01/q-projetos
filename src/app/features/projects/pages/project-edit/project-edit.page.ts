@@ -25,6 +25,9 @@ export class ProjectEditPage implements OnInit {
   // NOVAS VARIÁVEIS PARA CONTROLAR O MODAL INTERATIVO DA EQUIPE:
   papelSelecionado: string = '';
   permissaoEdicao: boolean = false;
+  nomeIntegrante: string = '';
+  papelPersonalizado: string = '';
+  integrantesAdicionados: Array<{ nome: string; papel: string }> = [];
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -48,9 +51,44 @@ export class ProjectEditPage implements OnInit {
 
     if (this.papelSelecionado === 'coordenador') {
       this.permissaoEdicao = true;
-    } else if (this.papelSelecionado !== 'outro') {
+    } else {
       this.permissaoEdicao = false;
     }
+  }
+
+  adicionarIntegrante(modal: { dismiss: () => Promise<boolean> }): void {
+    const nome = this.nomeIntegrante.trim();
+    const papel = this.getPapelSelecionado();
+
+    if (!nome || !papel) {
+      return;
+    }
+
+    this.integrantesAdicionados = [...this.integrantesAdicionados, { nome, papel }];
+    this.limparModal();
+    void modal.dismiss();
+  }
+
+  private getPapelSelecionado(): string {
+    if (this.papelSelecionado === 'outro') {
+      return this.papelPersonalizado.trim();
+    }
+
+    const papeis: Record<string, string> = {
+      coordenador: 'Coordenador',
+      colaborador: 'Colaborador',
+      bolsista: 'Bolsista',
+      voluntario: 'Voluntário',
+    };
+
+    return papeis[this.papelSelecionado] ?? '';
+  }
+
+  private limparModal(): void {
+    this.nomeIntegrante = '';
+    this.papelSelecionado = '';
+    this.papelPersonalizado = '';
+    this.permissaoEdicao = false;
   }
 
   loadProjectId(): void {

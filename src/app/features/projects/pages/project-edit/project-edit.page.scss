@@ -199,12 +199,12 @@
 // =========================================================
 // MODAL
 // =========================================================
-::ng-deep ion-modal {
+:host ::ng-deep .equipe-modal {
   --border-radius: 24px 24px 0 0 !important;
   --background: #ffffff !important; 
 }
 
-::ng-deep .modal-toolbar {
+:host ::ng-deep .equipe-modal .modal-toolbar {
   --background: #ffffff !important;
   --color: #111827 !important;
   border-bottom: 1px solid #e5e7eb !important;
@@ -216,12 +216,12 @@
   }
 }
 
-::ng-deep .modal-body {
+:host ::ng-deep .equipe-modal .modal-body {
   --background: #ffffff !important;
   background: #ffffff !important;
 }
 
-::ng-deep .modal-form {
+:host ::ng-deep .equipe-modal .modal-form {
   display: flex !important;
   flex-direction: column !important;
   gap: 18px !important;
@@ -229,7 +229,7 @@
   background: #ffffff !important;
 }
 
-::ng-deep .modal-row {
+:host ::ng-deep .equipe-modal .modal-row {
   display: flex !important;
   flex-direction: column !important;
   gap: 6px !important;
@@ -255,7 +255,7 @@
   }
 }
 
-::ng-deep .modal-row-toggle {
+:host ::ng-deep .equipe-modal .modal-row-toggle {
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
@@ -278,7 +278,7 @@
   }
 }
 
-::ng-deep .modal-actions {
+:host ::ng-deep .equipe-modal .modal-actions {
   margin-top: 16px !important;
   display: flex !important;
   flex-direction: column !important;

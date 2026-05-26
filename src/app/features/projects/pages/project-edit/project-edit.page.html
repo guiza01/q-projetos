@@ -171,6 +171,23 @@
           </div>
         </div>
 
+        <div class="item-row" *ngFor="let integrante of integrantesAdicionados">
+          <div class="item-left">
+            <ion-avatar class="member-avatar">
+              <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Foto integrante" />
+            </ion-avatar>
+            <div>
+              <h3>{{ integrante.nome }}</h3>
+              <p class="role-text">{{ integrante.papel }}</p>
+            </div>
+          </div>
+          <div class="item-right">
+            <ion-button type="button" fill="clear" color="danger">
+              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+
       </ion-card>
 
       <div class="action-buttons">
@@ -192,7 +209,7 @@
     </ion-fab-button>
   </ion-fab>
 
-  <ion-modal #modalEquipe [initialBreakpoint]="0.75" [breakpoints]="[0, 0.75, 0.95]">
+  <ion-modal #modalEquipe cssClass="equipe-modal" [initialBreakpoint]="0.75" [breakpoints]="[0, 0.75, 0.95]">
     <ng-template>
       <ion-header>
         <ion-toolbar class="modal-toolbar">
@@ -205,7 +222,13 @@
           
           <div class="modal-row">
             <ion-label>Nome do Integrante</ion-label>
-            <ion-input type="text" placeholder="Ex: João Silva" class="custom-input"></ion-input>
+            <ion-input
+              type="text"
+              placeholder="Ex: João Silva"
+              class="custom-input"
+              [(ngModel)]="nomeIntegrante"
+              [ngModelOptions]="{ standalone: true }">
+            </ion-input>
           </div>
 
           <div class="modal-row">
@@ -225,7 +248,13 @@
 
           <div class="modal-row" *ngIf="papelSelecionado === 'outro'">
             <ion-label>Qual o papel desse integrante?</ion-label>
-            <ion-input type="text" placeholder="Digite a função personalizada" class="custom-input"></ion-input>
+            <ion-input
+              type="text"
+              placeholder="Digite a função personalizada"
+              class="custom-input"
+              [(ngModel)]="papelPersonalizado"
+              [ngModelOptions]="{ standalone: true }">
+            </ion-input>
           </div>
 
           <div class="modal-row-toggle">
@@ -241,7 +270,7 @@
           </div>
 
           <div class="modal-actions">
-            <ion-button expand="block" color="primary" class="btn-modal-salvar" (click)="modalEquipe.dismiss()">
+            <ion-button expand="block" color="primary" class="btn-modal-salvar" (click)="adicionarIntegrante(modalEquipe)">
               Adicionar Integrante
             </ion-button>
             <ion-button expand="block" fill="clear" color="medium" class="btn-modal-cancelar" (click)="modalEquipe.dismiss()">
