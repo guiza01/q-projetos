@@ -135,7 +135,7 @@
         <div class="item-row">
           <div class="item-left">
             <ion-avatar class="member-avatar">
-              <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Foto Jussiara" />
+              <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Foto Guilherme" />
             </ion-avatar>
             <div>
               <h3>Guilherme Alves</h3>
@@ -152,7 +152,7 @@
         <div class="item-row">
           <div class="item-left">
             <ion-avatar class="member-avatar">
-              <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Foto Jamily" />
+              <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Foto João" />
             </ion-avatar>
             <div>
               <h3>João Silva</h3>
@@ -182,10 +182,73 @@
   </div>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="custom-fab" *ngIf="abaSelecionada === 'equipe'">
-    <ion-fab-button color="primary">
+    <ion-fab-button color="primary" (click)="modalEquipe.present()">
       <ion-icon name="person-add-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+
+  <ion-modal #modalEquipe [initialBreakpoint]="0.75" [breakpoints]="[0, 0.75, 0.95]">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar class="modal-toolbar">
+          <ion-title>Adicionar na Equipe</ion-title>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding modal-body">
+        <div class="modal-form">
+          
+          <div class="modal-row">
+            <ion-label>Nome do Integrante</ion-label>
+            <ion-input type="text" placeholder="Ex: João Silva" class="custom-input"></ion-input>
+          </div>
+
+          <div class="modal-row">
+            <ion-label>Papel no Projeto</ion-label>
+            <ion-select 
+              interface="popover" 
+              placeholder="Selecione a função" 
+              class="custom-select"
+              (ionChange)="onPapelChange($event)">
+              <ion-select-option value="coordenador">Coordenador</ion-select-option>
+              <ion-select-option value="colaborador">Colaborador</ion-select-option>
+              <ion-select-option value="bolsista">Bolsista</ion-select-option>
+              <ion-select-option value="voluntario">Voluntário</ion-select-option>
+              <ion-select-option value="outro">Outro</ion-select-option>
+            </ion-select>
+          </div>
+
+          <div class="modal-row" *ngIf="papelSelecionado === 'outro'">
+            <ion-label>Qual o papel desse integrante?</ion-label>
+            <ion-input type="text" placeholder="Digite a função personalizada" class="custom-input"></ion-input>
+          </div>
+
+          <div class="modal-row-toggle">
+            <div class="toggle-text">
+              <h3>Permissão de Edição</h3>
+              <p>Permitir que este usuário altere dados do projeto</p>
+            </div>
+            <ion-toggle 
+              color="primary" 
+              [checked]="permissaoEdicao"
+              (ionChange)="permissaoEdicao = $event.detail.checked">
+            </ion-toggle>
+          </div>
+
+          <div class="modal-actions">
+            <ion-button expand="block" color="primary" class="btn-modal-salvar" (click)="modalEquipe.dismiss()">
+              Adicionar Integrante
+            </ion-button>
+            <ion-button expand="block" fill="clear" color="medium" class="btn-modal-cancelar" (click)="modalEquipe.dismiss()">
+              Cancelar
+            </ion-button>
+          </div>
+
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
 </ion-content>
 
 <ion-footer>

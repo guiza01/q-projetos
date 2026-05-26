@@ -19,8 +19,12 @@ export class ProjectEditPage implements OnInit {
   isSaving = false;
   errorMessage = '';
 
-  // 1. A sua variável que controla as 3 abas entra aqui:
+  // A sua variável que controla as 3 abas entra aqui:
   abaSelecionada: string = 'gerais';
+
+  // NOVAS VARIÁVEIS PARA CONTROLAR O MODAL INTERATIVO DA EQUIPE:
+  papelSelecionado: string = '';
+  permissaoEdicao: boolean = false;
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -33,9 +37,20 @@ export class ProjectEditPage implements OnInit {
     this.loadProjectId();
   }
 
-  // 2. A sua função para mudar de aba entra aqui:
+  // A sua função para mudar de aba entra aqui:
   selecionarAba(aba: string): void {
     this.abaSelecionada = aba;
+  }
+
+  // NOVA FUNÇÃO QUE CONTROLA A LÓGICA INTELIGENTE DO PAPEL E DA PERMISSÃO:
+  onPapelChange(event: any): void {
+    this.papelSelecionado = event.detail.value;
+    
+    if (this.papelSelecionado === 'coordenador') {
+      this.permissaoEdicao = true;
+    } else if (this.papelSelecionado !== 'outro') {
+      this.permissaoEdicao = false;
+    }
   }
 
   loadProjectId(): void {

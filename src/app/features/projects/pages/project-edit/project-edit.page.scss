@@ -1,12 +1,39 @@
+// =========================================================
+// TRAVAS GLOBAIS DA TELA (Baseado no padrão do Administrador)
+// =========================================================
+:host {
+  --ion-background-color: #ffffff !important;
+  --ion-text-color: #111827 !important;
+}
+
+body {
+  background: #ffffff !important;
+}
+
+ion-content {
+  --background: #ffffff !important;
+}
+
+// CABEÇALHO COM O PROVÁVEL SOMBREAMENTO NATIVO DO ADMIN
+ion-toolbar {
+  --background: #ffffff !important;
+  --color: #111827 !important;
+}
+
+ion-toolbar ion-button {
+  --color: #111827 !important;
+}
+
 // CONTAINER PRINCIPAL
 .page-container {
   padding: 16px;
+  background: #ffffff;
 }
 
 .title-center {
   text-align: center;
   font-weight: bold;
-  color: #1a202c; 
+  color: #111827;
 }
 
 .avatar {
@@ -14,24 +41,21 @@
   height: 34px;
 }
 
-ion-toolbar ion-button {
-  --color: black;
-}
-
-// ABAS
+// ABAS (TABS)
 .tabs {
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e5e7eb;
   margin-top: 16px;
   margin-bottom: 16px;
   gap: 4px;
+  background: #ffffff;
 }
 
 .tab {
   padding-bottom: 10px;
   font-size: 13px; 
-  color: #718096; 
+  color: #6b7280; 
   cursor: pointer;
   flex: 1;
   text-align: center;
@@ -44,11 +68,13 @@ ion-toolbar ion-button {
   font-weight: bold;
 }
 
-// ESTILO DOS CARDS
+// ESTILO DOS CARDS ARREDONDADOS (PADRÃO ADMIN/JAMILY)
 .info-card {
+  --background: #ffffff !important;
+  background: #ffffff;
   border-radius: 18px;
   box-shadow: none;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #e5e7eb;
   overflow: hidden;
   margin: 0 0 16px 0;
 }
@@ -58,12 +84,13 @@ ion-toolbar ion-button {
   display: flex;
   flex-direction: column;
   padding: 14px 16px;
-  border-bottom: 1px solid #eeeeee;
+  border-bottom: 1px solid #eff6ff;
+  background: #ffffff;
 
   ion-label {
     font-size: 13px;
     font-weight: 600;
-    color: #4a5568;
+    color: #6b7280;
     margin-bottom: 6px;
     letter-spacing: 0.3px;
   }
@@ -72,7 +99,8 @@ ion-toolbar ion-button {
     --padding-start: 0px;
     --padding-end: 0px;
     font-size: 15px;
-    color: #1a202c;
+    color: #111827 !important;
+    --color: #111827 !important;
     width: 100%;
   }
 }
@@ -86,10 +114,10 @@ ion-toolbar ion-button {
   display: flex;
   align-items: center;
   gap: 12px;
-  background: #f9f9f9;
+  background: #eff6ff;
   padding: 10px;
   border-radius: 8px;
-  border: 1px dashed #cccccc;
+  border: 1px dashed #2196f3;
   margin-top: 4px;
 
   ion-icon {
@@ -101,7 +129,8 @@ ion-toolbar ion-button {
     margin: 0;
     flex: 1;
     font-size: 13px;
-    color: #666666;
+    color: #2196f3;
+    font-weight: 500;
   }
 }
 
@@ -111,7 +140,8 @@ ion-toolbar ion-button {
   justify-content: space-between;
   align-items: center;
   padding: 14px 16px;
-  border-bottom: 1px solid #eeeeee;
+  border-bottom: 1px solid #e5e7eb;
+  background: #ffffff;
 }
 
 .item-row:last-child {
@@ -127,20 +157,20 @@ ion-toolbar ion-button {
 .member-avatar {
   width: 44px;
   height: 44px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #e5e7eb;
 }
 
 .item-left h3 {
   margin: 0;
   font-size: 16px;
   font-weight: 600;
-  color: #1a202c;
+  color: #111827;
 }
 
 .role-text {
   margin: 2px 0 0;
   font-size: 13px;
-  color: #666666;
+  color: #6b7280;
 }
 
 // BOTÕES DE SALVAR E CANCELAR
@@ -162,7 +192,106 @@ ion-toolbar ion-button {
   }
 }
 
-// RODAPÉ 
+// =========================================================
+// ESTILIZAÇÃO COMPLETA DO MODAL (TRAVADA NO BRANCO)
+// =========================================================
+ion-modal {
+  --border-radius: 24px 24px 0 0 !important;
+  --background: #ffffff !important;
+}
+
+.modal-toolbar {
+  --background: #ffffff !important;
+  --color: #111827 !important;
+  border-bottom: 1px solid #e5e7eb;
+  
+  ion-title {
+    font-weight: 700;
+    font-size: 18px;
+  }
+}
+
+.modal-body {
+  --background: #ffffff !important;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding-top: 8px;
+}
+
+.modal-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  ion-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #6b7280;
+    letter-spacing: 0.3px;
+  }
+
+  .custom-input, .custom-select {
+    background: #f3f4f6 !important;
+    border-radius: 12px;
+    padding: 8px 12px;
+    font-size: 15px;
+    color: #111827 !important;
+    --color: #111827 !important;
+  }
+  
+  .custom-select {
+    --padding-start: 0;
+  }
+}
+
+.modal-row-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #eff6ff;
+  padding: 14px;
+  border-radius: 14px;
+  margin-top: 6px;
+
+  .toggle-text {
+    h3 {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 600;
+      color: #111827;
+    }
+    p {
+      margin: 2px 0 0 0;
+      font-size: 12px;
+      color: #6b7280;
+    }
+  }
+}
+
+.modal-actions {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  .btn-modal-salvar {
+    --border-radius: 12px;
+    --box-shadow: none;
+    font-weight: bold;
+    height: 48px;
+  }
+
+  .btn-modal-cancelar {
+    font-weight: 600;
+    font-size: 14px;
+  }
+}
+
+// RODAPÉ
 .custom-tabbar {
   --background: #38404d;
   border-top-left-radius: 24px;
@@ -173,7 +302,7 @@ ion-toolbar ion-button {
 }
 
 ion-tab-button {
-  --color: white;
+  --color: #d1d5db;
   --color-selected: #2196f3;
   font-size: 11px;
 }
