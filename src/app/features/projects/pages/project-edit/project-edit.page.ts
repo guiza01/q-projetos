@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import type { IonModal } from '@ionic/angular';
 
 import { ProjectsService } from '../../services/projects.service';
 import { Project } from '../../models/project.model';
@@ -19,8 +20,15 @@ export class ProjectEditPage implements OnInit {
   isSaving = false;
   errorMessage = '';
 
-  // 1. A sua variável que controla as 3 abas entra aqui:
+  // A sua variável que controla as 3 abas entra aqui:
   abaSelecionada: string = 'gerais';
+
+  // NOVAS VARIÁVEIS PARA CONTROLAR O MODAL INTERATIVO DA EQUIPE:
+  papelSelecionado: string = '';
+  permissaoEdicao: boolean = false;
+  nomeIntegrante: string = '';
+  papelPersonalizado: string = '';
+  integrantesAdicionados: Array<{ nome: string; papel: string }> = [];
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -33,9 +41,55 @@ export class ProjectEditPage implements OnInit {
     this.loadProjectId();
   }
 
-  // 2. A sua função para mudar de aba entra aqui:
+  // A sua função para mudar de aba entra aqui:
   selecionarAba(aba: string): void {
     this.abaSelecionada = aba;
+  }
+
+  // NOVA FUNÇÃO QUE CONTROLA A LÓGICA INTELIGENTE DO PAPEL E DA PERMISSÃO:
+  onPapelChange(event: CustomEvent<{ value: string }>): void {
+    this.papelSelecionado = event.detail.value;
+    } else {
+    if (this.papelSelecionado === 'coordenador') {
+      this.permissaoEdicao = true;
+    } else {
+      this.permissaoEdicao = false;
+    }
+  }
+
+  adicionarIntegrante(modal: IonModal): void {
+    const nome = this.nomeIntegrante.trim();
+    const papel = this.getPapelSelecionado();
+
+    if (!nome || !papel) {
+      return;
+    }
+
+    this.integrantesAdicionados = [...this.integrantesAdicionados, { nome, papel }];
+    this.limparModal();
+    void modal.dismiss();
+  }
+
+  private getPapelSelecionado(): string {
+    if (this.papelSelecionado === 'outro') {
+      return this.papelPersonalizado.trim();
+    }
+
+    const papeis: Record<string, string> = {
+      coordenador: 'Coordenador',
+      colaborador: 'Colaborador',
+      bolsista: 'Bolsista',
+      voluntario: 'Voluntário',
+    };
+
+    return papeis[this.papelSelecionado] ?? '';
+  }
+
+  private limparModal(): void {
+    this.nomeIntegrante = '';
+    this.papelSelecionado = '';
+    this.papelPersonalizado = '';
+    this.permissaoEdicao = false;
   }
 
   loadProjectId(): void {
