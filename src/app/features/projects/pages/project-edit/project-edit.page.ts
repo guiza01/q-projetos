@@ -43,9 +43,9 @@ export class ProjectEditPage implements OnInit {
   }
 
   // NOVA FUNÇÃO QUE CONTROLA A LÓGICA INTELIGENTE DO PAPEL E DA PERMISSÃO:
-  onPapelChange(event: any): void {
+  onPapelChange(event: CustomEvent<{ value: string }>): void {
     this.papelSelecionado = event.detail.value;
-    
+
     if (this.papelSelecionado === 'coordenador') {
       this.permissaoEdicao = true;
     } else if (this.papelSelecionado !== 'outro') {
