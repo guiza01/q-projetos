@@ -1,16 +1,32 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login" text="" color="dark"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content class="login-content">
   <div class="login-container">
     
     <img src="assets/logo.png" alt="Q-Projetos" class="logo">
-    <h1 class="welcome-title">Bem-vindo(a)!</h1>
-    <p class="welcome-subtitle">Faça login para acessar sua conta</p>
+    <h1 class="welcome-title">Criar Conta</h1>
+    <p class="welcome-subtitle">Preencha os campos abaixo para se cadastrar.</p>
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
       <div class="input-group">
-        <label>Email</label>
+        <label>Nome Completo</label>
         <ion-item lines="none" class="custom-input">
           <ion-icon slot="start" name="person-sharp"></ion-icon>
+          <ion-input type="text" placeholder="Digite seu nome" formControlName="nome"></ion-input>
+        </ion-item>
+      </div>
+
+      <div class="input-group">
+        <label>Email</label>
+        <ion-item lines="none" class="custom-input">
+          <ion-icon slot="start" name="mail-sharp"></ion-icon>
           <ion-input type="email" placeholder="Digite seu email" formControlName="email"></ion-input>
         </ion-item>
       </div>
@@ -19,14 +35,8 @@
         <label>Senha</label>
         <ion-item lines="none" class="custom-input">
           <ion-icon slot="start" name="lock-closed-sharp"></ion-icon>
-          <ion-input type="password" placeholder="Digite sua senha" formControlName="password"></ion-input> 
+          <ion-input type="password" placeholder="Mínimo 6 caracteres" formControlName="password"></ion-input> 
         </ion-item>
-      </div>
-
-      <div class="forgot-password-container">
-        <ion-button fill="clear" class="forgot-password-button" (click)="goToForgotPassword()" routerLink="/esqueceu-senha">
-          Esqueceu sua senha?
-        </ion-button>
       </div>
 
       <ion-text color="danger" *ngIf="errorMessage" class="error-message">
@@ -35,22 +45,13 @@
 
       <ion-button type="submit" expand="block" class="login-button" [disabled]="form.invalid || isLoading">
         <ion-spinner name="crescent" *ngIf="isLoading"></ion-spinner>
-        <span *ngIf="!isLoading">Entrar</span>
-      </ion-button>
-
-      <div class="divider">
-        <span>ou continue com</span>
-      </div>
-
-      <ion-button fill="outline" expand="block" class="google-login-button">
-        <ion-icon name="logo-google" slot="start"></ion-icon>
-        Google
+        <span *ngIf="!isLoading">Cadastrar</span>
       </ion-button>
 
       <div class="register-text">
-        <span>Não tem uma conta?</span>
-        <ion-button fill="clear" class="register-link-button" (click)="goToRegister()" routerLink="/cadastro">
-          Cadastre-se
+        <span>Já tem uma conta?</span>
+        <ion-button fill="clear" class="register-link-button" (click)="goToLogin()" routerLink="/login">
+          Fazer Login
         </ion-button>
       </div>
 

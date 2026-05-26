@@ -44,7 +44,15 @@ const routes: Routes = [
   {
     path: 'adm-more',
     loadChildren: () => import('./pages/adm-more/adm-more.module').then( m => m.AdmMorePageModule)
+  },  {
+    path: 'cadastro',
+    loadChildren: () => import('./pages/cadastro/cadastro.module').then( m => m.CadastroPageModule)
   },
+  {
+    path: 'esqueceu-senha',
+    loadChildren: () => import('./pages/esqueceu-senha/esqueceu-senha.module').then( m => m.EsqueceuSenhaPageModule)
+  },
+
 ];
 
 

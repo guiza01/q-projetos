@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router'; // Importado para navegação
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,10 @@ export class LoginPage implements OnInit {
   isLoading = false;
   errorMessage = '';
 
-  constructor(private readonly formBuilder: FormBuilder) {}
+  constructor(
+    private readonly formBuilder: FormBuilder,
+    private readonly router: Router // Injetado aqui
+  ) {}
 
   ngOnInit(): void {
     this.initializeForm();
@@ -33,7 +37,22 @@ export class LoginPage implements OnInit {
     this.isLoading = true;
     this.errorMessage = '';
 
-    // TODO: Implementar lógica de autenticação
-    console.log('Login attempt with:', this.form.value);
+    // Lógica simulada de autenticação
+    console.log('Tentativa de login com:', this.form.value);
+    
+    setTimeout(() => {
+      this.isLoading = false;
+      // Aqui você redirecionaria para a home após o sucesso:
+      // this.router.navigate(['/home']);
+    }, 2000);
+  }
+
+  // Métodos de navegação para as próximas telas
+  goToForgotPassword(): void {
+    this.router.navigate(['/esqueceu-senha']);
+  }
+
+  goToRegister(): void {
+    this.router.navigate(['/cadastro']);
   }
 }
