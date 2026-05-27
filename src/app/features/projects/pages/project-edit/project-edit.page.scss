@@ -1,5 +1,5 @@
 // =========================================================
-// BACKGROUND
+// BACKGROUND E TRAVAS ANTI-MODO ESCURO
 // =========================================================
 :host ::ng-deep {
   --ion-background-color: #ffffff !important;
@@ -26,6 +26,8 @@
   ion-input, ion-textarea, ion-select {
     --color: #111827 !important;
     color: #111827 !important;
+    --highlight-color-focused: #2196f3 !important;
+    --highlight-color-valid: #2196f3 !important; 
   }
 }
 
@@ -197,14 +199,14 @@
 }
 
 // =========================================================
-// MODAL
+// MODAL CORRIGIDO (BRANCO E COM FOCO EM AZUL)
 // =========================================================
-:host ::ng-deep .equipe-modal {
+::ng-deep .equipe-modal {
   --border-radius: 24px 24px 0 0 !important;
   --background: #ffffff !important; 
 }
 
-:host ::ng-deep .equipe-modal .modal-toolbar {
+::ng-deep .equipe-modal .modal-toolbar {
   --background: #ffffff !important;
   --color: #111827 !important;
   border-bottom: 1px solid #e5e7eb !important;
@@ -216,12 +218,12 @@
   }
 }
 
-:host ::ng-deep .equipe-modal .modal-body {
+::ng-deep .equipe-modal .modal-body {
   --background: #ffffff !important;
   background: #ffffff !important;
 }
 
-:host ::ng-deep .equipe-modal .modal-form {
+::ng-deep .equipe-modal .modal-form {
   display: flex !important;
   flex-direction: column !important;
   gap: 18px !important;
@@ -229,7 +231,7 @@
   background: #ffffff !important;
 }
 
-:host ::ng-deep .equipe-modal .modal-row {
+::ng-deep .equipe-modal .modal-row {
   display: flex !important;
   flex-direction: column !important;
   gap: 6px !important;
@@ -248,6 +250,8 @@
     font-size: 15px !important;
     color: #111827 !important;
     --color: #111827 !important;
+    --highlight-color-focused: #2196f3 !important;
+    --highlight-color-valid: #2196f3 !important;  
   }
   
   .custom-select {
@@ -255,7 +259,7 @@
   }
 }
 
-:host ::ng-deep .equipe-modal .modal-row-toggle {
+::ng-deep .equipe-modal .modal-row-toggle {
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
@@ -278,7 +282,7 @@
   }
 }
 
-:host ::ng-deep .equipe-modal .modal-actions {
+::ng-deep .equipe-modal .modal-actions {
   margin-top: 16px !important;
   display: flex !important;
   flex-direction: column !important;
