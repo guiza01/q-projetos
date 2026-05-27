@@ -323,33 +323,28 @@
     </ion-fab-button>
 
   </ion-fab>
+<ion-footer>
 
-</ion-content>
-<ion-tab-bar slot="bottom" class="custom-tab-bar">
+  <ion-tab-bar slot="bottom" class="custom-tabbar">
 
-  <ion-tab-button tab="dashboard">
-    <ion-icon name="home-outline"></ion-icon>
-    <ion-label>Dashboard</ion-label>
-  </ion-tab-button>
+    <ion-tab-button
+      routerLink="/projects/coordinator"
+      routerLinkActive="active-tab">
 
-  <ion-tab-button tab="projetos">
-    <ion-icon name="document-text-outline"></ion-icon>
-    <ion-label>Projetos</ion-label>
-  </ion-tab-button>
+      <ion-icon name="home-outline"></ion-icon>
+      <ion-label>Home</ion-label>
 
-  <ion-tab-button tab="interessados">
-    <ion-icon name="heart-outline"></ion-icon>
-    <ion-label>Interessados</ion-label>
-  </ion-tab-button>
+    </ion-tab-button>
 
-  <ion-tab-button tab="perfil">
-    <ion-icon name="person-outline"></ion-icon>
-    <ion-label>Perfil</ion-label>
-  </ion-tab-button>
+    <ion-tab-button
+      routerLink="/projects/more"
+      routerLinkActive="active-tab">
 
-  <ion-tab-button tab="mais">
-    <ion-icon name="ellipsis-horizontal"></ion-icon>
-    <ion-label>Mais</ion-label>
-  </ion-tab-button>
+      <ion-icon name="ellipsis-horizontal"></ion-icon>
+      <ion-label>Mais</ion-label>
 
-</ion-tab-bar>
+    </ion-tab-button>
+
+  </ion-tab-bar>
+
+</ion-footer>

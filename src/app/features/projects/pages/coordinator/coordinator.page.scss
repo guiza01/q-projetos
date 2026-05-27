@@ -266,3 +266,30 @@ ion-fab-button {
   font-size: 12px;
   margin-top: 4px;
 }
+.custom-tabbar {
+  --background: #38404d;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  overflow: hidden;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+ion-tab-button {
+  --color: #d1d5db;
+  --color-selected: #2196f3;
+  font-size: 11px;
+}
+
+ion-tab-button ion-icon {
+  font-size: 22px;
+}
+
+.active-tab {
+  --color: #2196f3;
+}
+
+.active-tab ion-icon,
+.active-tab ion-label {
+  color: #2196f3 !important;
+}
