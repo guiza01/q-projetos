@@ -22,12 +22,13 @@ export class ProjectEditPage implements OnInit {
   // Controle de Abas
   abaSelecionada: string = 'gerais';
 
+  // Variáveis temporárias do Modal de Equipe
   nomeIntegrante: string = '';
   papelSelecionado: string = '';
   papelPersonalizado: string = '';
   permissaoEdicao: boolean = false;
 
-  // Teste Equipe
+  // Lista dinâmica da Equipe
   integrantesAdicionados: any[] = [
     { nome: 'Guilherme Alves', papel: 'Coordenador' },
     { nome: 'João Silva', papel: 'Bolsista' }
@@ -44,12 +45,10 @@ export class ProjectEditPage implements OnInit {
     this.loadProjectId();
   }
 
-  // Função para mudar de aba
   selecionarAba(aba: string): void {
     this.abaSelecionada = aba;
   }
 
-  // Permissão no Modal
   onPapelChange(event: any): void {
     this.papelSelecionado = event.detail.value;
     
@@ -80,7 +79,6 @@ export class ProjectEditPage implements OnInit {
 
   removerIntegrante(index: number): void {
     this.integrantesAdicionados.splice(index, 1);
-    console.log('Integrante removed from index:', index);
   }
 
   loadProjectId(): void {
@@ -100,23 +98,43 @@ export class ProjectEditPage implements OnInit {
     this.isLoading = false;
   }
 
+  // CAMPOS MAPEADOS
   initializeForm(): void {
     this.form = this.formBuilder.group({
       title: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', Validators.required],
       coordinator: ['', Validators.required],
       status: ['active', Validators.required],
+      type: ['extensao', Validators.required],            // Adicionado
+      startDate: [''],                                    // Adicionado
+      endDate: [''],                                      // Adicionado
+      vagasBolsistas: [0],                                // Adicionado
+      vagasVoluntarios: [0],                              // Adicionado
+      inscricoesInicio: [''],                             // Adicionado
+      inscricoesFim: [''],                                // Adicionado
+      linkEdital: ['']                                    // Adicionado
     });
   }
 
-  // Ações Principais do Formulário
+  // PAYLOAD PARA INTEGRAÇÃO
   onSubmit(): void {
     if (this.form.invalid) {
       return;
     }
     this.isSaving = true;
     this.errorMessage = '';
-    console.log('Saving project:', this.form.value);
+
+    const projetoCompletoPayload = {
+      ...this.form.value,
+      equipe: this.integrantesAdicionados
+    };
+
+    console.log('Payload prontinho para o Back-end:', projetoCompletoPayload);
+    
+    // descomentar a linha abaixo:
+    // this.projectsService.updateProject(this.projectId, projetoCompletoPayload).subscribe(...)
+    
+    this.isSaving = false;
   }
 
   onCancel(): void {
