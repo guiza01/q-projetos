@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router'; // Importado para navegação
+import { Router, ActivatedRoute } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,9 @@ export class LoginPage implements OnInit {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly router: Router // Injetado aqui
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly toastCtrl: ToastController 
   ) {}
 
   ngOnInit(): void {
@@ -36,23 +39,47 @@ export class LoginPage implements OnInit {
 
     this.isLoading = true;
     this.errorMessage = '';
-
-    // Lógica simulada de autenticação
+    
     console.log('Tentativa de login com:', this.form.value);
     
     setTimeout(() => {
       this.isLoading = false;
-      // Aqui você redirecionaria para a home após o sucesso:
-      // this.router.navigate(['/home']);
+      this.router.navigate(['/home']);
     }, 2000);
   }
 
-  // Métodos de navegação para as próximas telas
-  goToForgotPassword(): void {
-    this.router.navigate(['/esqueceu-senha']);
+  // Método de Autenticação Simulado do Google inserido com sucesso
+  async loginComGoogle(): Promise<void> {
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    // Exibe o balão informativo na tela
+    const toast = await this.toastCtrl.create({
+      message: 'Conectando com o Google...',
+      duration: 1500,
+      position: 'bottom',
+      color: 'dark'
+    });
+    await toast.present();
+
+    // Simula o tempo de resposta do servidor do Google
+    setTimeout(() => {
+      this.isLoading = false;
+      this.router.navigate(['/home']);
+    }, 2000);
   }
 
-  goToRegister(): void {
-    this.router.navigate(['/cadastro']);
+  // Função para ir para a página de Esqueceu Senha
+  goToEsqueceuSenha(): void {
+    this.router.navigate(['/esqueceu-senha']).catch(() => {
+      this.router.navigate(['../esqueceu-senha'], { relativeTo: this.route });
+    });
+  }
+
+  // Função para ir para a página de Cadastro
+  goToCadastro(): void {
+    this.router.navigate(['/cadastro']).catch(() => {
+      this.router.navigate(['../cadastro'], { relativeTo: this.route });
+    });
   }
 }

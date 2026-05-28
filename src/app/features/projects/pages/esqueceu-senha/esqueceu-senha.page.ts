@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 
 @Component({
@@ -18,6 +18,7 @@ export class EsqueceuSenhaPage implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private readonly route: ActivatedRoute,
     private toastCtrl: ToastController
   ) {}
 
@@ -71,5 +72,11 @@ export class EsqueceuSenhaPage implements OnInit {
 
       this.router.navigate(['/login']); // Volta para o login
     }, 2000);
+  }
+
+  goToLogin(): void {
+    this.router.navigate(['/login']).catch(() => {
+      this.router.navigate(['../login'], { relativeTo: this.route });
+    });
   }
 }

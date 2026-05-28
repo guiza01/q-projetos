@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 
 @Component({
@@ -17,6 +17,7 @@ export class CadastroPage implements OnInit {
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly router: Router,
+    private readonly route: ActivatedRoute, 
     private readonly toastCtrl: ToastController
   ) {}
 
@@ -55,12 +56,13 @@ export class CadastroPage implements OnInit {
       });
       await toast.present();
 
-      // Redireciona para a página de login
-      this.router.navigate(['/login']);
+      this.goToLogin(); 
     }, 2000);
   }
 
   goToLogin(): void {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login']).catch(() => {
+      this.router.navigate(['../login'], { relativeTo: this.route });
+    });
   }
 }

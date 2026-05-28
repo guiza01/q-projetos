@@ -24,7 +24,7 @@
       </div>
 
       <div class="forgot-password-container">
-        <ion-button fill="clear" class="forgot-password-button" (click)="goToForgotPassword()" routerLink="/esqueceu-senha">
+        <ion-button fill="clear" class="forgot-password-button" (click)="goToEsqueceuSenha()">
           Esqueceu sua senha?
         </ion-button>
       </div>
@@ -42,14 +42,14 @@
         <span>ou continue com</span>
       </div>
 
-      <ion-button fill="outline" expand="block" class="google-login-button">
+      <ion-button fill="outline" expand="block" class="google-login-button" (click)="loginComGoogle()" [disabled]="isLoading">
         <ion-icon name="logo-google" slot="start"></ion-icon>
         Google
       </ion-button>
 
       <div class="register-text">
         <span>Não tem uma conta?</span>
-        <ion-button fill="clear" class="register-link-button" (click)="goToRegister()" routerLink="/cadastro">
+        <ion-button fill="clear" class="register-link-button" (click)="goToCadastro()">
           Cadastre-se
         </ion-button>
       </div>
