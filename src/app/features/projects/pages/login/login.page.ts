@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +14,12 @@ export class LoginPage implements OnInit {
   isLoading = false;
   errorMessage = '';
 
-  constructor(private readonly formBuilder: FormBuilder) {}
+  constructor(
+    private readonly formBuilder: FormBuilder,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly toastCtrl: ToastController
+  ) {}
 
   ngOnInit(): void {
     this.initializeForm();
@@ -32,8 +39,44 @@ export class LoginPage implements OnInit {
 
     this.isLoading = true;
     this.errorMessage = '';
+    
+    console.log('Tentativa de login com:', this.form.value);
 
-    // TODO: Implementar lógica de autenticação
-    console.log('Login attempt with:', this.form.value);
+    
+    setTimeout(() => {
+      this.isLoading = false;
+      
+      this.router.navigate(['/home']);
+    }, 2000);
+  }
+
+  async loginComGoogle(): Promise<void> {
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    const toast = await this.toastCtrl.create({
+      message: 'Conectando com o Google...',
+      duration: 1500,
+      position: 'bottom',
+      color: 'dark'
+    });
+    await toast.present();
+
+    setTimeout(() => {
+      this.isLoading = false;
+      this.router.navigate(['/home']);
+    }, 2000);
+  }
+
+  goToEsqueceuSenha(): void {
+    this.router.navigate(['/esqueceu-senha']).catch(() => {
+      this.router.navigate(['../esqueceu-senha'], { relativeTo: this.route });
+    });
+  }
+
+  goToCadastro(): void {
+    this.router.navigate(['/cadastro']).catch(() => {
+      this.router.navigate(['../cadastro'], { relativeTo: this.route });
+    });
   }
 }
