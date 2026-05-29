@@ -1,0 +1,68 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login" text="" color="dark"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="login-content">
+  <div class="login-container">
+    <img src="assets/logo.png" alt="Q-Projetos" class="logo">
+
+    <div *ngIf="passo === 1">
+      <h1 class="welcome-title">Recuperar Senha</h1>
+      <p class="welcome-subtitle">Digite seu e-mail para receber o código de verificação.</p>
+
+      <form [formGroup]="emailForm" (ngSubmit)="enviarCodigo()">
+        <div class="input-group">
+          <label>Email</label>
+          <ion-item lines="none" class="custom-input">
+            <ion-icon slot="start" name="mail-sharp"></ion-icon>
+            <ion-input type="email" placeholder="seu@email.com" formControlName="email"></ion-input>
+          </ion-item>
+        </div>
+
+        <ion-button type="submit" expand="block" class="login-button" [disabled]="emailForm.invalid || isLoading">
+          <ion-spinner name="crescent" *ngIf="isLoading"></ion-spinner>
+          <span *ngIf="!isLoading">Enviar Código</span>
+        </ion-button>
+      </form>
+    </div>
+
+    <div *ngIf="passo === 2">
+      <h1 class="welcome-title">Nova Senha</h1>
+      <p class="welcome-subtitle">Insira o código enviado ao seu e-mail e escolha uma nova senha.</p>
+
+      <form [formGroup]="resetForm" (ngSubmit)="atualizarSenha()">
+        <div class="input-group">
+          <label>Código de Verificação</label>
+          <ion-item lines="none" class="custom-input">
+            <ion-icon slot="start" name="key-sharp"></ion-icon>
+            <ion-input type="text" placeholder="000000" formControlName="codigo"></ion-input>
+          </ion-item>
+        </div>
+
+        <div class="input-group">
+          <label>Nova Senha</label>
+          <ion-item lines="none" class="custom-input">
+            <ion-icon slot="start" name="lock-closed-sharp"></ion-icon>
+            <ion-input type="password" placeholder="Mínimo 6 caracteres" formControlName="novaSenha"></ion-input>
+          </ion-item>
+        </div>
+
+        <ion-button type="submit" expand="block" class="login-button" [disabled]="resetForm.invalid || isLoading">
+          <ion-spinner name="crescent" *ngIf="isLoading"></ion-spinner>
+          <span *ngIf="!isLoading">Redefinir Senha</span>
+        </ion-button>
+      </form>
+    </div>
+
+    <div class="register-text">
+      <span>Lembrou a senha?</span>
+      <ion-button fill="clear" class="register-link-button" (click)="goToLogin()">
+        Fazer Login
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

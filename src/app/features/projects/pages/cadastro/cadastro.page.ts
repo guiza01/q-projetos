@@ -1,0 +1,66 @@
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ToastController } from '@ionic/angular';
+
+@Component({
+  selector: 'app-cadastro',
+  templateUrl: './cadastro.page.html',
+  styleUrls: ['./cadastro.page.scss'],
+  standalone: false,
+})
+export class CadastroPage implements OnInit {
+  form!: FormGroup;
+  isLoading = false;
+  errorMessage = '';
+
+  constructor(
+    private readonly formBuilder: FormBuilder,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly toastCtrl: ToastController,
+  ) {}
+
+  ngOnInit(): void {
+    this.initializeForm();
+  }
+
+  initializeForm(): void {
+    this.form = this.formBuilder.group({
+      nome: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+    });
+  }
+
+  async onSubmit(): Promise<void> {
+    if (this.form.invalid) {
+      return;
+    }
+
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    console.log('Enviando payload de cadastro para a API:', this.form.value);
+
+    setTimeout(async () => {
+      this.isLoading = false;
+
+      const toast = await this.toastCtrl.create({
+        message: 'Conta criada com sucesso! Faça seu login.',
+        duration: 2500,
+        color: 'success',
+        position: 'top'
+      });
+      await toast.present();
+
+      this.goToLogin();
+    }, 2000);
+  }
+
+  goToLogin(): void {
+    this.router.navigate(['/login']).catch(() => {
+      this.router.navigate(['../login'], { relativeTo: this.route });
+    });
+  }
+}
