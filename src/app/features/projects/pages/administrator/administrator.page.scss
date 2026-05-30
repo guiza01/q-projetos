@@ -27,10 +27,6 @@ ion-button {
   margin-bottom: 16px;
 }
 
-ion-toolbar ion-button {
-  --color: #111827;
-}
-
 .dashboard-container {
   padding: 16px;
 }
@@ -196,19 +192,6 @@ ion-toolbar ion-button {
   background: #3b82f6;
 }
 
-.menu-btn {
-  margin: 0;
-
-  --padding-start: 0;
-  --padding-end: 0;
-  min-height: auto;
-}
-
-.menu-btn ion-icon {
-  font-size: 20px;
-  color: #6b7280;
-}
-
 .lead-icon {
   display: flex;
   justify-content: center;
@@ -306,4 +289,8 @@ ion-fab-button::part(native) {
 
 .editing {
   background: #3b82f6;
+}
+
+ion-menu-button {
+  --color: black !important;
 }
