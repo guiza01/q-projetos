@@ -324,3 +324,18 @@ ion-fab {
   margin-right: 16px;
   margin-bottom: 16px;
 }
+.header-custom {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.header-custom ion-toolbar {
+  --background: #ffffff;
+
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+
+  border-bottom: 1px solid #e5e7eb;
+}
