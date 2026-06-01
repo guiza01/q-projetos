@@ -62,3 +62,26 @@ ion-menu-button {
 .logout-container ion-button ion-icon {
   color: #ef4444 !important;
 }
+
+.submenu {
+  padding-left: 12px;
+  margin-bottom: 8px;
+}
+
+.submenu ion-item {
+  --background: #f8f9fa;
+  margin: 4px 12px;
+  border-radius: 12px;
+}
+
+.submenu h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.submenu p {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #6b7280;
+}

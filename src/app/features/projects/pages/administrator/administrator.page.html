@@ -79,6 +79,21 @@
         </ion-card-content>
       </ion-card>
 
+      <ion-card class="stat-card" (click)="toggleEncerrados()">
+        <ion-card-content>
+
+          <div class="icon blue">
+            <ion-icon name="lock-closed"></ion-icon>
+          </div>
+
+          <div>
+            <h1>{{ projetosEncerrados.length }}</h1>
+            <p>Projetos encerrados</p>
+          </div>
+
+        </ion-card-content>
+      </ion-card>
+
       <ion-card class="stat-card" (click)="toggleLeads()">
         <ion-card-content>
 
@@ -121,7 +136,8 @@
                 [ngClass]="{
                   'published': projeto.status === 'Publicado',
                   'pending': projeto.status === 'Pendente',
-                  'editing': projeto.status === 'Edição'
+                  'editing': projeto.status === 'Edição',
+                  'encerrado': projeto.status === 'Encerrado'
                 }">
                 {{ projeto.status }}
               </span>
@@ -166,7 +182,8 @@
               [ngClass]="{
                 'published': projeto.status === 'Publicado',
                 'pending': projeto.status === 'Pendente',
-                'editing': projeto.status === 'Edição'
+                'editing': projeto.status === 'Edição',
+                'encerrado': projeto.status === 'Encerrado'
               }">
                 {{ projeto.status }}
               </span>
@@ -217,7 +234,8 @@
               [ngClass]="{
                 'published': projeto.status === 'Publicado',
                 'pending': projeto.status === 'Pendente',
-                'editing': projeto.status === 'Edição'
+                'editing': projeto.status === 'Edição',
+                'encerrado': projeto.status === 'Encerrado'
               }">
                 {{ projeto.status }}
               </span>
@@ -239,6 +257,41 @@
           </ion-button>
         </div>
       </ion-card>
+    </div>
+
+    <!-- ENCERRADOS -->
+    <div class="section" *ngIf="mostrarEncerrados">
+      <div class="section-title">
+        <h2>Projetos encerrados</h2>
+        <span (click)="toggleEncerrados()">Fechar</span>
+      </div>
+
+      <ion-card
+        class="project-card"
+        *ngFor="let projeto of projetosEncerrados">
+
+        <div class="project-content">
+          <img
+            [src]="projeto.imagem"
+            class="project-image">
+
+          <div class="project-info">
+
+            <div class="project-header">
+              <h3>{{ projeto.titulo }}</h3>
+              <span class="status encerrado">
+                {{ projeto.status }}
+              </span>
+            </div>
+
+            <p>{{ projeto.tipo }} | {{ projeto.coordenador }}</p>
+            <p>Inscrições: {{ projeto.inscricoes }}</p>
+          </div>
+
+        </div>
+
+      </ion-card>
+
     </div>
 
     <!-- LEADS -->
