@@ -5,10 +5,9 @@
 
       <div class="header-content">
 
-        <ion-icon
-          name="menu-outline"
-          class="menu-icon">
-        </ion-icon>
+        <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
 
         <h1 class="logo">
           <span>Q</span>-Projetos
@@ -313,23 +312,27 @@
 
   </ng-container>
 
-  <ion-fab
-    vertical="bottom"
-    horizontal="end"
-    slot="fixed">
+<ion-fab
+  vertical="bottom"
+  horizontal="end"
+  slot="fixed">
 
-    <ion-fab-button>
-      +
-    </ion-fab-button>
+  <ion-fab-button class="fab-custom">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
 
-  </ion-fab>
+</ion-fab>
+
+</ion-content>
+
 <ion-footer>
 
   <ion-tab-bar slot="bottom" class="custom-tabbar">
 
     <ion-tab-button
       routerLink="/projects/coordinator"
-      routerLinkActive="active-tab">
+      routerLinkActive="tab-selected"
+      [routerLinkActiveOptions]="{ exact: true }">
 
       <ion-icon name="home-outline"></ion-icon>
       <ion-label>Home</ion-label>
@@ -338,7 +341,7 @@
 
     <ion-tab-button
       routerLink="/projects/more"
-      routerLinkActive="active-tab">
+      routerLinkActive="tab-selected">
 
       <ion-icon name="ellipsis-horizontal"></ion-icon>
       <ion-label>Mais</ion-label>
