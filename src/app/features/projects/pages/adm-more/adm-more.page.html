@@ -3,9 +3,7 @@
   <ion-toolbar>
 
     <ion-buttons slot="start">
-      <ion-button>
-        <ion-icon name="menu-outline"></ion-icon>
-      </ion-button>
+      <ion-menu-button autoHide="false"></ion-menu-button>
     </ion-buttons>
 
     <ion-title class="title-center">
@@ -31,8 +29,6 @@
 <ion-content [fullscreen]="true">
 
   <div class="page-container">
-
-    <h2>Mais</h2>
 
     <!-- TABS -->
 
@@ -101,7 +97,7 @@
             {{ categoria.quantidade }}
           </span>
 
-          <ion-icon name="chevron-forward-outline"></ion-icon>
+          <!-- <ion-icon name="chevron-forward-outline"></ion-icon> -->
 
         </div>
 
@@ -143,7 +139,7 @@
             {{ modalidade.quantidade }}
           </span>
 
-          <ion-icon name="chevron-forward-outline"></ion-icon>
+          <!-- <ion-icon name="chevron-forward-outline"></ion-icon> -->
 
         </div>
 
@@ -185,7 +181,7 @@
             {{ tag.quantidade }}
           </span>
 
-          <ion-icon name="chevron-forward-outline"></ion-icon>
+          <!-- <ion-icon name="chevron-forward-outline"></ion-icon> -->
 
         </div>
 
@@ -209,7 +205,7 @@
       routerLink="/projects/administrator">
 
       <ion-icon name="home-outline"></ion-icon>
-      <ion-label>Dashboard</ion-label>
+      <ion-label>Home</ion-label>
 
     </ion-tab-button>
 
