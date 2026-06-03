@@ -1,4 +1,8 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
+
+import { API_CONFIG } from '../../../../core/config/api.config';
 
 @Component({
   selector: 'app-coordinator',
@@ -7,58 +11,21 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class CoordinatorPage {
+  isLoading = false;
+  errorMessage = '';
+  responseContent = '';
+  token = 'seu_token_aqui';
+
+  constructor(private readonly http: HttpClient) {}
+
   mostrarMeusProjetos = false;
   mostrarProjetosAtivos = false;
   mostrarInteressados = false;
   mostrarProjetosEncerrados = false;
 
-  projetos = [
-    {
-      titulo: 'Projeto IFPE em Movimento',
-      categoria: 'Voluntário',
-      vagas: 30,
-      inscricoes: 'Abertas',
-      status: 'Publicado',
-      imagem: 'https://images.unsplash.com/photo-1547347298-4074fc3086f0?q=80&w=1200&auto=format&fit=crop'
-    },
-    {
-      titulo: 'Projeto Palco Livre',
-      categoria: 'Voluntário',
-      vagas: 20,
-      inscricoes: 'Abertas',
-      status: 'Pendente',
-      imagem: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=1200&auto=format&fit=crop'
-    },
-    {
-      titulo: 'Projeto Ônibus Mágico',
-       categoria: 'Bolsista',
-      vagas: 15,
-      inscricoes: 'Encerradas',
-      status: 'Encerrado',
-      imagem: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop'
-    }
-  ];
+  projetos: any[] = [];
 
-  leads = [
-    {
-      nome: 'Ana Clara Santos',
-      projeto: 'Projeto IFPE em Movimento',
-      email: 'ana.santos@example.com',
-      status: 'Interessado'
-    },
-    {
-      nome: 'Bruno Almeida',
-      projeto: 'Projeto Palco Livre',
-      email: 'bruno.almeida@example.com',
-      status: 'Em contato'
-    },
-    {
-      nome: 'Carla Rodrigues',
-      projeto: 'Projeto Ônibus Mágico',
-      email: 'carla.rodrigues@example.com',
-      status: 'Confirmado'
-    }
-  ];
+  leads: any[] = [];
 
   get projetosAtivos() {
     return this.projetos.filter((projeto) => projeto.status !== 'Encerrado');
@@ -83,6 +50,7 @@ export class CoordinatorPage {
       this.mostrarMeusProjetos = false;
       this.mostrarInteressados = false;
       this.mostrarProjetosEncerrados = false;
+      this.loadProjects();
     }
   }
 
@@ -104,4 +72,43 @@ export class CoordinatorPage {
     }
   }
 
+  async loadProjects(): Promise<void> {
+    this.isLoading = true;
+    this.errorMessage = '';
+    this.responseContent = '';
+
+    try {
+      const url = `${API_CONFIG.baseUrl}/projetos`;
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${this.token}`,
+        'Content-Type': 'application/json',
+      });
+
+      const response = await firstValueFrom(this.http.get(url, { headers }));
+      this.responseContent = JSON.stringify(response, null, 2);
+
+      if (Array.isArray(response)) {
+        this.projetos = this.mapApiProjectsToView(response);
+      }
+    } catch (error: any) {
+      this.errorMessage = error?.message || 'Falha ao carregar projetos.';
+      this.responseContent = JSON.stringify(error?.error ?? error, null, 2);
+    } finally {
+      this.isLoading = false;
+    }
+  }
+
+  private mapApiProjectsToView(projects: any[]): any[] {
+    return projects.map((item) => ({
+      titulo: item.titulo ?? 'Sem título',
+      categoria: item.tipo ?? item.modalidade ?? 'Não informado',
+      vagas: item.vagas ?? 0,
+      inscricoes: item.dataInicioInscricao && item.dataFimInscricao
+        ? `${item.dataInicioInscricao} a ${item.dataFimInscricao}`
+        : 'Não informado',
+      status: item.status ?? 'Desconhecido',
+      imagem: item.banner ?? 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=1200&auto=format&fit=crop',
+    }));
+  }
 }
+
