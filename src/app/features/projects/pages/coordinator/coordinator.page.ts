@@ -41,6 +41,8 @@ export class CoordinatorPage {
       this.mostrarProjetosAtivos = false;
       this.mostrarInteressados = false;
       this.mostrarProjetosEncerrados = false;
+      //this.loadProjects("/projetos/meus-projetos");
+      this.projetos = [];
     }
   }
 
@@ -50,7 +52,7 @@ export class CoordinatorPage {
       this.mostrarMeusProjetos = false;
       this.mostrarInteressados = false;
       this.mostrarProjetosEncerrados = false;
-      this.loadProjects();
+      this.loadProjects("/projetos");
     }
   }
 
@@ -72,30 +74,12 @@ export class CoordinatorPage {
     }
   }
 
-  async loadProjects(): Promise<void> {
+  async loadProjects(endpoint: string): Promise<void> {
     this.isLoading = true;
     this.errorMessage = '';
     this.responseContent = '';
 
-    try {
-      const url = `${API_CONFIG.baseUrl}/projetos`;
-      const headers = new HttpHeaders({
-        Authorization: `Bearer ${this.token}`,
-        'Content-Type': 'application/json',
-      });
-
-      const response = await firstValueFrom(this.http.get(url, { headers }));
-      this.responseContent = JSON.stringify(response, null, 2);
-
-      if (Array.isArray(response)) {
-        this.projetos = this.mapApiProjectsToView(response);
-      }
-    } catch (error: any) {
-      this.errorMessage = error?.message || 'Falha ao carregar projetos.';
-      this.responseContent = JSON.stringify(error?.error ?? error, null, 2);
-    } finally {
-      this.isLoading = false;
-    }
+    this.projetos = await this.execGet(endpoint);
   }
 
   private mapApiProjectsToView(projects: any[]): any[] {
@@ -109,6 +93,29 @@ export class CoordinatorPage {
       status: item.status ?? 'Desconhecido',
       imagem: item.banner ?? 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=1200&auto=format&fit=crop',
     }));
+  }
+
+  // param: endpoint - string endpoint da API (ex: '/projetos/ativos')
+  private async execGet(endpoint: string): Promise<any> {
+    try {
+      const url = `${API_CONFIG.baseUrl}${endpoint}`;
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${this.token}`,
+        'Content-Type': 'application/json',
+      });
+
+      const response = await firstValueFrom(this.http.get(url, { headers }));
+      this.responseContent = JSON.stringify(response, null, 2);
+
+      if (Array.isArray(response)) {
+        return this.mapApiProjectsToView(response);
+      }
+    } catch (error: any) {
+      this.errorMessage = error?.message || 'Falha ao carregar projetos.';
+      this.responseContent = JSON.stringify(error?.error ?? error, null, 2);
+    } finally {
+      this.isLoading = false;
+    }
   }
 }
 
