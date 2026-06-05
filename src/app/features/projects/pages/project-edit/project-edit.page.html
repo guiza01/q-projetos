@@ -73,11 +73,15 @@
 
         <div class="form-row">
           <ion-label position="stacked">Banner do Projeto</ion-label>
-          <div class="banner-upload">
-            <ion-icon name="image-outline"></ion-icon>
-            <p>Alterar imagem do banner</p>
-            <input type="file" #bannerFileInput style="display: none;" />
-            <ion-button type="button" size="small" fill="outline" (click)="bannerFileInput.click()">Selecionar</ion-button>
+          <div class="banner-upload" [style.border-color]="bannerBase64 ? '#2e7d32' : '#2196f3'" [style.background]="bannerBase64 ? '#f0fdf4' : '#eff6ff'">
+            <ion-icon [name]="bannerBase64 ? 'checkmark-circle-outline' : 'image-outline'" [style.color]="bannerBase64 ? '#2e7d32' : '#2196f3'"></ion-icon>
+            <p [style.color]="bannerBase64 ? '#2e7d32' : '#2196f3'">
+              {{ bannerBase64 ? 'Imagem carregada com sucesso! ' : 'Alterar imagem do banner' }}
+            </p>
+            <input type="file" #bannerFileInput style="display: none;" accept="image/*" (change)="onFileSelected($event)" />
+            <ion-button type="button" size="small" [color]="bannerBase64 ? 'success' : 'primary'" fill="outline" (click)="bannerFileInput.click()">
+              {{ bannerBase64 ? 'Trocar' : 'Selecionar' }}
+            </ion-button>
           </div>
         </div>
 
@@ -142,7 +146,7 @@
               <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Foto Integrante" />
             </ion-avatar>
             <div>
-              <h3>{{ integrante.nome }}</h3>
+              <h3>{{ integrante.email }}</h3>
               <p class="role-text">{{ integrante.papel }}</p>
             </div>
           </div>
@@ -153,6 +157,12 @@
           </div>
         </div>
       </ion-card>
+
+      <div class="error-box" *ngIf="errorMessage" style="margin: 10px 4px; padding: 12px; background: #fef2f2; border: 1px solid #fee2e2; border-radius: 12px; text-align: center;">
+        <ion-text color="danger">
+          <p style="margin: 0; font-size: 13px; font-weight: 600;">⚠️ {{ errorMessage }}</p>
+        </ion-text>
+      </div>
 
       <div class="action-buttons">
         <ion-button type="submit" expand="block" color="primary" class="btn-salvar" [disabled]="form.invalid || isSaving">
@@ -185,12 +195,12 @@
         <div class="modal-form">
           
           <div class="modal-row">
-            <ion-label>Nome do Integrante</ion-label>
+            <ion-label>E-mail do Integrante</ion-label>
             <ion-input
-              type="text"
-              placeholder="Ex: João Silva"
+              type="email"
+              placeholder="Ex: joao@ifpe.edu.br"
               class="custom-input"
-              [(ngModel)]="nomeIntegrante"
+              [(ngModel)]="emailIntegrante"
               [ngModelOptions]="{ standalone: true }">
             </ion-input>
           </div>
