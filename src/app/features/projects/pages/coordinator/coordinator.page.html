@@ -5,21 +5,15 @@
 
       <div class="header-content">
 
-        <ion-icon
-          name="menu-outline"
-          class="menu-icon">
-        </ion-icon>
+        <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
 
         <h1 class="logo">
           <span>Q</span>-Projetos
         </h1>
 
         <div class="right-icons">
-
-          <ion-icon
-            name="notifications-outline"
-            class="bell-icon">
-          </ion-icon>
 
           <ion-icon
             name="person-circle-outline"
@@ -32,7 +26,6 @@
 
     </ion-toolbar>
   </ion-header>
-
   <div class="topo">
 
     <div>
@@ -53,7 +46,7 @@
         class="icon-meus-projetos">
       </ion-icon>
 
-      <h2>03</h2>
+      <h2>{{ qtdProjetosMeus }}</h2>
       <p>Meus Projetos</p>
 
     </div>
@@ -65,7 +58,7 @@
         class="icon-interessados">
       </ion-icon>
 
-      <h2>03</h2>
+      <h2>{{ qtdInteressados }}</h2>
       <p>Interessados</p>
 
     </div>
@@ -77,7 +70,7 @@
         class="icon-ativos">
       </ion-icon>
 
-      <h2>02</h2>
+      <h2>{{ qtdProjetosAtivos }}</h2>
       <p>Projetos Ativos</p>
 
     </div>
@@ -89,7 +82,7 @@
         class="icon-encerrados">
       </ion-icon>
 
-      <h2>01</h2>
+      <h2>{{ qtdProjetosEncerrados }}</h2>
       <p>Projetos Encerrados</p>
 
     </div>
@@ -114,7 +107,7 @@
 
     <div
       class="card-projeto"
-      *ngFor="let projeto of projetos">
+      *ngFor="let projeto of meusProjetos">
 
       <img [src]="projeto.imagem">
 
@@ -243,7 +236,7 @@
         </div>
 
         <p class="categoria">
-          Projeto: {{ lead.projeto }}
+          Projeto: {{ lead.tituloProjeto }}
         </p>
 
         <p class="infos">
@@ -313,43 +306,42 @@
 
   </ng-container>
 
-  <ion-fab
-    vertical="bottom"
-    horizontal="end"
-    slot="fixed">
+<ion-fab
+  vertical="bottom"
+  horizontal="end"
+  slot="fixed">
 
-    <ion-fab-button>
-      +
-    </ion-fab-button>
+  <ion-fab-button class="fab-custom">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
 
-  </ion-fab>
+</ion-fab>
 
 </ion-content>
-<ion-tab-bar slot="bottom" class="custom-tab-bar">
 
-  <ion-tab-button tab="dashboard">
-    <ion-icon name="home-outline"></ion-icon>
-    <ion-label>Dashboard</ion-label>
-  </ion-tab-button>
+<ion-footer>
 
-  <ion-tab-button tab="projetos">
-    <ion-icon name="document-text-outline"></ion-icon>
-    <ion-label>Projetos</ion-label>
-  </ion-tab-button>
+  <ion-tab-bar slot="bottom" class="custom-tabbar">
 
-  <ion-tab-button tab="interessados">
-    <ion-icon name="heart-outline"></ion-icon>
-    <ion-label>Interessados</ion-label>
-  </ion-tab-button>
+    <ion-tab-button
+      routerLink="/projects/coordinator"
+      routerLinkActive="tab-selected"
+      [routerLinkActiveOptions]="{ exact: true }">
 
-  <ion-tab-button tab="perfil">
-    <ion-icon name="person-outline"></ion-icon>
-    <ion-label>Perfil</ion-label>
-  </ion-tab-button>
+      <ion-icon name="home-outline"></ion-icon>
+      <ion-label>Home</ion-label>
 
-  <ion-tab-button tab="mais">
-    <ion-icon name="ellipsis-horizontal"></ion-icon>
-    <ion-label>Mais</ion-label>
-  </ion-tab-button>
+    </ion-tab-button>
 
-</ion-tab-bar>
+    <ion-tab-button
+      routerLink="/projects/more"
+      routerLinkActive="tab-selected">
+
+      <ion-icon name="ellipsis-horizontal"></ion-icon>
+      <ion-label>Mais</ion-label>
+
+    </ion-tab-button>
+
+  </ion-tab-bar>
+
+</ion-footer>

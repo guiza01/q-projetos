@@ -1,5 +1,7 @@
+import { environment } from '../../../environments/environment';
+
 export const API_CONFIG = {
-  baseUrl: 'https://sua-api.exemplo.com/api',
+  baseUrl: environment.apiBaseUrl,
   projectsPath: '/projects',
   timeoutMs: 15000,
 };

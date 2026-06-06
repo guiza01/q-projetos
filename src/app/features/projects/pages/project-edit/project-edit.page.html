@@ -64,7 +64,7 @@
 
         <div class="form-row">
           <ion-label position="stacked">Tipo do Projeto</ion-label>
-          <ion-select value="extensao" interface="popover">
+          <ion-select formControlName="type" interface="popover">
             <ion-select-option value="ensino">Ensino</ion-select-option>
             <ion-select-option value="pesquisa">Pesquisa</ion-select-option>
             <ion-select-option value="extensao">Extensão</ion-select-option>
@@ -73,11 +73,15 @@
 
         <div class="form-row">
           <ion-label position="stacked">Banner do Projeto</ion-label>
-          <div class="banner-upload">
-            <ion-icon name="image-outline"></ion-icon>
-            <p>Alterar imagem do banner</p>
-            <input type="file" #bannerFileInput style="display: none;" />
-            <ion-button type="button" size="small" fill="outline" (click)="bannerFileInput.click()">Selecionar</ion-button>
+          <div class="banner-upload" [style.border-color]="bannerBase64 ? '#2e7d32' : '#2196f3'" [style.background]="bannerBase64 ? '#f0fdf4' : '#eff6ff'">
+            <ion-icon [name]="bannerBase64 ? 'checkmark-circle-outline' : 'image-outline'" [style.color]="bannerBase64 ? '#2e7d32' : '#2196f3'"></ion-icon>
+            <p [style.color]="bannerBase64 ? '#2e7d32' : '#2196f3'">
+              {{ bannerBase64 ? 'Imagem carregada com sucesso! ' : 'Alterar imagem do banner' }}
+            </p>
+            <input type="file" #bannerFileInput style="display: none;" accept="image/*" (change)="onFileSelected($event)" />
+            <ion-button type="button" size="small" [color]="bannerBase64 ? 'success' : 'primary'" fill="outline" (click)="bannerFileInput.click()">
+              {{ bannerBase64 ? 'Trocar' : 'Selecionar' }}
+            </ion-button>
           </div>
         </div>
 
@@ -88,12 +92,12 @@
 
         <div class="form-row">
           <ion-label position="stacked">Data de Início</ion-label>
-          <ion-input type="date"></ion-input>
+          <ion-input type="date" formControlName="startDate"></ion-input>
         </div>
 
         <div class="form-row">
           <ion-label position="stacked">Data de Término</ion-label>
-          <ion-input type="date"></ion-input>
+          <ion-input type="date" formControlName="endDate"></ion-input>
         </div>
 
       </ion-card>
@@ -102,22 +106,22 @@
         
         <div class="form-row">
           <ion-label position="stacked">Vagas para Bolsistas</ion-label>
-          <ion-input type="number" placeholder="0"></ion-input>
+          <ion-input type="number" formControlName="vagasBolsistas" placeholder="0"></ion-input>
         </div>
 
         <div class="form-row">
           <ion-label position="stacked">Vagas para Voluntários</ion-label>
-          <ion-input type="number" placeholder="0"></ion-input>
+          <ion-input type="number" formControlName="vagasVoluntarios" placeholder="0"></ion-input>
         </div>
 
         <div class="form-row">
           <ion-label position="stacked">Data de Início das Inscrições</ion-label>
-          <ion-input type="date"></ion-input>
+          <ion-input type="date" formControlName="inscricoesInicio"></ion-input>
         </div>
 
         <div class="form-row">
           <ion-label position="stacked">Data de Término das Inscrições</ion-label>
-          <ion-input type="date"></ion-input>
+          <ion-input type="date" formControlName="inscricoesFim"></ion-input>
         </div>
 
         <div class="form-row">
@@ -130,65 +134,35 @@
 
         <div class="form-row">
           <ion-label position="stacked">Link do Edital</ion-label>
-          <ion-input type="url" placeholder="https://..."></ion-input>
+          <ion-input type="url" formControlName="linkEdital" placeholder="https://..."></ion-input>
         </div>
 
       </ion-card>
 
       <ion-card class="info-card" *ngIf="abaSelecionada === 'equipe'">
-        
-        <div class="item-row">
+        <div class="item-row" *ngFor="let integrante of integrantesAdicionados; let i = index">
           <div class="item-left">
             <ion-avatar class="member-avatar">
-              <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Foto Guilherme" />
+              <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Foto Integrante" />
             </ion-avatar>
             <div>
-              <h3>Guilherme Alves</h3>
-              <p class="role-text">Coordenador</p>
-            </div>
-          </div>
-          <div class="item-right">
-            <ion-button type="button" fill="clear" color="danger">
-              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-            </ion-button>
-          </div>
-        </div>
-
-        <div class="item-row">
-          <div class="item-left">
-            <ion-avatar class="member-avatar">
-              <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Foto João" />
-            </ion-avatar>
-            <div>
-              <h3>João Silva</h3>
-              <p class="role-text">Bolsista</p>
-            </div>
-          </div>
-          <div class="item-right">
-            <ion-button type="button" fill="clear" color="danger">
-              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-            </ion-button>
-          </div>
-        </div>
-
-        <div class="item-row" *ngFor="let integrante of integrantesAdicionados">
-          <div class="item-left">
-            <ion-avatar class="member-avatar">
-              <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Foto integrante" />
-            </ion-avatar>
-            <div>
-              <h3>{{ integrante.nome }}</h3>
+              <h3>{{ integrante.email }}</h3>
               <p class="role-text">{{ integrante.papel }}</p>
             </div>
           </div>
           <div class="item-right">
-            <ion-button type="button" fill="clear" color="danger">
+            <ion-button type="button" fill="clear" color="danger" (click)="removerIntegrante(i)">
               <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
             </ion-button>
           </div>
         </div>
-
       </ion-card>
+
+      <div class="error-box" *ngIf="errorMessage" style="margin: 10px 4px; padding: 12px; background: #fef2f2; border: 1px solid #fee2e2; border-radius: 12px; text-align: center;">
+        <ion-text color="danger">
+          <p style="margin: 0; font-size: 13px; font-weight: 600;">⚠️ {{ errorMessage }}</p>
+        </ion-text>
+      </div>
 
       <div class="action-buttons">
         <ion-button type="submit" expand="block" color="primary" class="btn-salvar" [disabled]="form.invalid || isSaving">
@@ -221,12 +195,12 @@
         <div class="modal-form">
           
           <div class="modal-row">
-            <ion-label>Nome do Integrante</ion-label>
+            <ion-label>E-mail do Integrante</ion-label>
             <ion-input
-              type="text"
-              placeholder="Ex: João Silva"
+              type="email"
+              placeholder="Ex: joao@ifpe.edu.br"
               class="custom-input"
-              [(ngModel)]="nomeIntegrante"
+              [(ngModel)]="emailIntegrante"
               [ngModelOptions]="{ standalone: true }">
             </ion-input>
           </div>
@@ -240,15 +214,15 @@
               [(ngModel)]="papelSelecionado"
               [ngModelOptions]="{ standalone: true }"
               (ionChange)="onPapelChange($event)">
-              <ion-select-option value="coordenador">Coordenador</ion-select-option>
-              <ion-select-option value="colaborador">Colaborador</ion-select-option>
-              <ion-select-option value="bolsista">Bolsista</ion-select-option>
-              <ion-select-option value="voluntario">Voluntário</ion-select-option>
-              <ion-select-option value="outro">Outro</ion-select-option>
+              <ion-select-option value="Coordenador">Coordenador</ion-select-option>
+              <ion-select-option value="Colaborador">Colaborador</ion-select-option>
+              <ion-select-option value="Bolsista">Bolsista</ion-select-option>
+              <ion-select-option value="Voluntario">Voluntário</ion-select-option>
+              <ion-select-option value="Outro">Outro</ion-select-option>
             </ion-select>
           </div>
 
-          <div class="modal-row" *ngIf="papelSelecionado === 'outro'">
+          <div class="modal-row" *ngIf="papelSelecionado === 'Outro'">
             <ion-label>Qual o papel desse integrante?</ion-label>
             <ion-input
               type="text"

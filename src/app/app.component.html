@@ -1,3 +1,195 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+
+  <ion-menu contentId="main-content" side="start">
+
+    <ion-content class="menu-content">
+
+      <ion-list lines="none">
+
+        <ion-item button detail="false"
+        (click)="toggleConfiguracoes()">
+
+        <ion-icon
+          name="settings-outline"
+          slot="start">
+        </ion-icon>
+
+        <ion-label>
+          Configurações
+        </ion-label>
+
+        <ion-icon
+          [name]="mostrarConfiguracoes ? 'chevron-up-outline' : 'chevron-down-outline'"
+          slot="end">
+        </ion-icon>
+
+      </ion-item>
+
+      <div
+        class="submenu"
+        *ngIf="mostrarConfiguracoes">
+
+        <ion-item>
+          <ion-label>Tema Claro</ion-label>
+          <ion-toggle
+            [(ngModel)]="configuracoes.temaClaro" slot="end"
+            (ionChange)="alternarTema($event)">
+          </ion-toggle>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Receber Notificações</ion-label>
+          <ion-toggle
+            [(ngModel)]="configuracoes.notificacoes" slot="end">
+          </ion-toggle>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Idioma</ion-label>
+          <ion-note slot="end">
+            Português
+          </ion-note>
+        </ion-item>
+
+      </div>
+
+        <ion-item button (click)="toggleNotificacoes()" detail="false">
+          <ion-icon
+            name="notifications-outline"
+            slot="start">
+          </ion-icon>
+
+          <ion-label>
+            Notificações
+          </ion-label>
+
+          <ion-icon
+            [name]="mostrarNotificacoes ? 'chevron-up-outline' : 'chevron-down-outline'"
+            slot="end">
+          </ion-icon>
+        </ion-item>
+
+        <div
+          class="submenu"
+          *ngIf="mostrarNotificacoes">
+
+          <ion-item
+            *ngFor="let notificacao of notificacoes">
+
+            <ion-label>
+              <h3>{{ notificacao.titulo }}</h3>
+              <p>{{ notificacao.descricao }}</p>
+            </ion-label>
+
+          </ion-item>
+
+        </div>
+
+        <ion-item button detail="false"
+        *ngIf="usuarioLogado.perfil === 'ADMINISTRADOR'"
+        (click)="toggleRelatorios()">
+
+        <ion-icon
+          name="document-text-outline"
+          slot="start">
+        </ion-icon>
+
+        <ion-label>
+          Relatórios
+        </ion-label>
+
+        <ion-icon
+          [name]="mostrarRelatorios ? 'chevron-up-outline' : 'chevron-down-outline'"
+          slot="end">
+        </ion-icon>
+
+      </ion-item>
+
+      <div
+        class="submenu"
+        *ngIf="mostrarRelatorios">
+
+        <ion-item button detail="false"
+          *ngFor="let relatorio of relatorios">
+
+          <ion-label>
+            {{ relatorio }}
+          </ion-label>
+
+        </ion-item>
+
+      </div>
+
+        <ion-item button detail="false" (click)="toggleSobre()">
+          <ion-icon
+            name="information-circle-outline"
+            slot="start">
+          </ion-icon>
+
+          <ion-label>
+            Sobre
+          </ion-label>
+
+          <ion-icon
+            [name]="mostrarSobre ? 'chevron-up-outline' : 'chevron-down-outline'"
+            slot="end">
+          </ion-icon>
+
+        </ion-item>
+
+        <div
+          class="submenu"
+          *ngIf="mostrarSobre">
+
+          <ion-item lines="none">
+
+            <ion-label>
+
+              <h2>Q-Projetos</h2>
+
+              <p>
+                Sistema para gerenciamento de projetos,
+                usuários e leads institucionais.
+              </p>
+
+              <p>
+                Versão 1.0.0
+              </p>
+
+              <p>
+                Desenvolvido para fins acadêmicos.
+              </p>
+
+            </ion-label>
+
+          </ion-item>
+
+        </div>
+
+      </ion-list>
+
+      <div class="logout-container">
+
+        <ion-button
+          expand="block"
+          fill="outline"
+          color="danger">
+
+          <ion-icon
+            name="log-out-outline"
+            slot="start">
+          </ion-icon>
+
+          Sair do sistema
+
+        </ion-button>
+
+      </div>
+
+    </ion-content>
+
+  </ion-menu>
+
+  <ion-router-outlet id="main-content"></ion-router-outlet>
+
 </ion-app>

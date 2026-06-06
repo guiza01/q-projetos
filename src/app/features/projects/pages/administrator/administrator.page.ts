@@ -17,6 +17,7 @@ export class AdministratorPage implements OnInit {
   mostrarProjetos = false;
   mostrarPublicados = false;
   mostrarPendentes = false;
+  mostrarEncerrados = false;
   mostrarLeads = false;
 
   projetos = [
@@ -45,6 +46,15 @@ export class AdministratorPage implements OnInit {
     status: 'Edição',
     inscricoes: 'fechadas',
     imagem: 'assets/img/projeto3.png'
+  },
+
+   {
+    titulo: 'Programação com Scratch',
+    coordenador: 'Júlia da Silva',
+    tipo: 'Ensino',
+    status: 'Encerrado',
+    inscricoes: 'fechadas',
+    imagem: 'assets/img/projeto4.png'
   }
 ];
 
@@ -90,6 +100,12 @@ export class AdministratorPage implements OnInit {
     projeto => projeto.status === 'Edição'
   );
 }
+
+  get projetosEncerrados() {
+    return this.projetos.filter(
+      projeto => projeto.status === 'Encerrado'
+    );
+  }
 
   constructor(private readonly projectsService: ProjectsService) {}
 
@@ -137,6 +153,7 @@ export class AdministratorPage implements OnInit {
     this.mostrarProjetos = false;
     this.mostrarPublicados = false;
     this.mostrarPendentes = false;
+    this.mostrarEncerrados = false;
     this.mostrarLeads = false;
   }
 
@@ -156,6 +173,12 @@ export class AdministratorPage implements OnInit {
     const estado = this.mostrarPendentes;
     this.fecharTudo();
     this.mostrarPendentes = !estado;
+  }
+
+  toggleEncerrados() {
+    const estado = this.mostrarEncerrados;
+    this.fecharTudo();
+    this.mostrarEncerrados = !estado;
   }
 
   toggleLeads() {

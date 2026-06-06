@@ -15,21 +15,21 @@ export class AdmMorePage implements OnInit {
     {
       nome: 'Ensino',
       status: 'Ativo',
-      quantidade: 24,
+      quantidade: 1,
       icone: 'school-outline'
     },
 
     {
       nome: 'Pesquisa',
       status: 'Ativo',
-      quantidade: 18,
+      quantidade: 1,
       icone: 'search-outline'
     },
 
     {
       nome: 'Extensão',
       status: 'Ativo',
-      quantidade: 16,
+      quantidade: 1,
       icone: 'locate-outline'
     }
 
@@ -40,21 +40,21 @@ export class AdmMorePage implements OnInit {
     {
       nome: 'Presencial',
       status: 'Ativo',
-      quantidade: 12,
+      quantidade: 1,
       icone: 'business-outline'
     },
 
     {
       nome: 'Remoto',
       status: 'Ativo',
-      quantidade: 9,
+      quantidade: 1,
       icone: 'laptop-outline'
     },
 
     {
       nome: 'Híbrido',
       status: 'Ativo',
-      quantidade: 7,
+      quantidade: 1,
       icone: 'swap-horizontal-outline'
     }
 
@@ -65,21 +65,21 @@ export class AdmMorePage implements OnInit {
     {
       nome: 'Tecnologia',
       status: 'Ativo',
-      quantidade: 10,
+      quantidade: 1,
       icone: 'pricetag-outline'
     },
 
     {
       nome: 'Educação',
       status: 'Ativo',
-      quantidade: 8,
+      quantidade: 2,
       icone: 'bookmark-outline'
     },
 
     {
       nome: 'Sustentabilidade',
       status: 'Ativo',
-      quantidade: 6,
+      quantidade: 1,
       icone: 'leaf-outline'
     }
 
