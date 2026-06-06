@@ -16,11 +16,6 @@
         <div class="right-icons">
 
           <ion-icon
-            name="notifications-outline"
-            class="bell-icon">
-          </ion-icon>
-
-          <ion-icon
             name="person-circle-outline"
             class="header-avatar-icon">
           </ion-icon>
@@ -31,7 +26,6 @@
 
     </ion-toolbar>
   </ion-header>
-
   <div class="topo">
 
     <div>
@@ -52,7 +46,7 @@
         class="icon-meus-projetos">
       </ion-icon>
 
-      <h2>03</h2>
+      <h2>{{ qtdProjetosMeus }}</h2>
       <p>Meus Projetos</p>
 
     </div>
@@ -64,7 +58,7 @@
         class="icon-interessados">
       </ion-icon>
 
-      <h2>03</h2>
+      <h2>{{ qtdInteressados }}</h2>
       <p>Interessados</p>
 
     </div>
@@ -76,7 +70,7 @@
         class="icon-ativos">
       </ion-icon>
 
-      <h2>02</h2>
+      <h2>{{ qtdProjetosAtivos }}</h2>
       <p>Projetos Ativos</p>
 
     </div>
@@ -88,7 +82,7 @@
         class="icon-encerrados">
       </ion-icon>
 
-      <h2>01</h2>
+      <h2>{{ qtdProjetosEncerrados }}</h2>
       <p>Projetos Encerrados</p>
 
     </div>
@@ -113,7 +107,7 @@
 
     <div
       class="card-projeto"
-      *ngFor="let projeto of projetos">
+      *ngFor="let projeto of meusProjetos">
 
       <img [src]="projeto.imagem">
 
@@ -242,7 +236,7 @@
         </div>
 
         <p class="categoria">
-          Projeto: {{ lead.projeto }}
+          Projeto: {{ lead.tituloProjeto }}
         </p>
 
         <p class="infos">
