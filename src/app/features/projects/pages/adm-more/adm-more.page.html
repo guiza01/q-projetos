@@ -52,14 +52,6 @@
 
       </div>
 
-      <div
-        class="tab"
-        [class.active]="abaSelecionada === 'tags'"
-        (click)="selecionarAba('tags')">
-
-        Tags
-
-      </div>
 
     </div>
 
@@ -137,48 +129,6 @@
 
           <span>
             {{ modalidade.quantidade }}
-          </span>
-
-          <!-- <ion-icon name="chevron-forward-outline"></ion-icon> -->
-
-        </div>
-
-      </div>
-
-    </ion-card>
-
-    <!-- TAGS -->
-
-    <ion-card
-      class="info-card"
-      *ngIf="abaSelecionada === 'tags'">
-
-      <div
-        class="item-row"
-        *ngFor="let tag of tags">
-
-        <div class="item-left">
-
-          <div class="icon-circle">
-            <ion-icon [name]="tag.icone"></ion-icon>
-          </div>
-
-          <div>
-
-            <h3>{{ tag.nome }}</h3>
-
-            <p>
-              {{ tag.status }}
-            </p>
-
-          </div>
-
-        </div>
-
-        <div class="item-right">
-
-          <span>
-            {{ tag.quantidade }}
           </span>
 
           <!-- <ion-icon name="chevron-forward-outline"></ion-icon> -->

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from '../../models/user.model';
+import { UsersService } from '../../services/user.service';
 
 @Component({
   selector: 'app-adm-users',
@@ -10,44 +12,60 @@ export class AdmUsersPage implements OnInit {
 
   abaSelecionada = 'todos';
 
-  usuarios = [
-    {
-      nome: 'Ricardo Alves',
-      email: 'ricardo@instituicao.edu.br',
-      tipo: 'Coordenador',
-      imagem: 'https://i.pravatar.cc/150?img=12'
-    },
-
-    {
-      nome: 'Juliana Costa',
-      email: 'juliana@instituicao.edu.br',
-      tipo: 'Coordenador',
-      imagem: 'https://i.pravatar.cc/150?img=32'
-    },
-
-    {
-      nome: 'Ana Oliveira',
-      email: 'ana@instituicao.edu.br',
-      tipo: 'Usuário',
-      imagem: 'https://i.pravatar.cc/150?img=47'
-    },
-
-    {
-      nome: 'Admin Global',
-      email: 'admin@instituicao.edu.br',
-      tipo: 'Administrador',
-      imagem: 'https://i.pravatar.cc/150?img=5'
-    }
-  ];
+  usuarios: User[] = [];
+  usuariosFiltrados: User[] = [];
 
   textoBusca = '';
 
-  usuariosFiltrados = this.usuarios;
-
-  constructor() { }
+  constructor(
+  private readonly usersService: UsersService
+) {}
 
   ngOnInit() {
+  this.carregarUsuarios();
+}
+
+  formatarRole(role: string): string {
+
+  switch (role) {
+
+    case 'ROLE_ADMIN':
+      return 'Administrador';
+
+    case 'ROLE_COORDENADOR':
+      return 'Coordenador';
+
+    case 'ROLE_USUARIO':
+      return 'Usuário';
+
+    default:
+      return role;
   }
+}
+
+  carregarUsuarios() {
+
+    this.usersService.list().subscribe({
+
+      next: (usuarios) => {
+
+      console.log('USUÁRIOS RECEBIDOS:', usuarios);
+      console.log('QUANTIDADE:', usuarios.length);
+
+      this.usuarios = usuarios;
+      this.usuariosFiltrados = usuarios;
+
+      },
+
+    error: (error) => {
+
+      console.error('ERRO USUÁRIOS:', error);
+
+    }
+
+  });
+
+}
 
   filtrarUsuarios() {
 
@@ -58,7 +76,7 @@ export class AdmUsersPage implements OnInit {
 
     usuarios = usuarios.filter(
       usuario =>
-        usuario.tipo.toLowerCase() === this.abaSelecionada
+        usuario.tipo.toLowerCase().includes(this.abaSelecionada)
     );
 
   }
@@ -77,8 +95,8 @@ export class AdmUsersPage implements OnInit {
   }
 
   selecionarAba(tipo: string) {
-    this.abaSelecionada = tipo;
-    this.filtrarUsuarios();
-  }
+  this.abaSelecionada = tipo.toLowerCase();
+  this.filtrarUsuarios();
+}
 
 }
