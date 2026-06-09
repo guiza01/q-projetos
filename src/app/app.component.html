@@ -85,41 +85,6 @@
 
         </div>
 
-        <ion-item button detail="false"
-        *ngIf="usuarioLogado.perfil === 'ADMINISTRADOR'"
-        (click)="toggleRelatorios()">
-
-        <ion-icon
-          name="document-text-outline"
-          slot="start">
-        </ion-icon>
-
-        <ion-label>
-          Relatórios
-        </ion-label>
-
-        <ion-icon
-          [name]="mostrarRelatorios ? 'chevron-up-outline' : 'chevron-down-outline'"
-          slot="end">
-        </ion-icon>
-
-      </ion-item>
-
-      <div
-        class="submenu"
-        *ngIf="mostrarRelatorios">
-
-        <ion-item button detail="false"
-          *ngFor="let relatorio of relatorios">
-
-          <ion-label>
-            {{ relatorio }}
-          </ion-label>
-
-        </ion-item>
-
-      </div>
-
         <ion-item button detail="false" (click)="toggleSobre()">
           <ion-icon
             name="information-circle-outline"

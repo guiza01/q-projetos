@@ -34,7 +34,7 @@
     <!-- CARDS -->
     <div class="stats-grid">
 
-      <ion-card class="stat-card" (click)="toggleProjetos()">
+      <ion-card button class="stat-card" (click)="toggleProjetos()">
         <ion-card-content>
 
           <div class="icon blue">
@@ -118,41 +118,58 @@
         <span (click)="toggleProjetos()">Fechar</span>
       </div>
 
+      <ion-text color="medium" *ngIf="isLoading">
+        <p>Carregando projetos...</p>
+      </ion-text>
+
+      <ion-text color="danger" *ngIf="errorMessage && !isLoading">
+        <p>{{ errorMessage }}</p>
+      </ion-text>
+
+      <ion-text color="medium" *ngIf="!isLoading && projetos.length === 0 && !errorMessage">
+        <p>Nenhum projeto encontrado.</p>
+      </ion-text>
+
       <ion-card
         class="project-card"
         *ngFor="let projeto of projetos">
 
         <div class="project-content">
-          <img
-            [src]="projeto.imagem"
-            class="project-image">
+          
           <div class="project-info">
             <div class="project-header">
               <h3>
-                {{ projeto.titulo }}
+                {{ projeto.name }}
               </h3>
               <span
-                class="status"
-                [ngClass]="{
-                  'published': projeto.status === 'Publicado',
-                  'pending': projeto.status === 'Pendente',
-                  'editing': projeto.status === 'Edição',
-                  'encerrado': projeto.status === 'Encerrado'
-                }">
-                {{ projeto.status }}
-              </span>
+              class="status"
+              [ngClass]="{
+                'published': projeto.statusModeracao === 'PUBLICADO',
+                'pending': projeto.statusModeracao === 'PENDENTE',
+                'encerrado': projeto.statusModeracao === 'ENCERRADO'
+              }">
+              {{ projeto.statusModeracao }}
+            </span>
             </div>
             <p>
-              {{ projeto.tipo }} | {{ projeto.coordenador }}
+              {{ projeto.description }}
             </p>
             <p>
-              Inscrições:
-              {{ projeto.inscricoes }}
+              <strong>Tipo:</strong> {{ projeto.tipo }}
+            </p>
+
+            <p>
+              <strong>Modalidade:</strong> {{ projeto.modalidade }}
+            </p>
+
+            <p>
+              <strong>Vagas:</strong> {{ projeto.vagas }}
             </p>
           </div>
           <ion-button
             fill="clear"
-            class="menu-btn">
+            class="menu-btn"
+            (click)="abrirMenuProjeto(projeto)">
             <ion-icon name="ellipsis-vertical"></ion-icon>
           </ion-button>
         </div>
@@ -170,34 +187,42 @@
         class="project-card"
         *ngFor="let projeto of projetosPublicados">
         <div class="project-content">
-          <img
-            [src]="projeto.imagem"
-            class="project-image">
           <div class="project-info">
             <div class="project-header">
               <h3>
-                {{ projeto.titulo }}
+                {{ projeto.name }}
               </h3>
-              <span class="status"
+              <span
+              class="status"
               [ngClass]="{
-                'published': projeto.status === 'Publicado',
-                'pending': projeto.status === 'Pendente',
-                'editing': projeto.status === 'Edição',
-                'encerrado': projeto.status === 'Encerrado'
+                'published': projeto.statusModeracao === 'PUBLICADO',
+                'pending': projeto.statusModeracao === 'PENDENTE',
+                'encerrado': projeto.statusModeracao === 'ENCERRADO'
               }">
-                {{ projeto.status }}
-              </span>
+              {{ projeto.statusModeracao }}
+            </span>
             </div>
 
             <p>
-              {{ projeto.tipo }} | {{ projeto.coordenador }}
+              {{ projeto.description }}
             </p>
 
             <p>
-              Inscrições: {{ projeto.inscricoes }}
+              <strong>Tipo:</strong> {{ projeto.tipo }}
+            </p>
+
+            <p>
+              <strong>Modalidade:</strong> {{ projeto.modalidade }}
+            </p>
+
+            <p>
+              <strong>Vagas:</strong> {{ projeto.vagas }}
             </p>
           </div>
-          <ion-button fill="clear" class="menu-btn">
+          <ion-button
+            fill="clear"
+            class="menu-btn"
+            (click)="abrirMenuProjeto(projeto)">
             <ion-icon name="ellipsis-vertical"></ion-icon>
           </ion-button>
         </div>
@@ -217,42 +242,43 @@
         *ngFor="let projeto of projetosPendentes">
 
         <div class="project-content">
-
-          <img
-            [src]="projeto.imagem"
-            class="project-image">
-
           <div class="project-info">
-
             <div class="project-header">
-
               <h3>
-                {{ projeto.titulo }}
+                {{ projeto.name }}
               </h3>
-
-              <span class="status"
+              <span
+              class="status"
               [ngClass]="{
-                'published': projeto.status === 'Publicado',
-                'pending': projeto.status === 'Pendente',
-                'editing': projeto.status === 'Edição',
-                'encerrado': projeto.status === 'Encerrado'
+                'published': projeto.statusModeracao === 'PUBLICADO',
+                'pending': projeto.statusModeracao === 'PENDENTE',
+                'encerrado': projeto.statusModeracao === 'ENCERRADO'
               }">
-                {{ projeto.status }}
-              </span>
-
+              {{ projeto.statusModeracao }}
+            </span>
             </div>
 
             <p>
-              {{ projeto.tipo }} | {{ projeto.coordenador }}
+              {{ projeto.description }}
             </p>
 
             <p>
-              Inscrições: {{ projeto.inscricoes }}
+              <strong>Tipo:</strong> {{ projeto.tipo }}
             </p>
 
+            <p>
+              <strong>Modalidade:</strong> {{ projeto.modalidade }}
+            </p>
+
+            <p>
+              <strong>Vagas:</strong> {{ projeto.vagas }}
+            </p>
           </div>
 
-          <ion-button fill="clear" class="menu-btn">
+          <ion-button
+            fill="clear"
+            class="menu-btn"
+            (click)="abrirMenuProjeto(projeto)">
             <ion-icon name="ellipsis-vertical"></ion-icon>
           </ion-button>
         </div>
@@ -271,21 +297,14 @@
         *ngFor="let projeto of projetosEncerrados">
 
         <div class="project-content">
-          <img
-            [src]="projeto.imagem"
-            class="project-image">
-
           <div class="project-info">
-
             <div class="project-header">
-              <h3>{{ projeto.titulo }}</h3>
+              <h3>{{ projeto.name }}</h3>
               <span class="status encerrado">
-                {{ projeto.status }}
+                {{ formatStatus(projeto.status) }}
               </span>
             </div>
 
-            <p>{{ projeto.tipo }} | {{ projeto.coordenador }}</p>
-            <p>Inscrições: {{ projeto.inscricoes }}</p>
           </div>
 
         </div>
@@ -299,57 +318,41 @@
     <div class="section" *ngIf="mostrarLeads">
 
       <div class="section-title">
-        <h2>Leads</h2>
+        <h2>Leads(interesses)</h2>
         <span (click)="toggleLeads()">Fechar</span>
       </div>
 
-      <ion-card
-        class="project-card"
-        *ngFor="let lead of leads">
+      <ion-card *ngFor="let lead of leads">
+        <ion-card-header>
+          <ion-card-title>
+            {{ lead.nome }}
+          </ion-card-title>
+        </ion-card-header>
 
-        <div class="project-content">
+        <ion-card-content>
 
-          <div class="project-image lead-icon">
+          <p>
+            <strong>Projeto:</strong>
+            {{ lead.tituloProjeto }}
+          </p>
 
-            <ion-icon name="person-outline"></ion-icon>
+          <p>
+            <strong>Email:</strong>
+            {{ lead.email }}
+          </p>
 
-          </div>
+          <p>
+            <strong>Modalidade:</strong>
+            {{ lead.modalidadePretendida }}
+          </p>
 
-          <div class="project-info">
+          <p>
+            <strong>Série/Período:</strong>
+            {{ lead.seriePeriodo }}
+          </p>
 
-            <div class="project-header">
+        </ion-card-content>
 
-              <h3>
-                {{ lead.nome }}
-              </h3>
-
-              <span
-                class="status"
-                [ngClass]="{
-                  'published': lead.tipo === 'Bolsista',
-                  'editing': lead.tipo === 'Voluntário'
-                }">
-
-                {{ lead.tipo }}
-
-              </span>
-
-            </div>
-
-            <p>
-              Projeto: {{ lead.projeto }}
-            </p>
-
-            <p>
-              {{ lead.email }}
-            </p>
-
-          </div>
-
-          <ion-button fill="clear" class="menu-btn">
-            <ion-icon name="ellipsis-vertical"></ion-icon>
-          </ion-button>
-        </div>
       </ion-card>
     </div>
   </div>

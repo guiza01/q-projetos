@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ProjectsApiService } from 'src/app/core/services/projects-api.service';
+import { ProjectApiModel } from 'src/app/core/models/project-api.model';
 
 @Component({
   selector: 'app-adm-more',
@@ -10,87 +12,79 @@ export class AdmMorePage implements OnInit {
 
   abaSelecionada = 'categorias';
 
-  categorias = [
+  categorias: any[] = [];
+  modalidades: any[] = [];
 
-    {
-      nome: 'Ensino',
-      status: 'Ativo',
-      quantidade: 1,
-      icone: 'school-outline'
-    },
-
-    {
-      nome: 'Pesquisa',
-      status: 'Ativo',
-      quantidade: 1,
-      icone: 'search-outline'
-    },
-
-    {
-      nome: 'Extensão',
-      status: 'Ativo',
-      quantidade: 1,
-      icone: 'locate-outline'
-    }
-
-  ];
-
-  modalidades = [
-
-    {
-      nome: 'Presencial',
-      status: 'Ativo',
-      quantidade: 1,
-      icone: 'business-outline'
-    },
-
-    {
-      nome: 'Remoto',
-      status: 'Ativo',
-      quantidade: 1,
-      icone: 'laptop-outline'
-    },
-
-    {
-      nome: 'Híbrido',
-      status: 'Ativo',
-      quantidade: 1,
-      icone: 'swap-horizontal-outline'
-    }
-
-  ];
-
-  tags = [
-
-    {
-      nome: 'Tecnologia',
-      status: 'Ativo',
-      quantidade: 1,
-      icone: 'pricetag-outline'
-    },
-
-    {
-      nome: 'Educação',
-      status: 'Ativo',
-      quantidade: 2,
-      icone: 'bookmark-outline'
-    },
-
-    {
-      nome: 'Sustentabilidade',
-      status: 'Ativo',
-      quantidade: 1,
-      icone: 'leaf-outline'
-    }
-
-  ];
-
-  constructor() { }
+  constructor(
+    private projectsApiService: ProjectsApiService
+  ) {}
 
   ngOnInit() {
+    this.carregarEstatisticas();
   }
 
   selecionarAba(aba: string) {
     this.abaSelecionada = aba;
+  }
+
+  carregarEstatisticas() {
+
+    this.projectsApiService.listProjects().subscribe({
+
+      next: (projetos: ProjectApiModel[]) => {
+
+        this.categorias = [
+          {
+            nome: 'Pesquisa',
+            quantidade: projetos.filter(
+              p => p.tipo === 'PESQUISA'
+            ).length,
+            status: 'Projetos cadastrados',
+            icone: 'flask-outline'
+          },
+          {
+            nome: 'Ensino',
+            quantidade: projetos.filter(
+              p => p.tipo === 'ENSINO'
+            ).length,
+            status: 'Projetos cadastrados',
+            icone: 'school-outline'
+          },
+          {
+            nome: 'Extensão',
+            quantidade: projetos.filter(
+              p => p.tipo === 'EXTENSAO'
+            ).length,
+            status: 'Projetos cadastrados',
+            icone: 'people-outline'
+          }
+        ];
+
+        this.modalidades = [
+          {
+            nome: 'Bolsista',
+            quantidade: projetos.filter(
+              p => p.modalidade === 'BOLSISTA'
+            ).length,
+            status: 'Projetos cadastrados',
+            icone: 'cash-outline'
+          },
+          {
+            nome: 'Voluntário',
+            quantidade: projetos.filter(
+              p => p.modalidade === 'VOLUNTARIO'
+            ).length,
+            status: 'Projetos cadastrados',
+            icone: 'heart-outline'
+          }
+        ];
+
+      },
+
+      error: (erro) => {
+        console.error('Erro ao carregar estatísticas:', erro);
+      }
+
+    });
   }
 }
