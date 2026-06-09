@@ -53,7 +53,13 @@ loadProjects(): void {
             endDate: normalizarStringData(p.dataTerminoProjeto),
             
             // Mantém o status original
-            status: p.status
+            status: p.status,
+
+            // Campos adicionais exigidos pela interface Project
+            tipo: p.tipo || '',
+            modalidade: p.modalidade || '',
+            vagas: typeof p.vagas === 'number' ? p.vagas : (p.vagas ? Number(p.vagas) : 0),
+            statusModeracao: p.statusModeracao || ''
           };
         });
 
@@ -82,11 +88,10 @@ loadProjects(): void {
     this.filteredProjects = this.projects.filter(project => {
       const p = project as any;
 
-      // 1. Filtro de texto (busca no título adaptado ou original da API)
-      const matchesSearch = !this.searchTerm || 
-        (p.title && p.title.toLowerCase().includes(this.searchTerm)) ||
-        (p.titulo && p.titulo.toLowerCase().includes(this.searchTerm)) ||
-        (p.descricao && p.descricao.toLowerCase().includes(this.searchTerm));
+      // 1. Filtro de texto (busca no título ou descrição mapeados)
+      const matchesSearch = !this.searchTerm ||
+        (p.name && p.name.toLowerCase().includes(this.searchTerm)) ||
+        (p.description && p.description.toLowerCase().includes(this.searchTerm));
 
       // 2. Filtro do Chip tratando o padrão "EM_ANDAMENTO" ou "CONCLUIDO" do banco
       const backendStatus = p.status ? p.status.toUpperCase() : '';
