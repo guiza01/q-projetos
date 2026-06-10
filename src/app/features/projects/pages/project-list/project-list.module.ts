@@ -1,14 +1,20 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
-import { ProjectCardModule } from '../../components/project-card/project-card.module';
 import { ProjectListPageRoutingModule } from './project-list-routing.module';
-import { ProjectListPage } from './project-list.page';
+import { ProjectListPage } from './project-list.page'; // Importação do componente
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, ProjectCardModule, ProjectListPageRoutingModule],
-  declarations: [ProjectListPage],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    ProjectListPageRoutingModule,
+    ProjectListPage 
+  ],
+  declarations: [
+  ]
 })
 export class ProjectListPageModule {}
