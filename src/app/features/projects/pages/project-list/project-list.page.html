@@ -1,72 +1,137 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button>
-        <ion-icon name="menu-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-
-    <ion-title class="title-center">
-      Q-Projetos
-    </ion-title>
-
-    <ion-buttons slot="end">
-      <ion-avatar class="avatar">
-        <img src="assets/avatar-placeholder.png" alt="Perfil" />
-      </ion-avatar>
-    </ion-buttons>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Projetos Disponíveis</ion-title>
   </ion-toolbar>
-
-  <ion-toolbar>
-    <ion-searchbar 
-      placeholder="pesquise aqui" 
-      animated="true"
-      (ionInput)="handleSearch($event)">
-    </ion-searchbar>
-  </ion-toolbar>
-
-  <div class="filter-chips-wrapper">
-    <ion-chip [outline]="selectedStatus !== 'Todos'" color="primary" (click)="selectStatus('Todos')">
-      <ion-label>Todos</ion-label>
-    </ion-chip>
-    
-    <ion-chip [outline]="selectedStatus !== 'Em andamento'" color="warning" (click)="selectStatus('Em andamento')">
-      <ion-icon name="time-outline"></ion-icon>
-      <ion-label>Em andamento</ion-label>
-    </ion-chip>
-
-    <ion-chip [outline]="selectedStatus !== 'Concluido'" color="success" (click)="selectStatus('Concluido')">
-      <ion-icon name="checkmark-done-outline"></ion-icon>
-      <ion-label>Concluído</ion-label>
-    </ion-chip>
-  </div>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <div class="ion-padding">
-    
-    <div class="ion-text-center" *ngIf="isLoading">
-      <ion-spinner name="crescent" color="primary"></ion-spinner>
-      <p>Carregando projetos...</p>
+<ion-content class="ion-padding">
+
+  <ion-searchbar 
+    placeholder="Pesquisar por título ou descrição..." 
+    [debounce]="300"
+    (ionInput)="buscarProjeto($event)">
+  </ion-searchbar>
+
+  <div class="filtros-container ion-margin-bottom" style="display: flex; flex-wrap: wrap; gap: 8px;">
+    <ion-chip [color]="filtroSelecionado === 'TODOS' ? 'primary' : ''" (click)="filtrarPorTipo('TODOS')">
+      <ion-label>Todos</ion-label>
+    </ion-chip>
+    <ion-chip [color]="filtroSelecionado === 'ENSINO' ? 'primary' : ''" (click)="filtrarPorTipo('ENSINO')">
+      <ion-label>Ensino</ion-label>
+    </ion-chip>
+    <ion-chip [color]="filtroSelecionado === 'PESQUISA' ? 'primary' : ''" (click)="filtrarPorTipo('PESQUISA')">
+      <ion-label>Pesquisa</ion-label>
+    </ion-chip>
+    <ion-chip [color]="filtroSelecionado === 'EXTENSAO' ? 'primary' : ''" (click)="filtrarPorTipo('EXTENSAO')">
+      <ion-label>Extensão</ion-label>
+    </ion-chip>
+  </div>
+
+  <ion-list lines="none">
+    <div *ngIf="projetosFiltrados.length === 0" class="ion-text-center ion-padding">
+      <p style="color: var(--ion-color-step-400);">Nenhum projeto encontrado.</p>
     </div>
 
-    <ion-text color="danger" *ngIf="!isLoading && errorMessage">
-      <p class="ion-text-center">{{ errorMessage }}</p>
-    </ion-text>
+    <ion-card *ngFor="let projeto of projetosFiltrados" button="true" (click)="abrirDetalhes(projeto)" class="ion-no-margin ion-margin-bottom">
+      <ion-card-header>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <ion-card-title style="font-size: 1.2rem; font-weight: bold;">
+            {{ projeto.titulo }}
+          </ion-card-title>
+          <ion-badge [color]="projeto.status === 'AGUARDANDO' ? 'warning' : (projeto.status === 'EM_ANDAMENTO' ? 'success' : 'medium')">
+            {{ projeto.status }}
+          </ion-badge>
+        </div>
+        <ion-card-subtitle class="ion-margin-top">
+          {{ projeto.tipo }} | {{ projeto.modalidade }}
+        </ion-card-subtitle>
+      </ion-card-header>
 
-    <ion-grid *ngIf="!isLoading && !errorMessage">
-      <ion-row>
-        <ion-col size="12" size-md="6" size-lg="4" *ngFor="let project of filteredProjects">
-          <app-project-card [project]="project"></app-project-card>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+      <ion-card-content>
+        <p style="color: var(--ion-color-step-600); text-align: justify;">
+          {{ projeto.descricao }}
+        </p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
 
-    <ion-text *ngIf="!isLoading && filteredProjects.length === 0">
-      <div class="ion-text-center ion-padding">
-        <ion-icon name="search-outline" style="font-size: 48px; color: #ccc;"></ion-icon>
-        <p>Nenhum projeto encontrado para os filtros selecionados.</p>
-      </div>
-    </ion-text>
-  </div>
+  <ion-modal [isOpen]="isModalAberto" (didDismiss)="fecharDetalhes()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>Detalhes do Projeto</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="fecharDetalhes()">Fechar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding" *ngIf="projetoSelecionado">
+        
+        <div *ngIf="projetoSelecionado.banner" class="ion-margin-bottom">
+          <img [src]="projetoSelecionado.banner" style="width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px;" />
+        </div>
+
+        <h2 style="font-weight: bold; color: var(--ion-color-dark);">{{ projetoSelecionado.titulo }}</h2>
+        
+        <div style="display: flex; gap: 8px; margin: 12px 0;">
+          <ion-badge color="secondary">{{ projetoSelecionado.tipo }}</ion-badge>
+          <ion-badge color="tertiary">{{ projetoSelecionado.modalidade }}</ion-badge>
+          <ion-badge [color]="projetoSelecionado.status === 'AGUARDANDO' ? 'warning' : (projetoSelecionado.status === 'EM_ANDAMENTO' ? 'success' : 'medium')">
+            {{ projetoSelecionado.status }}
+          </ion-badge>
+        </div>
+
+        <ion-item-divider mode="md" class="ion-no-padding" style="background: transparent;">
+          <ion-label style="font-weight: bold;">Descrição</ion-label>
+        </ion-item-divider>
+        <p style="text-align: justify; color: var(--ion-color-step-700); margin-bottom: 20px;">
+          {{ projetoSelecionado.descricao }}
+        </p>
+
+        <ion-grid class="ion-no-padding">
+          <ion-row>
+            <ion-col size="12">
+              <p><strong><ion-icon name="people-outline"></ion-icon> Vagas Disponíveis:</strong> {{ projetoSelecionado.vagas }}</p>
+            </ion-col>
+          </ion-row>
+          
+          <ion-row class="ion-margin-top">
+            <ion-col size="12">
+              <span style="color: var(--ion-color-primary); font-weight: bold;">Período de Inscrições:</span>
+              <p style="margin-top: 4px;">
+                De {{ projetoSelecionado.dataInicioInscricao | date: 'dd/MM/yyyy' }} até {{ projetoSelecionado.dataFimInscricao | date: 'dd/MM/yyyy' }}
+              </p>
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="ion-margin-top">
+            <ion-col size="12">
+              <span style="color: var(--ion-color-medium-shade); font-weight: bold;">Duração do Projeto:</span>
+              <p style="margin-top: 4px;">
+                Início: {{ projetoSelecionado.dataInicio | date: 'dd/MM/yyyy' }}<br>
+                Término: {{ projetoSelecionado.dataTermino | date: 'dd/MM/yyyy' }}
+              </p>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <div class="ion-margin-top" style="display: flex; flex-direction: column; gap: 10px; margin-top: 30px;">
+          
+          <ion-button *ngIf="projetoSelecionado.linkEdital" [href]="projetoSelecionado.linkEdital" target="_blank" expand="block" fill="outline" color="primary">
+            <ion-icon name="document-text-outline" slot="start"></ion-icon>
+            Visualizar Edital
+          </ion-button>
+
+          <ion-button *ngIf="projetoSelecionado.linkInscricaoExterno" [href]="projetoSelecionado.linkInscricaoExterno" target="_blank" expand="block" color="success">
+            <ion-icon name="open-outline" slot="start"></ion-icon>
+            Inscrever-se no Projeto
+          </ion-button>
+          
+        </div>
+
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
 </ion-content>
