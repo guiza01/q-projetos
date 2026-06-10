@@ -18,20 +18,18 @@ import { Project } from '../../models/project.model';
 export class ProjectEditPage implements OnInit {
   form!: FormGroup;
   projectId: string | null = null;
+  origem: string | null = null;
   project: Project | null = null;
   isLoading = false;
   isSaving = false;
   errorMessage = '';
 
   abaSelecionada: string = 'gerais';
-
   bannerBase64: string = '';
-
   emailIntegrante: string = '';
   papelSelecionado: string = '';
   papelPersonalizado: string = '';
   permissaoEdicao: boolean = false;
-
   integrantesAdicionados: any[] = [];
 
   constructor(
@@ -48,29 +46,20 @@ export class ProjectEditPage implements OnInit {
     this.garantirTokenDeTeste(); 
   }
 
-  // =========================================================
-  // LOGIN EM BACKGROUND SE NÃO HOUVER TOKEN
-  // =========================================================
   async garantirTokenDeTeste(): Promise<void> {
     if (localStorage.getItem('token')) {
       console.log('🔑 Token já existente no LocalStorage. Carregando dados do projeto...');
-      this.loadProjectId();
+      this.loadUrlParams();
       return;
     }
 
     try {
-      console.log('Token não encontrado. Fazendo login de teste em background...');
+      console.log('🤖 Token não encontrado. Fazendo login de teste em background...');
       this.isLoading = true;
       const baseUrl = API_CONFIG.baseUrl;
       
-      const headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-      });
-
-      const body = {
-        email: 'admin@ifpe.edu.br',
-        senha: 'admin123',
-      };
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      const body = { email: 'admin@ifpe.edu.br', senha: 'admin123' };
 
       const response: any = await firstValueFrom(
         this.http.post(`${baseUrl}/auth/login`, body, { headers })
@@ -80,32 +69,41 @@ export class ProjectEditPage implements OnInit {
 
       if (tokenGerado) {
         localStorage.setItem('token', tokenGerado);
-        console.log('Token de teste gerado e armazenado com sucesso!');
+        console.log('✅ Token de teste gerado e armazenado com sucesso!');
       }
 
     } catch (error) {
-      console.error('Não foi possível gerar o token automático de teste:', error);
+      console.error('⚠️ Não foi possível gerar o token automático de teste:', error);
     } finally {
       this.isLoading = false;
-      this.loadProjectId();
+      this.loadUrlParams();
     }
   }
 
-  // =========================================================
-  // GERENCIADOR DE CABEÇALHOS DA API (LÊ O TOKEN INJETADO)
-  // =========================================================
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('token'); 
-    
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
-
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     if (token) {
       headers = headers.set('Authorization', `Bearer ${token}`);
     }
-
     return headers;
+  }
+
+  private voltarParaPainelOrigem(): void {
+    if (this.origem === 'admin') {
+      this.router.navigate(['/projects/administrator']);
+    } else {
+      this.router.navigate(['/projects/coordinator']);
+    }
+  }
+
+  loadUrlParams(): void {
+    this.projectId = this.route.snapshot.queryParamMap.get('id');
+    this.origem = this.route.snapshot.queryParamMap.get('origem'); 
+    
+    if (this.projectId) {
+      this.loadProject();
+    }
   }
 
   selecionarAba(aba: string): void {
@@ -126,16 +124,9 @@ export class ProjectEditPage implements OnInit {
 
   onPapelChange(event: any): void {
     this.papelSelecionado = event.detail.value;
-    if (this.papelSelecionado === 'Coordenador') {
-      this.permissaoEdicao = true;
-    } else if (this.papelSelecionado !== 'Coordenador') {
-      this.permissaoEdicao = false;
-    }
+    this.permissaoEdicao = (this.papelSelecionado === 'Coordenador');
   }
 
-  // =========================================================
-  // ADICIONAR INTEGRANTE COM ESCUDO DE TIMEOUT (ANTI-TRAVAMENTO)
-  // =========================================================
   async adicionarIntegrante(modal: any): Promise<void> {
     const papelFinal = this.papelSelecionado === 'Outro' ? this.papelPersonalizado : this.papelSelecionado;
     const emailClean = this.emailIntegrante.trim().toLowerCase();
@@ -146,14 +137,11 @@ export class ProjectEditPage implements OnInit {
 
       try {
         const baseUrl = API_CONFIG.baseUrl;
-        
         const usuarios: any = await firstValueFrom(
           this.http.get(`${baseUrl}/usuarios`, { headers: this.getHeaders() }).pipe(timeout(4000))
         );
 
-        const usuarioEncontrado = usuarios.find(
-          (u: any) => u.email?.toLowerCase() === emailClean
-        );
+        const usuarioEncontrado = usuarios.find((u: any) => u.email?.toLowerCase() === emailClean);
 
         if (usuarioEncontrado) {
           nomeResolvido = usuarioEncontrado.nome;
@@ -161,39 +149,25 @@ export class ProjectEditPage implements OnInit {
           const extraiNome = emailClean.split('@')[0];
           nomeResolvido = extraiNome.charAt(0).toUpperCase() + extraiNome.slice(1) + ' (Convidado)';
         }
-
       } catch (error) {
-        console.warn('⏱️ Servidor demorou ou está offline. Aplicando nome temporário baseado no email.');
+        console.warn('Usando nome temporário baseado no email.');
         const extraiNome = emailClean.split('@')[0];
         nomeResolvido = extraiNome.charAt(0).toUpperCase() + extraiNome.slice(1);
       } finally {
         this.isLoading = false;
       }
 
-      this.integrantesAdicionados.push({
-        nome: nomeResolvido,
-        email: emailClean,
-        papel: papelFinal
-      });
-
+      this.integrantesAdicionados.push({ nome: nomeResolvido, email: emailClean, papel: papelFinal });
       this.emailIntegrante = '';
       this.papelSelecionado = '';
       this.papelPersonalizado = '';
       this.permissaoEdicao = false;
-
       void modal.dismiss();
     }
   }
 
   removerIntegrante(index: number): void {
     this.integrantesAdicionados.splice(index, 1);
-  }
-
-  loadProjectId(): void {
-    this.projectId = this.route.snapshot.queryParamMap.get('id');
-    if (this.projectId) {
-      this.loadProject();
-    }
   }
 
   async loadProject(): Promise<void> {
@@ -221,13 +195,8 @@ export class ProjectEditPage implements OnInit {
         coordinator: response.coordenador || ''
       });
 
-      if (response.banner) {
-        this.bannerBase64 = response.banner;
-      }
-
-      if (response.equipe) {
-        this.integrantesAdicionados = response.equipe;
-      }
+      if (response.banner) this.bannerBase64 = response.banner;
+      if (response.equipe) this.integrantesAdicionados = response.equipe;
 
     } catch (error: any) {
       this.errorMessage = 'Não foi possível carregar os dados originais do projeto.';
@@ -266,7 +235,6 @@ export class ProjectEditPage implements OnInit {
       if (!baseUrl) throw new Error('API_BASE_URL não está configurada no sistema.');
 
       const formValues = this.form.value;
-
       const body = {
         titulo: formValues.title,
         tipo: formValues.type?.toUpperCase(),
@@ -283,10 +251,7 @@ export class ProjectEditPage implements OnInit {
       };
 
       const urlFinal = `${baseUrl}/projetos/${this.projectId}`;
-      
-      await firstValueFrom(
-        this.http.put(urlFinal, body, { headers: this.getHeaders() })
-      );
+      await firstValueFrom(this.http.put(urlFinal, body, { headers: this.getHeaders() }));
 
       const toast = await this.toastController.create({
         message: 'Projeto atualizado com sucesso! 🎉',
@@ -296,7 +261,7 @@ export class ProjectEditPage implements OnInit {
       });
       await toast.present();
 
-      this.router.navigate(['/projects/coordinator']);
+      this.voltarParaPainelOrigem(); 
 
     } catch (error: any) {
       this.errorMessage = error?.error?.message || error?.message || 'Falha ao salvar as alterações na rota de edição.';
@@ -307,6 +272,6 @@ export class ProjectEditPage implements OnInit {
   }
 
   onCancel(): void {
-    this.router.navigate(['/projects/coordinator']);
+    this.voltarParaPainelOrigem(); 
   }
 }
