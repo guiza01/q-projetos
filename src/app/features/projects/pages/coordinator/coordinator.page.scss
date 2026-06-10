@@ -197,7 +197,12 @@ ion-fab-button {
 
 .menu-icon {
   font-size: 28px;
-  color: #111827 !important;
+  color: #000000 !important;
+}
+
+ion-menu-button {
+  --color: #000000 !important;
+  color: #000000 !important;
 }
 
 .logo {
@@ -217,10 +222,7 @@ ion-fab-button {
   gap: 14px;
 }
 
-.bell-icon {
-  font-size: 24px;
-  color: #111827 !important;
-}
+
 
 .header-avatar {
   width: 38px;
