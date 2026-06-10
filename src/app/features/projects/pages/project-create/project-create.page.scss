@@ -1,0 +1,325 @@
+// =========================================================
+// BACKGROUND E TRAVAS ANTI-MODO ESCURO
+// =========================================================
+:host ::ng-deep {
+  --ion-background-color: #ffffff !important;
+  --ion-text-color: #111827 !important;
+  --ion-card-background: #ffffff !important;
+  --ion-toolbar-background: #ffffff !important;
+  --ion-item-background: #ffffff !important;
+
+  ion-content {
+    --background: #ffffff !important;
+    background: #ffffff !important;
+  }
+
+  ion-toolbar {
+    --background: #ffffff !important;
+    --color: #111827 !important;
+    color: #111827 !important;
+  }
+
+  ion-toolbar ion-button {
+    --color: #111827 !important;
+  }
+
+  ion-input, ion-textarea, ion-select {
+    --color: #111827 !important;
+    color: #111827 !important;
+    --highlight-color-focused: #2196f3 !important;
+    --highlight-color-valid: #2196f3 !important; 
+  }
+}
+
+// =========================================================
+// CONTAINER PRINCIPAL
+// =========================================================
+.page-container {
+  padding: 16px;
+  background: #ffffff;
+}
+
+.title-center {
+  text-align: center;
+  font-weight: bold;
+  color: #111827;
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+}
+
+// ABAS (TABS)
+.tabs {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #e5e7eb;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  gap: 4px;
+  background: #ffffff;
+}
+
+.tab {
+  padding-bottom: 10px;
+  font-size: 13px; 
+  color: #6b7280; 
+  cursor: pointer;
+  flex: 1;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.tab.active {
+  border-bottom: 3px solid #2196f3;
+  color: #2196f3;
+  font-weight: bold;
+}
+
+// ESTILO DOS CARDS ARREDONDADOS (PADRÃO ADMIN)
+.info-card {
+  --background: #ffffff !important;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: none;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  margin: 0 0 16px 0;
+}
+
+// FORMATAÇÃO DOS CAMPOS DE TEXTO E SELEÇÃO
+.form-row {
+  display: flex;
+  flex-direction: column;
+  padding: 14px 16px;
+  border-bottom: 1px solid #eff6ff;
+  background: #ffffff;
+
+  ion-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #6b7280;
+    margin-bottom: 6px;
+    letter-spacing: 0.3px;
+  }
+
+  ion-input, ion-textarea, ion-select {
+    --padding-start: 0px;
+    --padding-end: 0px;
+    width: 100%;
+  }
+}
+
+.form-row:last-child {
+  border-bottom: none;
+}
+
+// ÁREA DE UPLOAD DO BANNER DO PROJETO
+.banner-upload {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #eff6ff;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px dashed #2196f3;
+  margin-top: 4px;
+
+  ion-icon {
+    font-size: 24px;
+    color: #2196f3;
+  }
+
+  p {
+    margin: 0;
+    flex: 1;
+    font-size: 13px;
+    color: #2196f3;
+    font-weight: 500;
+  }
+}
+
+// LISTA DE INTEGRANTES
+.item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #ffffff;
+}
+
+.item-row:last-child {
+  border-bottom: none;
+}
+
+.item-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.member-avatar {
+  width: 44px;
+  height: 44px;
+  border: 1px solid #e5e7eb;
+}
+
+.item-left h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.role-text {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+// BOTÕES DE SALVAR E CANCELAR DA PÁGINA
+.action-buttons {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .btn-salvar {
+    --border-radius: 12px;
+    --box-shadow: none;
+    font-weight: bold;
+    height: 48px;
+  }
+  
+  .btn-cancelar {
+    font-weight: 600;
+  }
+}
+
+// =========================================================
+// MODAL CORRIGIDO (BRANCO E COM FOCO EM AZUL)
+// =========================================================
+::ng-deep .equipe-modal {
+  --border-radius: 24px 24px 0 0 !important;
+  --background: #ffffff !important; 
+}
+
+::ng-deep .equipe-modal .modal-toolbar {
+  --background: #ffffff !important;
+  --color: #111827 !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  
+  ion-title {
+    font-weight: 700 !important;
+    font-size: 18px !important;
+    color: #111827 !important;
+  }
+}
+
+::ng-deep .equipe-modal .modal-body {
+  --background: #ffffff !important;
+  background: #ffffff !important;
+}
+
+::ng-deep .equipe-modal .modal-form {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 18px !important;
+  padding-top: 8px !important;
+  background: #ffffff !important;
+}
+
+::ng-deep .equipe-modal .modal-row {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+
+  ion-label {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #6b7280 !important;
+    letter-spacing: 0.3px !important;
+  }
+
+  .custom-input, .custom-select {
+    background: #f3f4f6 !important;
+    border-radius: 12px !important;
+    padding: 8px 12px !important;
+    font-size: 15px !important;
+    color: #111827 !important;
+    --color: #111827 !important;
+    --highlight-color-focused: #2196f3 !important;
+    --highlight-color-valid: #2196f3 !important;  
+  }
+  
+  .custom-select {
+    --padding-start: 0 !important;
+  }
+}
+
+::ng-deep .equipe-modal .modal-row-toggle {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  background: #eff6ff !important;
+  padding: 14px !important;
+  border-radius: 14px !important;
+  margin-top: 6px !important;
+
+  .toggle-text h3 {
+    margin: 0 !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    color: #111827 !important;
+  }
+  
+  .toggle-text p {
+    margin: 2px 0 0 0 !important;
+    font-size: 12px !important;
+    color: #6b7280 !important;
+  }
+}
+
+::ng-deep .equipe-modal .modal-actions {
+  margin-top: 16px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+
+  .btn-modal-salvar {
+    --border-radius: 12px !important;
+    --box-shadow: none !important;
+    font-weight: bold !important;
+    height: 48px !important;
+  }
+
+  .btn-modal-cancelar {
+    font-weight: 600 !important;
+    font-size: 14px !important;
+  }
+}
+
+// =========================================================
+// RODAPÉ
+// =========================================================
+.custom-tabbar {
+  --background: #38404d;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  overflow: hidden;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+ion-tab-button {
+  --color: #d1d5db;
+  --color-selected: #2196f3;
+  font-size: 11px;
+}
+
+.active-tab ion-icon,
+.active-tab ion-label {
+  color: #2196f3 !important;
+}
