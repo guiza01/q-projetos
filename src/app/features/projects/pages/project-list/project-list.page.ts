@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common'; // Adicionado DatePipe para formatar as datas
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { addIcons } from 'ionicons';
+import { homeOutline, personOutline, ellipsisHorizontal, peopleOutline, documentTextOutline, openOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-project-list',
@@ -10,26 +13,37 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
   styleUrls: ['./project-list.page.scss'],
   standalone: true,
   imports: [CommonModule, FormsModule, IonicModule, HttpClientModule],
-  providers: [DatePipe] // Permite usar formatação de data no TypeScript se necessário
+  providers: [DatePipe]
 })
 export class ProjectListPage implements OnInit {
   
+  // 1. Variáveis de listagem e filtros que o HTML precisa
   projetosCompletos: any[] = [];
   projetosFiltrados: any[] = [];
-  
   filtroSelecionado: string = 'TODOS';
   termoBusca: string = '';
 
-  // Variáveis para o Modal de Detalhes
+  // 2. Variáveis do Modal de Detalhes cobradas no erro
   isModalAberto: boolean = false;
   projetoSelecionado: any = null;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { 
+    // Registra todos os ícones necessários para as abas e para o modal
+    addIcons({ 
+      homeOutline, 
+      personOutline, 
+      ellipsisHorizontal, 
+      peopleOutline, 
+      documentTextOutline, 
+      openOutline 
+    });
+  }
 
   ngOnInit() {
     this.carregarProjetos();
   }
 
+  // 3. Função para carregar os projetos da API
   carregarProjetos() {
     const url = 'https://q-projetos-backend.onrender.com/api/projetos';
     this.http.get<any[]>(url).subscribe({
@@ -41,16 +55,19 @@ export class ProjectListPage implements OnInit {
     });
   }
 
+  // 4. Função de busca por texto (ionInput)
   buscarProjeto(event: any) {
     this.termoBusca = event.target.value ? event.target.value.toLowerCase() : '';
     this.aplicarFiltros();
   }
 
+  // 5. Função de filtro por categoria (Ensino, Pesquisa, Extensão)
   filtrarPorTipo(tipo: string) {
     this.filtroSelecionado = tipo;
     this.aplicarFiltros();
   }
 
+  // 6. Lógica que une a busca por texto e os chips de filtro
   aplicarFiltros() {
     let resultado = [...this.projetosCompletos];
 
@@ -71,7 +88,7 @@ export class ProjectListPage implements OnInit {
     this.projetosFiltrados = resultado;
   }
 
-  // Funções para abrir e fechar os detalhes do projeto
+  // 7. Funções do Modal de detalhes (click)
   abrirDetalhes(projeto: any) {
     this.projetoSelecionado = projeto;
     this.isModalAberto = true;
@@ -80,5 +97,12 @@ export class ProjectListPage implements OnInit {
   fecharDetalhes() {
     this.isModalAberto = false;
     this.projetoSelecionado = null;
+  }
+
+  // 8. Função de navegação do Footer inferior
+  navegar(rota: string) {
+    this.router.navigateByUrl(rota).catch(erro => {
+      console.error('Erro ao navegar para ' + rota, erro);
+    });
   }
 }
