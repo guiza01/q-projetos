@@ -89,9 +89,9 @@ export class ProjectCreatePage implements OnInit {
 
   private voltarParaPainelOrigem(): void {
     if (this.origem === 'admin') {
-      this.router.navigate(['/projects/administrator']);
+      this.router.navigate(['/administrator']);
     } else {
-      this.router.navigate(['/projects/coordinator']);
+      this.router.navigate(['/coordinator']);
     }
   }
 

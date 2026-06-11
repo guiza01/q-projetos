@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,7 @@ export class AppComponent {
     perfil: 'ADMINISTRADOR'
   };
 
-  constructor() {}
+  constructor(private readonly router: Router) {}
 
   mostrarNotificacoes = false;
   mostrarRelatorios = false;
@@ -72,6 +73,11 @@ export class AppComponent {
     } else {
       document.body.classList.add('dark');
     }
+  }
+
+  sairDoSistema(): void {
+    localStorage.removeItem('token');
+    this.router.navigate(['/login']);
   }
 
 }

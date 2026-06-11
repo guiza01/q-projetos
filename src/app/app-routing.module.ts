@@ -3,16 +3,9 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'projects',
+    path: '',
     loadChildren: () => import('./features/projects/projects.module').then((m) => m.ProjectsModule),
   },
-  {
-    path: '',
-    redirectTo: 'projects',
-    pathMatch: 'full',
-  },
-
-
 ];
 
 @NgModule({
