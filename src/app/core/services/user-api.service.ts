@@ -79,4 +79,29 @@ export class UsersApiService {
       { headers }
     );
   }
+
+  atualizarPerfilUsuario(
+    id: number,
+    payload: { role: string; vinculo: string }
+  ): Observable<UserApiModel> {
+
+    const token = this.getAuthToken();
+
+    if (!token) {
+      return throwError(() =>
+        new Error('Token não encontrado.')
+      );
+    }
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.put<UserApiModel>(
+      `${API_CONFIG.baseUrl}/usuarios/${id}`,
+      payload,
+      { headers }
+    );
+  }
 }

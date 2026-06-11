@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 import { User } from '../../models/user.model';
 import { UsersService } from '../../services/user.service';
 
@@ -18,7 +19,8 @@ export class AdmUsersPage implements OnInit {
   textoBusca = '';
 
   constructor(
-  private readonly usersService: UsersService
+  private readonly usersService: UsersService,
+  private readonly alertController: AlertController
 ) {}
 
   ngOnInit() {
@@ -32,10 +34,10 @@ export class AdmUsersPage implements OnInit {
     case 'ROLE_ADMIN':
       return 'Administrador';
 
-    case 'ROLE_COORDENADOR':
+    case 'ROLE_COORD':
       return 'Coordenador';
 
-    case 'ROLE_USUARIO':
+    case 'ROLE_USER':
       return 'Usuário';
 
     default:
@@ -98,5 +100,39 @@ export class AdmUsersPage implements OnInit {
   this.abaSelecionada = tipo.toLowerCase();
   this.filtrarUsuarios();
 }
+
+  async abrirMenuUsuario(usuario: User): Promise<void> {
+    const alert = await this.alertController.create({
+      header: usuario.nome,
+      buttons: [
+        {
+          text: 'Coordenador',
+          handler: () => {
+            this.tornarCoordenador(usuario);
+          }
+        },
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  private tornarCoordenador(usuario: User): void {
+    this.usersService.updateProfile(usuario.id, {
+      role: 'ROLE_COORD',
+      vinculo: usuario.vinculo || 'SERVIDOR'
+    }).subscribe({
+      next: () => {
+        this.carregarUsuarios();
+      },
+      error: (error) => {
+        console.error('Erro ao atualizar perfil do usuário:', error);
+      }
+    });
+  }
 
 }
