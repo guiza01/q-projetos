@@ -311,7 +311,10 @@
   horizontal="end"
   slot="fixed">
 
-  <ion-fab-button class="fab-custom">
+  <ion-fab-button
+    class="fab-custom"
+    [routerLink]="['/project-create']"
+    [queryParams]="{ origem: 'coordinator' }">
     <ion-icon name="add"></ion-icon>
   </ion-fab-button>
 
