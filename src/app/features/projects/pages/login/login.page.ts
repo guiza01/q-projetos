@@ -6,6 +6,7 @@ import { ToastController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 
 import { API_CONFIG } from '../../../../core/config/api.config';
+import { AuthStorageService } from '../../../../core/services/auth-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,8 @@ export class LoginPage implements OnInit {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly toastCtrl: ToastController,
-    private readonly http: HttpClient
+    private readonly http: HttpClient,
+    private readonly authStorage: AuthStorageService
   ) {}
 
   ngOnInit(): void {
@@ -37,7 +39,7 @@ export class LoginPage implements OnInit {
         this.isLoading = true;
         console.log('Token recebido do Google via URL:', token);
         
-        localStorage.setItem('token', token);
+        this.authStorage.setSession(token, role);
 
         const responseSimulada = { token, role: role || 'ROLE_USER' };
         this.tratarRespostaLogin(responseSimulada);
@@ -96,33 +98,26 @@ export class LoginPage implements OnInit {
 
   private tratarRespostaLogin(response: any): void {
     if (response && response.token) {
-      localStorage.setItem('token', response.token);
+      this.authStorage.setSession(response.token, response.role || response.tipo);
     }
 
-    const userRole = response.role || response.tipo || 'visitor';
+    const userRole = this.authStorage.normalizeRole(response.role || response.tipo);
 
     switch (userRole.toLowerCase()) {
-      case 'admin':
-      case 'administrator':
       case 'role_admin':
         this.router.navigate(['../administrator'], { relativeTo: this.route });
         break;
 
-      case 'coordenador':
-      case 'coordinator':
-      case 'role_coordinator':
+      case 'role_coord':
         this.router.navigate(['../coordinator'], { relativeTo: this.route });
         break;
 
-      case 'estudante':
-      case 'user':
-      case 'list':
       case 'role_user':
         this.router.navigate(['../list'], { relativeTo: this.route });
         break;
 
       default:
-        this.router.navigate(['../visitor'], { relativeTo: this.route });
+        this.router.navigate(['../list'], { relativeTo: this.route });
         break;
     }
   }

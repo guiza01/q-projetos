@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ToastController } from '@ionic/angular';
 import { firstValueFrom, timeout } from 'rxjs'; 
 import { API_CONFIG } from '../../../../core/config/api.config';
+import { AuthStorageService } from '../../../../core/services/auth-storage.service';
 
 import { ProjectsService } from '../../services/projects.service';
 import { Project } from '../../models/project.model';
@@ -38,7 +39,8 @@ export class ProjectEditPage implements OnInit {
     private readonly router: Router,
     private readonly toastController: ToastController,
     private readonly projectsService: ProjectsService,
-    private readonly http: HttpClient
+    private readonly http: HttpClient,
+    private readonly authStorage: AuthStorageService
   ) {}
 
   ngOnInit(): void {
@@ -68,7 +70,7 @@ export class ProjectEditPage implements OnInit {
       const tokenGerado = response.token || response.accessToken || response.tokenAccess;
 
       if (tokenGerado) {
-        localStorage.setItem('token', tokenGerado);
+        this.authStorage.setSession(tokenGerado, 'ROLE_ADMIN');
         console.log('✅ Token de teste gerado e armazenado com sucesso!');
       }
 

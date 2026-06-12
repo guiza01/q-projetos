@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { AuthStorageService } from './core/services/auth-storage.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -15,7 +17,10 @@ export class AppComponent {
     perfil: 'ADMINISTRADOR'
   };
 
-  constructor(private readonly router: Router) {}
+  constructor(
+    private readonly router: Router,
+    private readonly authStorage: AuthStorageService
+  ) {}
 
   mostrarNotificacoes = false;
   mostrarRelatorios = false;
@@ -76,7 +81,7 @@ export class AppComponent {
   }
 
   sairDoSistema(): void {
-    localStorage.removeItem('token');
+    this.authStorage.clearSession();
     this.router.navigate(['/login']);
   }
 

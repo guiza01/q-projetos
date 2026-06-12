@@ -6,7 +6,7 @@ import { authGuard } from '../../core/guards/auth.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'list',
+    redirectTo: 'visitor',
     pathMatch: 'full',
   },
   {
@@ -14,6 +14,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/project-list/project-list.module').then((m) => m.ProjectListPageModule),
     canMatch: [authGuard],
+    data: { roles: ['ROLE_ADMIN', 'ROLE_COORD', 'ROLE_USER'] },
   },
   {
     path: 'login',
@@ -25,12 +26,14 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/coordinator/coordinator.module').then((m) => m.CoordinatorPageModule),
     canMatch: [authGuard],
+    data: { roles: ['ROLE_ADMIN', 'ROLE_COORD'] },
   },
   {
     path: 'administrator',
     loadChildren: () =>
       import('./pages/administrator/administrator.module').then((m) => m.AdministratorPageModule),
     canMatch: [authGuard],
+    data: { roles: ['ROLE_ADMIN'] },
   },
   {
     path: 'visitor',
@@ -42,16 +45,19 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/project-edit/project-edit.module').then((m) => m.ProjectEditPageModule),
     canMatch: [authGuard],
+    data: { roles: ['ROLE_ADMIN', 'ROLE_COORD'] },
   },
   {
     path: 'adm-users',
     loadChildren: () => import('./pages/adm-users/adm-users.module').then((m) => m.AdmUsersPageModule),
     canMatch: [authGuard],
+    data: { roles: ['ROLE_ADMIN'] },
   },
   {
     path: 'adm-more',
     loadChildren: () => import('./pages/adm-more/adm-more.module').then((m) => m.AdmMorePageModule),
     canMatch: [authGuard],
+    data: { roles: ['ROLE_ADMIN'] },
   },
   {
     path: 'cadastro',
@@ -65,11 +71,17 @@ const routes: Routes = [
     path: 'test',
     loadChildren: () => import('./pages/test/test.module').then((m) => m.TestPageModule),
     canMatch: [authGuard],
+    data: { roles: ['ROLE_ADMIN'] },
   },
   {
     path: 'project-create',
     loadChildren: () => import('./pages/project-create/project-create.module').then((m) => m.ProjectCreatePageModule),
     canMatch: [authGuard],
+    data: { roles: ['ROLE_ADMIN', 'ROLE_COORD'] },
+  },
+  {
+    path: '**',
+    redirectTo: 'login',
   },
 
 
