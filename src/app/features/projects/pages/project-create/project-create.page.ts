@@ -90,11 +90,19 @@ export class ProjectCreatePage implements OnInit {
   }
 
   private voltarParaPainelOrigem(): void {
-    if (this.origem === 'admin') {
+    const userRole = this.authStorage.getRole();
+
+    if (userRole === 'ROLE_ADMIN' || this.origem === 'admin') {
       this.router.navigate(['/administrator']);
-    } else {
-      this.router.navigate(['/coordinator']);
+      return;
     }
+
+    if (userRole === 'ROLE_COORD' || this.origem === 'coordinator') {
+      this.router.navigate(['/coordinator']);
+      return;
+    }
+
+    this.router.navigate(['/coordinator']);
   }
 
   loadUrlParams(): void {
@@ -207,8 +215,7 @@ export class ProjectCreatePage implements OnInit {
         linkInscricaoExterno: formValues.linkInscricaoExterno,
         vagas: Number(formValues.vagasBolsistas || 0) + Number(formValues.vagasVoluntarios || 0),
         modalidade: "BOLSISTA",
-        banner: this.bannerBase64,
-        idCoordenadorManual: 2
+        banner: this.bannerBase64
       };
 
       const urlFinal = `${baseUrl}/projetos`;
