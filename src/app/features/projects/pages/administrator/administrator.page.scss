@@ -38,6 +38,7 @@ ion-button {
 }
 
 .avatar {
+  color: black;
   width: 34px;
   height: 34px;
 }
@@ -132,9 +133,10 @@ ion-button {
   display: flex;
   align-items: center;
   padding: 14px;
+  gap: 12px;
 }
 
-.project-image {
+.project-thumbnail {
   width: 60px;
   height: 60px;
   border-radius: 10px;
@@ -188,12 +190,12 @@ ion-button {
   background: #f97316;
 }
 
-.editing {
-  background: #3b82f6;
+.encerrado {
+  background: #1976d2;
 }
 
-.encerrado {
-  background: #ef4444;
+.reprovado {
+  background: #d32f2f;
 }
 
 .lead-icon {
@@ -283,18 +285,34 @@ ion-fab-button::part(native) {
   --color: white;
 }
 
-.published {
+ion-menu-button {
+  --color: black !important;
+}
+
+.user-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.user-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.menu-btn {
+  margin: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+}
+
+.status.bolsista {
   background: #22c55e;
 }
 
-.pending {
-  background: #f59e0b;
-}
-
-.editing {
+.status.voluntario {
   background: #3b82f6;
-}
-
-ion-menu-button {
-  --color: black !important;
 }

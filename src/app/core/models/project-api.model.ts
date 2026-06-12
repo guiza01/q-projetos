@@ -11,4 +11,5 @@ export interface ProjectApiModel {
   statusModeracao: string; 
   startDate?: string | null;
   endDate?: string | null;
+  banner?: string;
 }

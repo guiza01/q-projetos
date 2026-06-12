@@ -9,17 +9,8 @@
       Q-Projetos
     </ion-title>
 
-    <ion-buttons slot="end">
-
-      <!-- <ion-button>
-        <ion-icon name="notifications-outline"></ion-icon>
-      </ion-button> -->
-
-      <ion-avatar class="avatar">
-        <img src="" />
-      </ion-avatar>
-
-    </ion-buttons>
+    <ion-icon class="avatar"
+    slot="end" name="person-circle-outline"></ion-icon>
 
   </ion-toolbar>
 </ion-header>
@@ -132,9 +123,15 @@
 
       <ion-card
         class="project-card"
-        *ngFor="let projeto of projetos">
+        *ngFor="let projeto of projetos"
+        [routerLink]="['/project-details', projeto.id]">
 
         <div class="project-content">
+
+          <img 
+          [src]="projeto.banner || 'assets/default-banner.png'" 
+          class="project-thumbnail" 
+          onerror="this.src='assets/default-banner.png'" />
           
           <div class="project-info">
             <div class="project-header">
@@ -146,14 +143,12 @@
               [ngClass]="{
                 'published': projeto.statusModeracao === 'PUBLICADO',
                 'pending': projeto.statusModeracao === 'PENDENTE',
+                'reprovado': projeto.statusModeracao === 'REPROVADO',
                 'encerrado': projeto.statusModeracao === 'ENCERRADO'
               }">
               {{ projeto.statusModeracao }}
             </span>
             </div>
-            <p>
-              {{ projeto.description }}
-            </p>
             <p>
               <strong>Tipo:</strong> {{ projeto.tipo }}
             </p>
@@ -185,8 +180,15 @@
 
       <ion-card
         class="project-card"
-        *ngFor="let projeto of projetosPublicados">
+        *ngFor="let projeto of projetosPublicados"
+        [routerLink]="['/project-details', projeto.id]">
         <div class="project-content">
+
+          <img 
+          [src]="$any(projeto).banner" 
+          class="project-thumbnail" 
+          onerror="this.src='assets/default-banner.png'" />
+
           <div class="project-info">
             <div class="project-header">
               <h3>
@@ -197,15 +199,12 @@
               [ngClass]="{
                 'published': projeto.statusModeracao === 'PUBLICADO',
                 'pending': projeto.statusModeracao === 'PENDENTE',
+                'reprovado': projeto.statusModeracao === 'REPROVADO',
                 'encerrado': projeto.statusModeracao === 'ENCERRADO'
               }">
               {{ projeto.statusModeracao }}
             </span>
             </div>
-
-            <p>
-              {{ projeto.description }}
-            </p>
 
             <p>
               <strong>Tipo:</strong> {{ projeto.tipo }}
@@ -239,9 +238,16 @@
 
       <ion-card
         class="project-card"
-        *ngFor="let projeto of projetosPendentes">
+        *ngFor="let projeto of projetosPendentes"
+        [routerLink]="['/project-details', projeto.id]">
 
         <div class="project-content">
+
+          <img 
+          [src]="$any(projeto).banner" 
+          class="project-thumbnail" 
+          onerror="this.src='assets/default-banner.png'" />
+
           <div class="project-info">
             <div class="project-header">
               <h3>
@@ -252,15 +258,12 @@
               [ngClass]="{
                 'published': projeto.statusModeracao === 'PUBLICADO',
                 'pending': projeto.statusModeracao === 'PENDENTE',
+                'reprovado': projeto.statusModeracao === 'REPROVADO',
                 'encerrado': projeto.statusModeracao === 'ENCERRADO'
               }">
               {{ projeto.statusModeracao }}
             </span>
             </div>
-
-            <p>
-              {{ projeto.description }}
-            </p>
 
             <p>
               <strong>Tipo:</strong> {{ projeto.tipo }}
@@ -294,9 +297,16 @@
 
       <ion-card
         class="project-card"
-        *ngFor="let projeto of projetosEncerrados">
+        *ngFor="let projeto of projetosEncerrados"
+        [routerLink]="['/project-details', projeto.id]">
 
         <div class="project-content">
+
+          <img 
+          [src]="$any(projeto).banner" 
+          class="project-thumbnail" 
+          onerror="this.src='assets/default-banner.png'" />
+
           <div class="project-info">
             <div class="project-header">
               <h3>{{ projeto.name }}</h3>
@@ -317,19 +327,31 @@
 
     <div class="section" *ngIf="mostrarLeads">
 
-      <div class="section-title">
-        <h2>Leads(interesses)</h2>
-        <span (click)="toggleLeads()">Fechar</span>
-      </div>
+    <div class="section-title">
+      <h2>Leads (Interesses)</h2>
+      <span (click)="toggleLeads()">Fechar</span>
+    </div>
 
-      <ion-card *ngFor="let lead of leads">
-        <ion-card-header>
-          <ion-card-title>
-            {{ lead.nome }}
-          </ion-card-title>
-        </ion-card-header>
+    <ion-card
+      class="project-card"
+      *ngFor="let lead of leads">
 
-        <ion-card-content>
+      <div class="project-content">
+
+        <div class="project-info">
+
+          <div class="project-header">
+            <h3>{{ lead.nome }}</h3>
+
+            <span
+            class="status"
+            [ngClass]="{
+              'bolsista': lead.modalidadePretendida.toLowerCase() === 'bolsista',
+              'voluntario': lead.modalidadePretendida.toLowerCase().includes('volunt')
+            }">
+            {{ lead.modalidadePretendida }}
+          </span>
+          </div>
 
           <p>
             <strong>Projeto:</strong>
@@ -342,43 +364,29 @@
           </p>
 
           <p>
-            <strong>Modalidade:</strong>
-            {{ lead.modalidadePretendida }}
-          </p>
-
-          <p>
             <strong>Série/Período:</strong>
             {{ lead.seriePeriodo }}
           </p>
 
-        </ion-card-content>
+        </div>
 
-      </ion-card>
-    </div>
+      </div>
+
+    </ion-card>
+
+  </div>
   </div>
 
   <!-- FAB BUTTON -->
 
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
 
-  <ion-fab-button color="primary">
-    <ion-icon name="add"></ion-icon>
-  </ion-fab-button>
+      <ion-fab-button color="primary">
+        <ion-icon name="add" routerLink="/project-create"></ion-icon>
+      </ion-fab-button>
 
-  <ion-fab-list side="top">
-    <ion-fab-button class="fab-dark"
-      routerLink="">
-      <ion-icon name="document-text-outline"></ion-icon>
-    </ion-fab-button>
 
-    <ion-fab-button class="fab-dark"
-      routerLink="">
-      <ion-icon name="person-add-outline"></ion-icon>
-    </ion-fab-button>
-
-  </ion-fab-list>
-
-</ion-fab>
+    </ion-fab>
 
 </ion-content>   
 

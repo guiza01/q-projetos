@@ -5,6 +5,7 @@ import { ProjectsService } from '../../services/projects.service';
 import { Lead } from '../../models/lead.model';
 import { Project, ProjectStatus } from '../../models/project.model';
 import { ProjectsApiService } from 'src/app/core/services/projects-api.service';
+import { ViewWillEnter } from '@ionic/angular';
 
 @Component({
   selector: 'app-administrator',
@@ -12,7 +13,7 @@ import { ProjectsApiService } from 'src/app/core/services/projects-api.service';
   styleUrls: ['./administrator.page.scss'],
   standalone: false,
 })
-export class AdministratorPage implements OnInit {
+export class AdministratorPage implements OnInit, ViewWillEnter  {
   projetos: Project[] = [];
   isLoading = false;
   errorMessage = '';
@@ -74,6 +75,11 @@ export class AdministratorPage implements OnInit {
 ) {}
 
   ngOnInit(): void {
+    this.loadProjects();
+    this.loadLeads();
+  }
+
+  ionViewWillEnter(): void {
     this.loadProjects();
   }
 
@@ -183,41 +189,31 @@ export class AdministratorPage implements OnInit {
   }
 
   aprovarProjeto(id: number) {
-  this.projectsApiService.aprovarProjeto(id).subscribe({
-    next: () => {
-      const projeto = this.projetos.find(p => p.id === id);
-
-      if (projeto) {
-        projeto.status = 'done';
-      }
-    },
-    error: console.error
-  });
-}
-
-reprovarProjeto(id: number) {
-  this.projectsApiService.reprovarProjeto(id).subscribe({
-    next: () => {
-      this.projetos = this.projetos.map(projeto =>
-        projeto.id === id
-          ? { ...projeto, status: 'archived' }
-          : projeto
-      );
-    },
-    error: console.error
-  });
-}
-
-excluirProjeto(id: number) {
-  this.projectsApiService
-    .excluirProjeto(id)
-    .subscribe({
+    this.projectsApiService.aprovarProjeto(id).subscribe({
       next: () => {
         this.loadProjects();
       },
       error: console.error
     });
-}
+  }
+
+  reprovarProjeto(id: number) {
+    this.projectsApiService.reprovarProjeto(id).subscribe({
+      next: () => {
+        this.loadProjects();
+      },
+      error: console.error
+    });
+  }
+
+  excluirProjeto(id: number) {
+    this.projectsApiService.excluirProjeto(id).subscribe({
+      next: () => {
+        this.loadProjects();
+      },
+      error: console.error
+    });
+  }
 
   async abrirMenuProjeto(projeto: Project) {
   const alert = await this.alertController.create({
