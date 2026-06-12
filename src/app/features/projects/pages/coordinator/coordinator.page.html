@@ -1,344 +1,213 @@
-<ion-content fullscreen="true">
+<ion-header [translucent]="true">
+  <ion-toolbar>
 
-  <ion-header class="header-custom">
-    <ion-toolbar>
-
-      <div class="header-content">
-
-        <ion-buttons slot="start">
+    <ion-buttons slot="start">
       <ion-menu-button autoHide="false"></ion-menu-button>
     </ion-buttons>
 
-        <h1 class="logo">
-          <span>Q</span>-Projetos
-        </h1>
+    <ion-title class="title-center">
+      Q-Projetos
+    </ion-title>
 
-        <div class="right-icons">
+   <ion-icon
+  name="person-circle-outline"
+  class="header-avatar-icon" slot="end">
+</ion-icon>
 
-          <ion-icon
-            name="person-circle-outline"
-            class="header-avatar-icon">
-          </ion-icon>
+  </ion-toolbar>
+</ion-header>
 
-        </div>
+<ion-content [fullscreen]="true">
 
+  <div class="dashboard-container">
+
+    <h2 class="titulo-bar">Coordenador</h2>
+
+    <div class="stats-grid">
+
+      <ion-card button class="stat-card" (click)="toggleMeusProjetos()">
+        <ion-card-content>
+
+          <div class="icon blue">
+            <ion-icon name="folder-open-outline"></ion-icon>
+          </div>
+
+          <div>
+            <h1>{{ qtdProjetosMeus }}</h1>
+            <p>Meus Projetos</p>
+          </div>
+
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="stat-card" (click)="toggleInteressados()">
+        <ion-card-content>
+
+          <div class="icon blue">
+            <ion-icon name="people-outline"></ion-icon>
+          </div>
+
+          <div>
+            <h1>{{ qtdInteressados }}</h1>
+            <p>Interessados</p>
+          </div>
+
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="stat-card" (click)="toggleProjetosAtivos()">
+        <ion-card-content>
+
+          <div class="icon blue">
+            <ion-icon name="star-outline"></ion-icon>
+          </div>
+
+          <div>
+            <h1>{{ qtdProjetosAtivos }}</h1>
+            <p>Projetos Ativos</p>
+          </div>
+
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="stat-card" (click)="toggleProjetosEncerrados()">
+        <ion-card-content>
+
+          <div class="icon blue">
+            <ion-icon name="close-circle-outline"></ion-icon>
+          </div>
+
+          <div>
+            <h1>{{ qtdProjetosEncerrados }}</h1>
+            <p>Projetos Encerrados</p>
+          </div>
+
+        </ion-card-content>
+      </ion-card>
+
+    </div>
+
+    <div class="section" *ngIf="mostrarMeusProjetos">
+      <div class="section-title">
+        <h2>Meus Projetos</h2>
+        <span (click)="toggleMeusProjetos()">Fechar</span>
       </div>
 
-    </ion-toolbar>
-  </ion-header>
-  <div class="topo">
-
-    <div>
-      <h1>COORDENADOR</h1>
-      <p>
-        Gerencie seus projetos, inscrições e interessados.
-      </p>
-    </div>
-
-  </div>
-
-  <div class="cards-info">
-
-    <div class="card-info" (click)="toggleMeusProjetos()">
-
-      <ion-icon
-        name="folder-open-outline"
-        class="icon-meus-projetos">
-      </ion-icon>
-
-      <h2>{{ qtdProjetosMeus }}</h2>
-      <p>Meus Projetos</p>
-
-    </div>
-
-    <div class="card-info" (click)="toggleInteressados()">
-
-      <ion-icon
-        name="people-outline"
-        class="icon-interessados">
-      </ion-icon>
-
-      <h2>{{ qtdInteressados }}</h2>
-      <p>Interessados</p>
-
-    </div>
-
-    <div class="card-info" (click)="toggleProjetosAtivos()">
-
-      <ion-icon
-        name="star-outline"
-        class="icon-ativos">
-      </ion-icon>
-
-      <h2>{{ qtdProjetosAtivos }}</h2>
-      <p>Projetos Ativos</p>
-
-    </div>
-
-    <div class="card-info" (click)="toggleProjetosEncerrados()">
-
-      <ion-icon
-        name="close-circle-outline"
-        class="icon-encerrados">
-      </ion-icon>
-
-      <h2>{{ qtdProjetosEncerrados }}</h2>
-      <p>Projetos Encerrados</p>
-
-    </div>
-
-  </div>
-
-  <!-- MEUS PROJETOS -->
-
-  <div
-    class="titulo-projetos"
-    *ngIf="mostrarMeusProjetos">
-
-    <h2>Meus Projetos</h2>
-
-    <span (click)="toggleMeusProjetos()">
-      Fechar
-    </span>
-
-  </div>
-
-  <ng-container *ngIf="mostrarMeusProjetos">
-
-    <div
-      class="card-projeto"
-      *ngFor="let projeto of meusProjetos">
-
-      <img [src]="projeto.imagem">
-
-      <div class="conteudo-projeto">
-
-        <div class="linha-topo">
-
-          <h3>{{ projeto.titulo }}</h3>
-
-          <span
-            class="status"
-            [ngClass]="{
-              'publicado': projeto.status === 'Publicado',
-              'pendente': projeto.status === 'Pendente',
-              'encerrado': projeto.status === 'Encerrado'
-            }">
-
-            {{ projeto.status }}
-
-          </span>
-
+      <ion-card class="project-card" *ngFor="let projeto of meusProjetos">
+        <div class="project-content">
+          <div class="project-info">
+            <div class="project-header">
+              <h3>{{ projeto.titulo }}</h3>
+              <span
+                class="status"
+                [ngClass]="{
+                  'published': projeto.status === 'Publicado',
+                  'pending': projeto.status === 'Pendente',
+                  'encerrado': projeto.status === 'Encerrado'
+                }">
+                {{ projeto.status }}
+              </span>
+            </div>
+            <p>{{ projeto.categoria }}</p>
+            <p><strong>Vagas:</strong> {{ projeto.vagas }}</p>
+            <p><strong>Inscrições:</strong> {{ projeto.inscricoes }}</p>
+          </div>
         </div>
+      </ion-card>
+    </div>
 
-        <p class="categoria">
-          {{ projeto.categoria }}
-        </p>
-
-        <p class="infos">
-          Vagas: {{ projeto.vagas }} •
-          Inscrições: {{ projeto.inscricoes }}
-        </p>
-
+    <div class="section" *ngIf="mostrarProjetosAtivos">
+      <div class="section-title">
+        <h2>Projetos Ativos</h2>
+        <span (click)="toggleProjetosAtivos()">Fechar</span>
       </div>
 
+      <ion-card class="project-card" *ngFor="let projeto of projetosAtivos">
+        <div class="project-content">
+          <div class="project-info">
+            <div class="project-header">
+              <h3>{{ projeto.titulo }}</h3>
+              <span
+                class="status"
+                [ngClass]="{
+                  'published': projeto.status === 'Publicado',
+                  'pending': projeto.status === 'Pendente',
+                  'encerrado': projeto.status === 'Encerrado'
+                }">
+                {{ projeto.status }}
+              </span>
+            </div>
+            <p>{{ projeto.categoria }}</p>
+            <p><strong>Vagas:</strong> {{ projeto.vagas }}</p>
+            <p><strong>Inscrições:</strong> {{ projeto.inscricoes }}</p>
+          </div>
+        </div>
+      </ion-card>
     </div>
 
-  </ng-container>
-
-  <!-- PROJETOS ATIVOS -->
-
-  <div
-    class="titulo-projetos"
-    *ngIf="mostrarProjetosAtivos">
-
-    <h2>Projetos Ativos</h2>
-
-    <span (click)="toggleProjetosAtivos()">
-      Fechar
-    </span>
-
-  </div>
-
-  <ng-container *ngIf="mostrarProjetosAtivos">
-
-    <div
-      class="card-projeto"
-      *ngFor="let projeto of projetosAtivos">
-
-      <img [src]="projeto.imagem">
-
-      <div class="conteudo-projeto">
-
-        <div class="linha-topo">
-
-          <h3>{{ projeto.titulo }}</h3>
-
-          <span
-            class="status"
-            [ngClass]="{
-              'publicado': projeto.status === 'Publicado',
-              'pendente': projeto.status === 'Pendente',
-              'encerrado': projeto.status === 'Encerrado'
-            }">
-
-            {{ projeto.status }}
-
-          </span>
-
-        </div>
-
-        <p class="categoria">
-          {{ projeto.categoria }}
-        </p>
-
-        <p class="infos">
-          Vagas: {{ projeto.vagas }} •
-          Inscrições: {{ projeto.inscricoes }}
-        </p>
-
+    <div class="section" *ngIf="mostrarInteressados">
+      <div class="section-title">
+        <h2>Interessados</h2>
+        <span (click)="toggleInteressados()">Fechar</span>
       </div>
 
+      <ion-card class="project-card" *ngFor="let lead of leads">
+        <div class="project-content">
+          <div class="project-info">
+            <div class="project-header">
+              <h3>{{ lead.nome }}</h3>
+              <span class="status published">{{ lead.status }}</span>
+            </div>
+            <p><strong>Projeto:</strong> {{ lead.tituloProjeto }}</p>
+            <p><strong>Email:</strong> {{ lead.email }}</p>
+          </div>
+        </div>
+      </ion-card>
     </div>
 
-  </ng-container>
-
-  <!-- INTERESSADOS -->
-
-  <div
-    class="titulo-projetos"
-    *ngIf="mostrarInteressados">
-
-    <h2>Interessados</h2>
-
-    <span (click)="toggleInteressados()">
-      Fechar
-    </span>
-
-  </div>
-
-  <ng-container *ngIf="mostrarInteressados">
-
-    <div
-      class="card-lead"
-      *ngFor="let lead of leads">
-
-      <div class="conteudo-projeto">
-
-        <div class="linha-topo">
-
-          <h3>{{ lead.nome }}</h3>
-
-          <span class="status">
-            {{ lead.status }}
-          </span>
-
-        </div>
-
-        <p class="categoria">
-          Projeto: {{ lead.tituloProjeto }}
-        </p>
-
-        <p class="infos">
-          Email: {{ lead.email }}
-        </p>
-
+    <div class="section" *ngIf="mostrarProjetosEncerrados">
+      <div class="section-title">
+        <h2>Projetos Encerrados</h2>
+        <span (click)="toggleProjetosEncerrados()">Fechar</span>
       </div>
 
+      <ion-card class="project-card" *ngFor="let projeto of projetosEncerrados">
+        <div class="project-content">
+          <div class="project-info">
+            <div class="project-header">
+              <h3>{{ projeto.titulo }}</h3>
+              <span class="status encerrado">{{ projeto.status }}</span>
+            </div>
+            <p>{{ projeto.categoria }}</p>
+            <p><strong>Vagas:</strong> {{ projeto.vagas }}</p>
+            <p><strong>Inscrições:</strong> {{ projeto.inscricoes }}</p>
+          </div>
+        </div>
+      </ion-card>
     </div>
-
-  </ng-container>
-
-  <!-- PROJETOS ENCERRADOS -->
-
-  <div
-    class="titulo-projetos"
-    *ngIf="mostrarProjetosEncerrados">
-
-    <h2>Projetos Encerrados</h2>
-
-    <span (click)="toggleProjetosEncerrados()">
-      Fechar
-    </span>
 
   </div>
+   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
 
-  <ng-container *ngIf="mostrarProjetosEncerrados">
-
-    <div
-      class="card-projeto"
-      *ngFor="let projeto of projetosEncerrados">
-
-      <img [src]="projeto.imagem">
-
-      <div class="conteudo-projeto">
-
-        <div class="linha-topo">
-
-          <h3>{{ projeto.titulo }}</h3>
-
-          <span
-            class="status"
-            [ngClass]="{
-              'publicado': projeto.status === 'Publicado',
-              'pendente': projeto.status === 'Pendente',
-              'encerrado': projeto.status === 'Encerrado'
-            }">
-
-            {{ projeto.status }}
-
-          </span>
-
-        </div>
-
-        <p class="categoria">
-          {{ projeto.categoria }}
-        </p>
-
-        <p class="infos">
-          Vagas: {{ projeto.vagas }} •
-          Inscrições: {{ projeto.inscricoes }}
-        </p>
-
-      </div>
-
-    </div>
-
-  </ng-container>
-
-<ion-fab
-  vertical="bottom"
-  horizontal="end"
-  slot="fixed">
-
-  <ion-fab-button
-    class="fab-custom"
-    [routerLink]="['/project-create']"
-    [queryParams]="{ origem: 'coordinator' }">
+  <ion-fab-button color="primary">
     <ion-icon name="add"></ion-icon>
   </ion-fab-button>
+
 
 </ion-fab>
 
 </ion-content>
 
 <ion-footer>
-
   <ion-tab-bar slot="bottom" class="custom-tabbar">
 
-    <ion-tab-button
-      routerLink="/coordinator"
-      routerLinkActive="tab-selected"
-      [routerLinkActiveOptions]="{ exact: true }">
-
+    <ion-tab-button routerLink="/projects/coordinator"
+    routerLinkActive="active-tab">
       <ion-icon name="home-outline"></ion-icon>
       <ion-label>Home</ion-label>
-
     </ion-tab-button>
 
-  
-
   </ion-tab-bar>
-
 </ion-footer>
+
 
