@@ -4,5 +4,4 @@ export interface User {
   email: string;
   tipo: string;
   vinculo: string;
-  imagem: string;
 }

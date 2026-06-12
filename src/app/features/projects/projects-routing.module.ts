@@ -71,6 +71,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/project-create/project-create.module').then((m) => m.ProjectCreatePageModule),
     canMatch: [authGuard],
   },
+  {
+    path: 'project-details/:id',
+    loadChildren: () => import('./pages/project-details/project-details.module').then( m => m.ProjectDetailsPageModule)
+  },
+
 
 
 ];

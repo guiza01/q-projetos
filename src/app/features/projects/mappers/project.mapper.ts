@@ -43,7 +43,8 @@ export const toProject = (model: ProjectApiModel): Project => ({
   vagas: model.vagas,
   startDate: model.startDate ?? null,
   endDate: model.endDate ?? null,
-  statusModeracao: model.statusModeracao
-});
+  statusModeracao: model.statusModeracao,
+  ...({ banner: (model as any).banner })
+}); 
 
 export const toProjects = (models: ProjectApiModel[]): Project[] => models.map(toProject);

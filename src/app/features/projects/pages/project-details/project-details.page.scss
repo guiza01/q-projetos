@@ -1,0 +1,272 @@
+body {
+  background: #ffffff !important;
+}
+
+ion-content {
+  --background: #ffffff;
+}
+
+ion-toolbar {
+  --background: #ffffff;
+}
+
+ion-card {
+  --background: #ffffff;
+}
+
+ion-spinner {
+  display: block;
+  margin: 32px auto;
+}
+
+.titulo-bar{
+  color: black
+}
+
+ion-button {
+  margin-bottom: 16px;
+}
+
+.dashboard-container {
+  padding: 16px;
+}
+
+.back-button{
+  color: black !important;
+ }
+
+.title-center {
+  text-align: center;
+  font-weight: bold;
+  color: black;
+}
+
+.avatar {
+  color: black;
+  width: 34px;
+  height: 34px;
+}
+
+
+.detail-container {
+  padding: 16px;
+}
+
+.detail-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.detail-banner {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.detail-body {
+  padding: 16px;
+}
+
+.status-wrapper {
+  margin-bottom: 12px;
+}
+
+// Estilização do Título principal
+.project-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 10px 0;
+  line-height: 1.3;
+}
+
+// Metadados (Tipo de projeto e Professor)
+.meta-info {
+  margin-bottom: 20px;
+  p {
+    margin: 4px 0;
+    font-size: 14px;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    ion-icon {
+      font-size: 16px;
+    }
+  }
+}
+
+// Tabela (Grid) de Informações Rápidas
+.info-grid {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px 6px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.info-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
+.border-left-right {
+  border-left: 1px solid #e5e7eb;
+  border-right: 1px solid #e5e7eb;
+}
+
+.info-col .label {
+  font-size: 12px;
+  color: #4b5563;
+}
+
+.info-col .value {
+  font-size: 13px;
+  color: #111827;
+  font-weight: 600;
+}
+
+.info-col .strong-value {
+  font-size: 16px;
+}
+
+.info-col .success-text {
+  color: #22c55e;
+}
+
+.info-col .small-value {
+  font-size: 11px;
+}
+
+// Seções de Períodos e Datas
+.section-info {
+  margin-bottom: 20px;
+  h3 {
+    margin: 0 0 6px 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+  }
+  .date-text {
+    margin: 0;
+    font-size: 15px;
+    color: #4b5563;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    ion-icon {
+      font-size: 18px;
+      color: #4b5563;
+    }
+  }
+  .success-icon ion-icon {
+    color: #22c55e;
+  }
+}
+
+// Links Externos com Ícones de saída
+.link-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #f3f4f6;
+  margin-bottom: 10px;
+  
+  .link-label {
+    display: block;
+    font-size: 13px;
+    color: #111827;
+    margin-bottom: 2px;
+  }
+  .link-url {
+    font-size: 14px;
+    color: #2196f3;
+    text-decoration: none;
+  }
+  .link-icon {
+    font-size: 20px;
+    color: #2196f3;
+  }
+}
+
+// Grid de Botões Inferiores (Editar e Ver Leads)
+.actions-grid {
+  display: flex;
+  gap: 16px;
+  margin-top: 28px;
+  margin-bottom: 8px;
+}
+
+.btn-action {
+  flex: 1;
+  margin: 0;
+  height: 44px;
+  font-weight: 600;
+  --border-radius: 8px;
+}
+
+.btn-edit {
+  background: #1976d2;
+}
+
+ ion-menu-button {
+  --color: black !important;
+}
+
+// Cores de texto para a tabela de informações
+.text-published {
+  color: #22c55e !important; /* Verde */
+}
+
+.text-pending {
+  color: #f97316 !important; /* Laranja */
+}
+
+.text-encerrado {
+  color: #1976d2 !important; /* Azul */
+}
+
+.text-reprovado {
+  color: #d32f2f !important; /* Vermelho */
+}
+
+.moderation-grid {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.btn-moderation {
+  flex: 1;
+  margin: 0;
+  height: 40px;
+  font-size: 13px;
+  font-weight: 600;
+  --border-radius: 8px;
+
+  ion-icon {
+    font-size: 16px;
+    margin-right: 4px;
+  }
+}
+
+.btn-approve::part(native) {
+  background: #22c55e;
+}
+
+.btn-reject::part(native) {
+  background: #d32f2f;
+}
+
+.btn-delete::part(native) {
+  background: #f97316;
+}

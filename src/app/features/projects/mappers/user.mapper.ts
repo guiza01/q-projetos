@@ -25,7 +25,6 @@ export const toUser = (
   email: model.email,
   tipo: formatRole(model.role),
   vinculo: model.vinculo,
-  imagem: 'https://i.pravatar.cc/150'
 });
 
 export const toUsers = (

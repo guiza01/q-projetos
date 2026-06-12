@@ -13,4 +13,5 @@ export interface Project {
   startDate: string | null;
   endDate: string | null;
   statusModeracao: string;
+  banner?: string;
 }

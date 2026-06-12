@@ -10,17 +10,8 @@
       Q-Projetos
     </ion-title>
 
-    <ion-buttons slot="end">
-
-      <!-- <ion-button>
-        <ion-icon name="notifications-outline"></ion-icon>
-      </ion-button> -->
-
-      <ion-avatar class="avatar">
-        <img src="" />
-      </ion-avatar>
-
-    </ion-buttons>
+    <ion-icon class="avatar"
+    slot="end" name="person-circle-outline"></ion-icon>
 
   </ion-toolbar>
 
@@ -28,116 +19,108 @@
 
 <ion-content [fullscreen]="true">
 
-  <div class="page-container">
-
-    <!-- TABS -->
+    <div class="page-container">
 
     <div class="tabs">
-
-      <div
-        class="tab"
-        [class.active]="abaSelecionada === 'categorias'"
-        (click)="selecionarAba('categorias')">
-
+      <div class="tab" [class.active]="abaSelecionada === 'categorias'" (click)="selecionarAba('categorias')">
         Categorias
-
       </div>
-
-      <div
-        class="tab"
-        [class.active]="abaSelecionada === 'modalidades'"
-        (click)="selecionarAba('modalidades')">
-
+      <div class="tab" [class.active]="abaSelecionada === 'modalidades'" (click)="selecionarAba('modalidades')">
         Modalidades
-
       </div>
-
-
     </div>
 
-    <!-- CATEGORIAS -->
-
-    <ion-card
-      class="info-card"
-      *ngIf="abaSelecionada === 'categorias'">
-
-      <div
-        class="item-row"
-        *ngFor="let categoria of categorias">
-
-        <div class="item-left">
-
-          <div class="icon-circle">
-            <ion-icon [name]="categoria.icone"></ion-icon>
+    <div *ngIf="abaSelecionada === 'categorias'">
+      <ion-card class="info-card">
+        <div 
+          class="item-row" 
+          *ngFor="let categoria of categorias"
+          [class.row-active]="categoriaSelecionada === categoria.idKey"
+          (click)="selecionarCategoria(categoria.idKey)">
+          
+          <div class="item-left">
+            <div class="icon-circle">
+              <ion-icon [name]="categoria.icone"></ion-icon>
+            </div>
+            <div>
+              <h3>{{ categoria.nome }}</h3>
+              <p>{{ categoria.status }}</p>
+            </div>
           </div>
 
-          <div>
-
-            <h3>{{ categoria.nome }}</h3>
-
-            <p>
-              {{ categoria.status }}
-            </p>
-
+          <div class="item-right">
+            <span>{{ categoria.quantidade }}</span>
+            <ion-icon [name]="categoriaSelecionada === categoria.idKey ? 'chevron-down-outline' : 'chevron-forward-outline'"></ion-icon>
           </div>
+        </div>
+      </ion-card>
 
+      <div class="sub-section" *ngIf="categoriaSelecionada">
+        <div class="sub-section-header">
+          <h2>Projetos de {{ categoriaSelecionada | titlecase }}</h2>
+          <span class="badge-total">{{ projetosFiltrados.length }}</span>
         </div>
 
-        <div class="item-right">
+        <p class="empty-msg" *ngIf="projetosFiltrados.length === 0">Nenhum projeto cadastrado nesta categoria.</p>
 
-          <span>
-            {{ categoria.quantidade }}
-          </span>
-
-          <!-- <ion-icon name="chevron-forward-outline"></ion-icon> -->
-
-        </div>
-
+        <ion-card class="project-mini-card" *ngFor="let projeto of projetosFiltrados" [routerLink]="['/project-details', projeto.id]">
+          <div class="project-mini-content">
+            <img [src]="projeto.banner || 'assets/default-banner.png'" class="mini-banner" onerror="this.src='assets/default-banner.png'">
+            <div class="mini-info">
+              <h3>{{ projeto.titulo || $any(projeto).name }}</h3>
+              <p> <strong>Modalidade:</strong> {{ projeto.modalidade }}</p>
+              <span class="mini-status">{{ projeto.statusModeracao }}</span>
+            </div>
+          </div>
+        </ion-card>
       </div>
+    </div> 
 
-    </ion-card>
-
-    <!-- MODALIDADES -->
-
-    <ion-card
-      class="info-card"
-      *ngIf="abaSelecionada === 'modalidades'">
-
-      <div
-        class="item-row"
-        *ngFor="let modalidade of modalidades">
-
-        <div class="item-left">
-
-          <div class="icon-circle">
-            <ion-icon [name]="modalidade.icone"></ion-icon>
+    <div *ngIf="abaSelecionada === 'modalidades'">
+      <ion-card class="info-card">
+        <div 
+          class="item-row" 
+          *ngFor="let modalidade of modalidades"
+          [class.row-active]="modalidadeSelecionada === modalidade.idKey"
+          (click)="selecionarModalidade(modalidade.idKey)">
+          
+          <div class="item-left">
+            <div class="icon-circle">
+              <ion-icon [name]="modalidade.icone"></ion-icon>
+            </div>
+            <div>
+              <h3>{{ modalidade.nome }}</h3>
+              <p>{{ modalidade.status }}</p>
+            </div>
           </div>
 
-          <div>
-
-            <h3>{{ modalidade.nome }}</h3>
-
-            <p>
-              {{ modalidade.status }}
-            </p>
-
+          <div class="item-right">
+            <span>{{ modalidade.quantidade }}</span>
+            <ion-icon [name]="modalidadeSelecionada === modalidade.idKey ? 'chevron-down-outline' : 'chevron-forward-outline'"></ion-icon>
           </div>
+        </div>
+      </ion-card>
 
+      <div class="sub-section" *ngIf="modalidadeSelecionada">
+        <div class="sub-section-header">
+          <h2>Leads da Modalidade: {{ modalidadeSelecionada | titlecase }}</h2>
+          <span class="badge-total">{{ leadsFiltrados.length }}</span>
         </div>
 
-        <div class="item-right">
+        <p class="empty-msg" *ngIf="leadsFiltrados.length === 0">Nenhum lead encontrado para esta modalidade.</p>
 
-          <span>
-            {{ modalidade.quantidade }}
-          </span>
-
-          <!-- <ion-icon name="chevron-forward-outline"></ion-icon> -->
-
-        </div>
-
+        <ion-card class="project-mini-card" *ngFor="let lead of leadsFiltrados">
+          <div class="lead-mini-content">
+            <div class="mini-info">
+              <h3>{{ lead.nome || lead.name }}</h3>
+              <p><strong>E-mail:</strong> {{ lead.email }}</p>
+              <p><strong>Série/Período:</strong> {{ lead.seriePeriodo || lead.periodo }}</p>
+              <p class="lead-project"><strong>Projeto vinculado:</strong> {{ lead.tituloProjeto }}</p>
+            </div>
+          </div>
+        </ion-card>
       </div>
-
-    </ion-card>
+    </div>
 
   </div>
 
