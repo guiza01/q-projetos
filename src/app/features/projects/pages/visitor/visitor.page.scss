@@ -61,11 +61,8 @@
 
 .filters-container {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
-  overflow-x: auto;
-  padding-bottom: 8px;
-  padding-top: 4px;
-  scroll-behavior: smooth;
 }
 
 ion-chip {
@@ -209,4 +206,12 @@ ion-toolbar {
   --background: #e3f2ff;
   --color: #003a82;
   --border-color: rgba(0, 58, 130, 0.1);
+}
+
+ion-searchbar {
+  --background: rgba(255, 255, 255, 0.9);
+  --placeholder-color: #9eb1c8;
+  --color: #000000;
+
+  color: #000000;
 }
