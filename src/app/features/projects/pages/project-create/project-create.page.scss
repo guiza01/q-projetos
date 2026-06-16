@@ -17,6 +17,7 @@
     --background: #ffffff !important;
     --color: #111827 !important;
     color: #111827 !important;
+    --border-style: none;
   }
 
   ion-toolbar ion-button {
@@ -32,13 +33,28 @@
 }
 
 // =========================================================
-// CONTAINER PRINCIPAL
+// CLASSES DO CABEÇALHO (PADRONIZADO COM A REFERÊNCIA)
 // =========================================================
-.page-container {
-  padding: 16px;
-  background: #ffffff;
+.title-bold {
+  font-weight: 700;
+  color: #111827;
+  font-size: 18px;
 }
 
+.avatar-header-btn {
+  --padding-start: 0;
+  --padding-end: 0;
+  width: 34px;
+  height: 34px;
+  margin-right: 8px;
+}
+
+.avatar-header {
+  width: 34px;
+  height: 34px;
+}
+
+// Classes legadas mantidas para consistência estrutural
 .title-center {
   text-align: center;
   font-weight: bold;
@@ -48,6 +64,14 @@
 .avatar {
   width: 34px;
   height: 34px;
+}
+
+// =========================================================
+// CONTAINER PRINCIPAL
+// =========================================================
+.page-container {
+  padding: 16px;
+  background: #ffffff;
 }
 
 // ABAS (TABS)

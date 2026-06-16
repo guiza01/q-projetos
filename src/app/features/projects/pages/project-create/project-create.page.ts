@@ -242,4 +242,14 @@ export class ProjectCreatePage implements OnInit {
   onCancel(): void {
     this.voltarParaPainelOrigem(); 
   }
+
+  async abrirPerfil(): Promise<void> {
+    const toast = await this.toastController.create({
+      message: 'Configurações de perfil em desenvolvimento... 👤',
+      duration: 2000,
+      color: 'dark',
+      position: 'top'
+    });
+    await toast.present();
+  }
 }

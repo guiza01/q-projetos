@@ -1,23 +1,24 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" class="ion-no-border">
   <ion-toolbar>
+    
     <ion-buttons slot="start">
-      <ion-button>
-        <ion-icon name="menu-outline"></ion-icon>
+      <ion-button (click)="onCancel()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
 
-    <ion-title class="title-center">
+    <ion-title class="ion-text-center title-bold">
       Q-Projetos
     </ion-title>
 
     <ion-buttons slot="end">
-      <ion-button>
-        <ion-icon name="notifications-outline"></ion-icon>
+      <ion-button fill="clear" class="avatar-header-btn" (click)="abrirPerfil()">
+        <ion-avatar class="avatar-header">
+          <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Avatar" />
+        </ion-avatar>
       </ion-button>
-      <ion-avatar class="avatar">
-        <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Avatar" />
-      </ion-avatar>
     </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 
