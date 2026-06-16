@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 
 import { API_CONFIG } from '../config/api.config';
+import { AuthStorageService } from './auth-storage.service';
 import { ProjectApiModel } from '../models/project-api.model';
 import { LeadApiModel } from '../models/lead-api.model';
 
@@ -11,14 +12,21 @@ import { LeadApiModel } from '../models/lead-api.model';
 })
 export class ProjectsApiService {
   private readonly http = inject(HttpClient);
+  private readonly authStorage = inject(AuthStorageService);
 
-  private getAuthToken(): string | null {
+  private getAuthToken(tokenOverride?: string | null): string | null {
+    const token = tokenOverride ?? this.authStorage.getToken();
+
+    if (token && token.trim()) {
+      return token.trim();
+    }
+
     const knownKeys = ['token', 'authToken', 'accessToken', 'authorization', 'bearerToken'];
 
     for (const key of knownKeys) {
       const value = localStorage.getItem(key);
       if (value) {
-        return value;
+        return value.trim();
       }
     }
 
@@ -39,24 +47,23 @@ export class ProjectsApiService {
     return null;
   }
 
-  listProjects(): Observable<ProjectApiModel[]> {
-    const token = this.getAuthToken();
-    if (!token) {
-      return throwError(() => new Error('Token não encontrado no localStorage. Faça login antes de listar projetos.'));
-    }
-
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
+  listProjects(tokenOverride?: string | null): Observable<ProjectApiModel[]> {
+    const token = this.getAuthToken(tokenOverride);
+    let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
+
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
 
     return this.http.get<ProjectApiModel[]>(`${API_CONFIG.baseUrl}${API_CONFIG.projectsPath}`, {
       headers,
     });
   }
 
-  listInteresses(): Observable<LeadApiModel[]> {
-    const token = this.getAuthToken();
+  listInteresses(tokenOverride?: string | null): Observable<LeadApiModel[]> {
+    const token = this.getAuthToken(tokenOverride);
     if (!token) {
       return throwError(() => new Error('Token não encontrado no localStorage. Faça login antes de listar interesses.'));
     }
@@ -72,8 +79,8 @@ export class ProjectsApiService {
     );
   }
 
-  getProjectById(id: number): Observable<ProjectApiModel> {
-    const token = this.getAuthToken();
+  getProjectById(id: number, tokenOverride?: string | null): Observable<ProjectApiModel> {
+    const token = this.getAuthToken(tokenOverride);
     if (!token) {
       return throwError(() => new Error('Token não encontrado no localStorage. Faça login antes de listar projetos.'));
     }
