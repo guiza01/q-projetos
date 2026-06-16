@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SearchbarInputEventDetail } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 import { ProjectsService } from '../../services/projects.service';
 import { Project, ProjectStatus } from '../../models/project.model';
@@ -19,7 +20,10 @@ export class VisitorPage implements OnInit {
   selectedStatus: ProjectStatus | 'all' = 'all';
   statusOptions: (ProjectStatus | 'all')[] = ['all', 'pending', 'in_progress', 'done', 'archived'];
 
-  constructor(private readonly projectsService: ProjectsService) {}
+  constructor(
+    private readonly projectsService: ProjectsService,
+    private readonly router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadProjects();
@@ -91,17 +95,14 @@ export class VisitorPage implements OnInit {
   }
 
   onViewProjectDetails(project: Project): void {
-    // TODO: Implementar navegação para detalhes do projeto
-    console.log('View project details:', project);
-  }
+  this.router.navigate([
+    '/projects/project-details',
+    project.id
+  ]);
+}
 
   onLoginClick(): void {
-    // TODO: Implementar navegação para login
-    console.log('Login clicked');
-  }
+  this.router.navigate(['/projects/login']);
+}
 
-  onFavoritesClick(): void {
-    // TODO: Implementar visualização de favoritos
-    console.log('Favorites clicked');
-  }
 }
