@@ -80,16 +80,14 @@ const routes: Routes = [
     data: { roles: ['ROLE_ADMIN', 'ROLE_COORD'] },
   },
   {
-    path: '**',
-    redirectTo: 'login',
-  },
-  {
     path: 'project-details/:id',
     loadChildren: () => import('./pages/project-details/project-details.module').then( m => m.ProjectDetailsPageModule)
   },
-
-
-
+  {
+    path: '**',
+    redirectTo: 'login',
+  },
+  
 ];
 
 @NgModule({
