@@ -91,7 +91,7 @@ export class ProjectEditPage implements OnInit {
     return headers;
   }
 
-  private voltarParaPainelOrigem(): void {
+  private volverParaPainelOrigem(): void {
     if (this.origem === 'admin') {
       this.router.navigate(['/administrator']);
     } else {
@@ -263,7 +263,7 @@ export class ProjectEditPage implements OnInit {
       });
       await toast.present();
 
-      this.voltarParaPainelOrigem(); 
+      this.volverParaPainelOrigem(); 
 
     } catch (error: any) {
       this.errorMessage = error?.error?.message || error?.message || 'Falha ao salvar as alterações na rota de edição.';
@@ -274,6 +274,16 @@ export class ProjectEditPage implements OnInit {
   }
 
   onCancel(): void {
-    this.voltarParaPainelOrigem(); 
+    this.volverParaPainelOrigem(); 
+  }
+
+  async abrirPerfil(): Promise<void> {
+    const toast = await this.toastController.create({
+      message: 'Configurações de perfil em desenvolvimento... 👤',
+      duration: 2000,
+      color: 'dark',
+      position: 'top'
+    });
+    await toast.present();
   }
 }
