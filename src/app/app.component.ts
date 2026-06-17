@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { AuthStorageService } from './core/services/auth-storage.service';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +17,10 @@ export class AppComponent {
     perfil: 'ADMINISTRADOR'
   };
 
-  constructor() {}
+  constructor(
+    private readonly router: Router,
+    private readonly authStorage: AuthStorageService
+  ) {}
 
   mostrarNotificacoes = false;
   mostrarRelatorios = false;
@@ -72,6 +78,11 @@ export class AppComponent {
     } else {
       document.body.classList.add('dark');
     }
+  }
+
+  sairDoSistema(): void {
+    this.authStorage.clearSession();
+    this.router.navigate(['/login']);
   }
 
 }

@@ -1,0 +1,131 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="title-center">
+      Q-Projetos
+    </ion-title>
+    <ion-icon class="avatar"
+    slot="end" name="person-circle-outline"></ion-icon>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="voltar()">
+        <ion-icon class="back-button" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Carregando informações do projeto...</p>
+  </div>
+
+  <div *ngIf="errorError && !isLoading" class="ion-text-center ion-padding text-danger">
+    <p>{{ errorError }}</p>
+  </div>
+
+  <div class="detail-container" *ngIf="!isLoading && projeto">
+    
+    <div class="detail-card">
+      <img [src]="projeto.banner || 'assets/default-banner.png'" class="detail-banner" />
+
+      <div class="detail-body">
+
+        <h1 class="project-title">{{ projeto.titulo }}</h1>
+        
+        <div class="meta-info">
+          <p><ion-icon name="school-outline"></ion-icon> {{ projeto.tipo }}</p>
+          <p><ion-icon name="document-outline"></ion-icon> {{ projeto.descricao }}</p>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-col">
+            <span class="label">Vagas</span>
+            <span class="value strong-value">{{ projeto.vagas }}</span>
+          </div>
+
+          <div class="info-col border-left-right">
+            <span class="label">Status</span>
+            
+            <span class="value" [ngClass]="{
+              'text-published': projeto.statusModeracao === 'PUBLICADO',
+              'text-pending': projeto.statusModeracao === 'PENDENTE',
+              'text-reprovado': projeto.statusModeracao === 'REPROVADO',
+              'text-encerrado': projeto.statusModeracao === 'ENCERRADO'
+            }">
+              {{ projeto.statusModeracao | titlecase }}
+            </span>
+          </div>
+
+          <div class="info-col">
+            <span class="label">Modalidade</span>
+            <span class="value small-value">{{ projeto.modalidade }}</span>
+          </div>
+        </div>
+
+        <div class="section-info">
+          <h3>Período do Projeto</h3>
+          <p class="date-text">
+            <ion-icon name="calendar-outline"></ion-icon> 
+            {{ projeto.dataInicio | date: 'dd/MM/yyyy' }} - {{ projeto.dataTermino | date: 'dd/MM/yyyy' }}
+          </p>
+        </div>
+
+        <div class="section-info">
+          <h3>Período de Inscrição</h3>
+          <p class="date-text success-icon">
+            <ion-icon name="calendar-clear-outline"></ion-icon> 
+            {{ projeto.dataInicioInscricao | date: 'dd/MM/yyyy' }} - {{ projeto.dataFimInscricao | date: 'dd/MM/yyyy' }}
+          </p>
+        </div>
+
+        <div class="link-item" *ngIf="projeto.linkEdital">
+          <div>
+            <span class="link-label">Link do edital</span>
+            <a [href]="projeto.linkEdital" target="_blank" class="link-url">Ver documento</a>
+          </div>
+          <ion-icon name="open-outline" class="link-icon"></ion-icon>
+        </div>
+
+        <div class="link-item" *ngIf="projeto.linkInscricaoExterno">
+          <div>
+            <span class="link-label">Link de inscrição externa</span>
+            <a [href]="projeto.linkInscricaoExterno" target="_blank" class="link-url">Abrir link</a>
+          </div>
+          <ion-icon name="open-outline" class="link-icon"></ion-icon>
+        </div>
+
+        <div class="actions-grid">
+
+          <ion-button fill="solid" class="btn-action btn-edit" [routerLink]="['/project-edit', projeto.id]">
+            Editar projeto
+          </ion-button>
+
+        </div>
+
+        <div class="moderation-grid">
+          <ion-button fill="solid" class="btn-moderation btn-approve" (click)="aprovarProjeto(projeto.id)">
+            Aprovar
+          </ion-button>
+
+          <ion-button fill="solid" class="btn-moderation btn-reject" (click)="reprovarProjeto(projeto.id)">
+            Reprovar
+          </ion-button>
+
+          <ion-button fill="solid" class="btn-moderation btn-delete" (click)="excluirProjeto(projeto.id)">
+            Excluir
+          </ion-button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</ion-content>

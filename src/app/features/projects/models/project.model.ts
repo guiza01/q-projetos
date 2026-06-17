@@ -5,6 +5,13 @@ export interface Project {
   name: string;
   description: string;
   status: ProjectStatus;
+
+  tipo: string;
+  modalidade: string;
+  vagas: number;
+  
   startDate: string | null;
   endDate: string | null;
+  statusModeracao: string;
+  banner?: string;
 }

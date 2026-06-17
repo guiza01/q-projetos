@@ -1,8 +1,15 @@
 export interface ProjectApiModel {
   id: number;
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
+  titulo?: string;
+  descricao?: string;
+  tipo: string;
+  modalidade: string;
+  vagas: number;
   status: string;
-  startDate: string | null;
-  endDate: string | null;
+  statusModeracao: string; 
+  startDate?: string | null;
+  endDate?: string | null;
+  banner?: string;
 }

@@ -11,16 +11,14 @@ import { ProjectsService } from '../../services/projects.service';
 import { Project } from '../../models/project.model';
 
 @Component({
-  selector: 'app-project-edit',
-  templateUrl: './project-edit.page.html',
-  styleUrls: ['./project-edit.page.scss'],
+  selector: 'app-project-create',
+  templateUrl: './project-create.page.html',
+  styleUrls: ['./project-create.page.scss'],
   standalone: false,
 })
-export class ProjectEditPage implements OnInit {
+export class ProjectCreatePage implements OnInit {
   form!: FormGroup;
-  projectId: string | null = null;
   origem: string | null = null;
-  project: Project | null = null;
   isLoading = false;
   isSaving = false;
   errorMessage = '';
@@ -50,13 +48,13 @@ export class ProjectEditPage implements OnInit {
 
   async garantirTokenDeTeste(): Promise<void> {
     if (localStorage.getItem('token')) {
-      console.log('🔑 Token já existente no LocalStorage. Carregando dados do projeto...');
-      this.loadUrlParams();
+      console.log('Token já existente no LocalStorage. Carregando parâmetros da URL...');
+      this.loadUrlParams(); 
       return;
     }
 
     try {
-      console.log('🤖 Token não encontrado. Fazendo login de teste em background...');
+      console.log('Token não encontrado. Fazendo login de teste em background...');
       this.isLoading = true;
       const baseUrl = API_CONFIG.baseUrl;
       
@@ -71,14 +69,14 @@ export class ProjectEditPage implements OnInit {
 
       if (tokenGerado) {
         this.authStorage.setSession(tokenGerado, 'ROLE_ADMIN');
-        console.log('✅ Token de teste gerado e armazenado com sucesso!');
+        console.log('Token de teste gerado e armazenado com sucesso!');
       }
 
     } catch (error) {
-      console.error('⚠️ Não foi possível gerar o token automático de teste:', error);
+      console.error('Não foi possível gerar o token automático de teste:', error);
     } finally {
       this.isLoading = false;
-      this.loadUrlParams();
+      this.loadUrlParams(); 
     }
   }
 
@@ -91,21 +89,24 @@ export class ProjectEditPage implements OnInit {
     return headers;
   }
 
-  private volverParaPainelOrigem(): void {
-    if (this.origem === 'admin') {
+  private voltarParaPainelOrigem(): void {
+    const userRole = this.authStorage.getRole();
+
+    if (userRole === 'ROLE_ADMIN' || this.origem === 'admin') {
       this.router.navigate(['/administrator']);
-    } else {
-      this.router.navigate(['/coordinator']);
+      return;
     }
+
+    if (userRole === 'ROLE_COORD' || this.origem === 'coordinator') {
+      this.router.navigate(['/coordinator']);
+      return;
+    }
+
+    this.router.navigate(['/coordinator']);
   }
 
   loadUrlParams(): void {
-    this.projectId = this.route.snapshot.queryParamMap.get('id');
     this.origem = this.route.snapshot.queryParamMap.get('origem'); 
-    
-    if (this.projectId) {
-      this.loadProject();
-    }
   }
 
   selecionarAba(aba: string): void {
@@ -172,42 +173,6 @@ export class ProjectEditPage implements OnInit {
     this.integrantesAdicionados.splice(index, 1);
   }
 
-  async loadProject(): Promise<void> {
-    if (!this.projectId) return;
-
-    this.isLoading = true;
-    this.errorMessage = '';
-
-    try {
-      const baseUrl = API_CONFIG.baseUrl;
-      const response: any = await firstValueFrom(
-        this.http.get(`${baseUrl}/projetos/${this.projectId}`, { headers: this.getHeaders() })
-      );
-
-      this.form.patchValue({
-        title: response.titulo,
-        description: response.descricao,
-        type: response.tipo?.toLowerCase(),
-        startDate: response.dataInicio,
-        endDate: response.dataTermino,
-        status: response.status || 'active',
-        linkEdital: response.linkEdital,
-        linkInscricaoExterna: response.linkInscricaoExterna || "https://forms.gle/exemplo",
-        vagasBolsistas: response.vagas,
-        coordinator: response.coordenador || ''
-      });
-
-      if (response.banner) this.bannerBase64 = response.banner;
-      if (response.equipe) this.integrantesAdicionados = response.equipe;
-
-    } catch (error: any) {
-      this.errorMessage = 'Não foi possível carregar os dados originais do projeto.';
-      console.error(error);
-    } finally {
-      this.isLoading = false;
-    }
-  }
-
   initializeForm(): void {
     this.form = this.formBuilder.group({
       title: ['', [Validators.required, Validators.minLength(3)]],
@@ -222,7 +187,7 @@ export class ProjectEditPage implements OnInit {
       inscricoesInicio: [''],
       inscricoesFim: [''],
       linkEdital: [''],
-      linkInscricaoExterna: ['https://forms.gle/exemplo']
+      linkInscricaoExterno: ['https://forms.gle/exemplo']
     });
   }
 
@@ -237,6 +202,7 @@ export class ProjectEditPage implements OnInit {
       if (!baseUrl) throw new Error('API_BASE_URL não está configurada no sistema.');
 
       const formValues = this.form.value;
+      
       const body = {
         titulo: formValues.title,
         tipo: formValues.type?.toUpperCase(),
@@ -246,35 +212,35 @@ export class ProjectEditPage implements OnInit {
         dataInicioInscricao: formValues.inscricoesInicio || formValues.startDate,
         dataFimInscricao: formValues.inscricoesFim || formValues.endDate,
         linkEdital: formValues.linkEdital,
-        linkInscricaoExterna: formValues.linkInscricaoExterna,
+        linkInscricaoExterno: formValues.linkInscricaoExterno,
         vagas: Number(formValues.vagasBolsistas || 0) + Number(formValues.vagasVoluntarios || 0),
         modalidade: "BOLSISTA",
         banner: this.bannerBase64
       };
 
-      const urlFinal = `${baseUrl}/projetos/${this.projectId}`;
-      await firstValueFrom(this.http.put(urlFinal, body, { headers: this.getHeaders() }));
+      const urlFinal = `${baseUrl}/projetos`;
+      await firstValueFrom(this.http.post(urlFinal, body, { headers: this.getHeaders() }));
 
       const toast = await this.toastController.create({
-        message: 'Projeto atualizado com sucesso! 🎉',
+        message: 'Projeto criado com sucesso! 🎉',
         duration: 2500,
         color: 'success',
         position: 'bottom'
       });
       await toast.present();
 
-      this.volverParaPainelOrigem(); 
+      this.voltarParaPainelOrigem(); 
 
     } catch (error: any) {
-      this.errorMessage = error?.error?.message || error?.message || 'Falha ao salvar as alterações na rota de edição.';
-      console.error('Erro na requisição PUT:', error);
+      this.errorMessage = error?.error?.message || error?.message || 'Falha ao cadastrar o novo projeto.';
+      console.error('Erro na requisição POST:', error);
     } finally {
       this.isSaving = false;
     }
   }
 
   onCancel(): void {
-    this.volverParaPainelOrigem(); 
+    this.voltarParaPainelOrigem(); 
   }
 
   async abrirPerfil(): Promise<void> {

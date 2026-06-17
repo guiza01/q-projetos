@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 
 import { ProjectsService } from '../../services/projects.service';
-import { Project } from '../../models/project.model';
+import { Lead } from '../../models/lead.model';
+import { Project, ProjectStatus } from '../../models/project.model';
+import { ProjectsApiService } from 'src/app/core/services/projects-api.service';
+import { ViewWillEnter } from '@ionic/angular';
 
 @Component({
   selector: 'app-administrator',
@@ -9,8 +13,8 @@ import { Project } from '../../models/project.model';
   styleUrls: ['./administrator.page.scss'],
   standalone: false,
 })
-export class AdministratorPage implements OnInit {
-  projects: Project[] = [];
+export class AdministratorPage implements OnInit, ViewWillEnter  {
+  projetos: Project[] = [];
   isLoading = false;
   errorMessage = '';
 
@@ -20,96 +24,62 @@ export class AdministratorPage implements OnInit {
   mostrarEncerrados = false;
   mostrarLeads = false;
 
-  projetos = [
-  {
-    titulo: 'Gamificação no Ensino de Matemática',
-    coordenador: 'Ricardo Alves',
-    tipo: 'Ensino',
-    status: 'Publicado',
-    inscricoes: 'abertas',
-    imagem: 'assets/img/projeto1.png'
-  },
+  leads: Lead[] = [];
+  isLoadingLeads = false;
+  errorMessageLeads = '';
 
-  {
-    titulo: 'Saúde mental universitária',
-    coordenador: 'Juliana Costa',
-    tipo: 'Extensão',
-    status: 'Pendente',
-    inscricoes: 'abertas',
-    imagem: 'assets/img/projeto2.png'
-  },
+  loadLeads(): void {
+    this.isLoadingLeads = true;
+    this.errorMessageLeads = '';
 
-  {
-    titulo: 'Novos Materiais para Energia Solar',
-    coordenador: 'Carlos Mendes',
-    tipo: 'Pesquisa',
-    status: 'Edição',
-    inscricoes: 'fechadas',
-    imagem: 'assets/img/projeto3.png'
-  },
-
-   {
-    titulo: 'Programação com Scratch',
-    coordenador: 'Júlia da Silva',
-    tipo: 'Ensino',
-    status: 'Encerrado',
-    inscricoes: 'fechadas',
-    imagem: 'assets/img/projeto4.png'
+    this.projectsService.listLeads().subscribe({
+      next: (response: Lead[]) => {
+        this.leads = response;
+        this.isLoadingLeads = false;
+      },
+      error: (error: Error) => {
+        this.errorMessageLeads = error.message;
+        this.isLoadingLeads = false;
+      },
+    });
   }
-];
 
-  leads = [
-
-    {
-      nome: 'Maria Eduarda',
-      projeto: 'IA na Educação',
-      email: 'maria@email.com',
-      tipo: 'Bolsista'
-    },
-
-    {
-      nome: 'João Pedro',
-      projeto: 'Sustentabilidade',
-      email: 'joao@email.com',
-      tipo: 'Bolsista'
-    },
-
-    {
-      nome: 'Ana Beatriz',
-      projeto: 'Pesquisa em Energia',
-      email: 'ana@email.com',
-      tipo: 'Voluntário'
-    }
-
-  ];
-
-    get projetosPublicados() {
-    return this.projetos.filter(
-      projeto => projeto.status === 'Publicado'
-    );
-  }
+  get projetosPublicados() {
+  return this.projetos.filter(
+    projeto =>
+      String(projeto.statusModeracao)
+        .toLowerCase()
+        .trim() === 'publicado'
+  );
+}
 
   get projetosPendentes() {
-    return this.projetos.filter(
-      projeto => projeto.status === 'Pendente'
-    );
-  }
-
-  get projetosEdicao() {
   return this.projetos.filter(
-    projeto => projeto.status === 'Edição'
+    projeto =>
+      String(projeto.statusModeracao)
+        .toLowerCase()
+        .trim() === 'pendente'
   );
 }
 
   get projetosEncerrados() {
     return this.projetos.filter(
-      projeto => projeto.status === 'Encerrado'
+      projeto => String(projeto.statusModeracao).toLowerCase().trim() === 'encerrado'
     );
   }
 
-  constructor(private readonly projectsService: ProjectsService) {}
+  constructor(
+  private readonly projectsService: ProjectsService,
+  private readonly projectsApiService: ProjectsApiService,
+  private readonly alertController: AlertController
+) {}
 
   ngOnInit(): void {
+    this.loadProjects();
+    this.loadLeads();
+  }
+
+  ionViewWillEnter(): void {
     this.loadProjects();
   }
 
@@ -119,15 +89,38 @@ export class AdministratorPage implements OnInit {
 
     this.projectsService.list().subscribe({
       next: (projects) => {
-        this.projects = projects;
+
+        console.log('PROJETOS DA API:', projects); // 👈 AQUI
+
+        this.projetos = projects;
+
+        console.log('STATUSES:', projects.map(p => p.status)); // 👈 AQUI
+
         this.isLoading = false;
       },
-      error: (error: Error) => {
+
+      error: (error) => {
+        console.error(error);
         this.errorMessage = error.message;
         this.isLoading = false;
-      },
-    }); 
-  } 
+      }
+    });
+  }
+
+  formatStatus(status: ProjectStatus): string {
+    switch (status) {
+      case 'pending':
+        return 'Pendente';
+      case 'in_progress':
+        return 'Em progresso';
+      case 'done':
+        return 'Publicado';
+      case 'archived':
+        return 'Encerrado';
+      default:
+        return status;
+    }
+  }
 
   onProjectCreate(): void {
     // TODO: Implementar navegação para criação de projeto
@@ -160,6 +153,11 @@ export class AdministratorPage implements OnInit {
   toggleProjetos() {
     const estado = this.mostrarProjetos;
     this.fecharTudo();
+
+    if (!estado) {
+      this.loadProjects();
+    }
+
     this.mostrarProjetos = !estado;
   }
 
@@ -184,6 +182,69 @@ export class AdministratorPage implements OnInit {
   toggleLeads() {
     const estado = this.mostrarLeads;
     this.fecharTudo();
+    if (!estado) {
+      this.loadLeads();
+    }
     this.mostrarLeads = !estado;
   }
+
+  aprovarProjeto(id: number) {
+    this.projectsApiService.aprovarProjeto(id).subscribe({
+      next: () => {
+        this.loadProjects();
+      },
+      error: console.error
+    });
+  }
+
+  reprovarProjeto(id: number) {
+    this.projectsApiService.reprovarProjeto(id).subscribe({
+      next: () => {
+        this.loadProjects();
+      },
+      error: console.error
+    });
+  }
+
+  excluirProjeto(id: number) {
+    this.projectsApiService.excluirProjeto(id).subscribe({
+      next: () => {
+        this.loadProjects();
+      },
+      error: console.error
+    });
+  }
+
+  async abrirMenuProjeto(projeto: Project) {
+  const alert = await this.alertController.create({
+    header: projeto.name,
+    buttons: [
+      {
+        text: 'Aprovar',
+        handler: () => {
+          this.aprovarProjeto(projeto.id);
+        }
+      },
+      {
+        text: 'Reprovar',
+        handler: () => {
+          this.reprovarProjeto(projeto.id);
+        }
+      },
+      {
+        text: 'Excluir',
+        role: 'destructive',
+        handler: () => {
+          this.excluirProjeto(projeto.id);
+        }
+      },
+      {
+        text: 'Cancelar',
+        role: 'cancel'
+      }
+    ]
+  });
+
+  await alert.present();
+}
 } 

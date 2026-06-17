@@ -24,7 +24,7 @@
 
 <ion-content [fullscreen]="true">
   <div class="page-container">
-    <h2>Editar Projeto</h2>
+    <h2>Novo Projeto</h2>
 
     <div class="tabs">
       <div 
@@ -77,7 +77,7 @@
           <div class="banner-upload" [style.border-color]="bannerBase64 ? '#2e7d32' : '#2196f3'" [style.background]="bannerBase64 ? '#f0fdf4' : '#eff6ff'">
             <ion-icon [name]="bannerBase64 ? 'checkmark-circle-outline' : 'image-outline'" [style.color]="bannerBase64 ? '#2e7d32' : '#2196f3'"></ion-icon>
             <p [style.color]="bannerBase64 ? '#2e7d32' : '#2196f3'">
-              {{ bannerBase64 ? 'Imagem carregada com sucesso! ' : 'Alterar imagem do banner' }}
+              {{ bannerBase64 ? 'Imagem carregada com sucesso! ✔️' : 'Alterar imagem do banner' }}
             </p>
             <input type="file" #bannerFileInput style="display: none;" accept="image/*" (change)="onFileSelected($event)" />
             <ion-button type="button" size="small" [color]="bannerBase64 ? 'success' : 'primary'" fill="outline" (click)="bannerFileInput.click()">
@@ -138,6 +138,11 @@
           <ion-input type="url" formControlName="linkEdital" placeholder="https://..."></ion-input>
         </div>
 
+        <div class="form-row">
+          <ion-label position="stacked">Link de Inscrição Externa</ion-label>
+          <ion-input type="url" formControlName="linkInscricaoExterno" placeholder="https://forms.gle/..."></ion-input>
+        </div>
+
       </ion-card>
 
       <ion-card class="info-card" *ngIf="abaSelecionada === 'equipe'">
@@ -147,8 +152,8 @@
               <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Foto Integrante" />
             </ion-avatar>
             <div>
-              <h3>{{ integrante.email }}</h3>
-              <p class="role-text">{{ integrante.papel }}</p>
+              <h3>{{ integrante.nome }}</h3>
+              <p class="role-text">{{ integrante.papel }} — <span style="font-size: 11px; color: #9ca3af;">{{ integrante.email }}</span></p>
             </div>
           </div>
           <div class="item-right">
@@ -167,7 +172,7 @@
 
       <div class="action-buttons">
         <ion-button type="submit" expand="block" color="primary" class="btn-salvar" [disabled]="form.invalid || isSaving">
-          <span *ngIf="!isSaving">Salvar Alterações</span>
+          <span *ngIf="!isSaving">Criar Projeto</span>
           <ion-spinner *ngIf="isSaving" name="crescent"></ion-spinner>
         </ion-button>
         <ion-button type="button" expand="block" fill="clear" color="medium" class="btn-cancelar" (click)="onCancel()">

@@ -33,9 +33,11 @@ ion-fab-button::part(native) {
 }
 
 .avatar {
+  color: black;
   width: 34px;
   height: 34px;
 }
+
 
 ion-toolbar ion-button {
   --color: black;

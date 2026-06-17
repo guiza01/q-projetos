@@ -10,15 +10,8 @@
       Q-Projetos
     </ion-title>
 
-    <ion-buttons slot="end">
-     <!-- <ion-button>
-        <ion-icon name="notifications-outline"></ion-icon>
-      </ion-button> -->
-
-      <ion-avatar class="avatar">
-        <img src="" />
-      </ion-avatar>
-    </ion-buttons>
+    <ion-icon class="avatar"
+    slot="end" name="person-circle-outline"></ion-icon>
 
   </ion-toolbar>
 </ion-header>
@@ -26,8 +19,6 @@
 <ion-content [fullscreen]="true">
 
   <div class="page-container">
-
-    <!--<h2 class="titulo-bar">Usuários</h2> -->
 
     <div class="search-container">
       <ion-searchbar
@@ -81,9 +72,6 @@
       class="user-card"
       *ngFor="let usuario of usuariosFiltrados">
       <div class="user-content">
-        <img
-          [src]="usuario.imagem"
-          class="user-image">
 
         <div class="user-info">
           <div class="user-header">
@@ -102,12 +90,20 @@
           </div>
 
           <p>
+            {{ usuario.vinculo }}
+          </p>
+
+          <p>
             {{ usuario.email }}
           </p>
 
         </div>
 
-        <ion-button fill="clear" class="menu-btn">
+        <ion-button
+          *ngIf="usuario.tipo !== 'Administrador'"
+          fill="clear"
+          class="menu-btn"
+          (click)="abrirMenuUsuario(usuario)">
           <ion-icon name="ellipsis-vertical"></ion-icon>
         </ion-button>
 
@@ -122,11 +118,10 @@
   <ion-fab
     vertical="bottom"
     horizontal="end"
-    slot="fixed"
-    class="custom-fab">
+    slot="fixed">
 
     <ion-fab-button color="primary">
-      <ion-icon name="add"></ion-icon>
+      <ion-icon name="add" routerLink="/cadastro"></ion-icon>
     </ion-fab-button>
 
   </ion-fab>
@@ -142,19 +137,19 @@
     class="custom-tabbar">
 
     <ion-tab-button
-      routerLink="/projects/administrator">
+      routerLink="/administrator">
       <ion-icon name="home-outline"></ion-icon>
       <ion-label>Home</ion-label>
     </ion-tab-button>
 
     <ion-tab-button
-      routerLink="/projects/adm-users"
+      routerLink="/adm-users"
       routerLinkActive="active-tab">
       <ion-icon name="person-outline"></ion-icon>
       <ion-label>Usuários</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button routerLink="/projects/adm-more">
+    <ion-tab-button routerLink="/adm-more">
       <ion-icon name="ellipsis-horizontal"></ion-icon>
       <ion-label>Mais</ion-label>
     </ion-tab-button>

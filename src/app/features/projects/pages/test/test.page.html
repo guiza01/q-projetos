@@ -26,6 +26,33 @@
     </ion-card-content>
   </ion-card>
 
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Listar Projetos</ion-card-title>
+      <ion-card-subtitle>GET /api/projetos</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button expand="block" (click)="fetchProjects()" [disabled]="isLoadingProjects">
+        <ion-spinner name="crescent" *ngIf="isLoadingProjects"></ion-spinner>
+        <span *ngIf="!isLoadingProjects">Buscar projetos</span>
+      </ion-button>
+
+      <ion-text color="danger" *ngIf="errorMessage && !projects.length">
+        <p>{{ errorMessage }}</p>
+      </ion-text>
+
+      <ion-list *ngIf="projects.length">
+        <ion-item *ngFor="let projeto of projects">
+          <ion-label>
+            <h3>{{ projeto.nome || projeto.name || 'Projeto sem nome' }}</h3>
+            <p>ID: {{ projeto.id }}</p>
+            <p>{{ projeto.descricao || projeto.description || 'Sem descrição' }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
   <ion-card *ngIf="responseContent">
     <ion-card-header>
       <ion-card-title>Resposta da API</ion-card-title>

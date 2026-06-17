@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 
 import { API_CONFIG } from '../../../../core/config/api.config';
+import { AuthStorageService } from '../../../../core/services/auth-storage.service';
 
 @Component({
   selector: 'app-coordinator',
@@ -14,11 +15,26 @@ export class CoordinatorPage implements OnInit {
   isLoading = false;
   errorMessage = '';
   responseContent = '';
-  token = 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJxLXByb2pldG9zLWFwaSIsInN1YiI6ImNvb3JkZW5hZG9yQGlmcGUuZWR1LmJyIiwicm9sZSI6IlJPTEVfQ09PUkQiLCJleHAiOjE3ODA2MTE4OTh9.ZtkhLkxlJyHFc4Qv8LjZRazzK5XUFhbGhgPTEnJSR6M';
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly authStorage: AuthStorageService
+  ) {}
 
   mostrarMeusProjetos = false;
+  private getAuthHeaders(): HttpHeaders {
+    const token = this.authStorage.getToken();
+
+    if (!token) {
+      throw new Error('Token não encontrado no localStorage. Faça login novamente.');
+    }
+
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
+  }
+
   mostrarProjetosAtivos = false;
   mostrarInteressados = false;
   mostrarProjetosEncerrados = false;
@@ -144,10 +160,7 @@ export class CoordinatorPage implements OnInit {
   // param: endpoint - string endpoint da API (ex: '/projetos/meus-projetos')
   private async fetchProjects(endpoint: string): Promise<any[]> {
     const url = `${API_CONFIG.baseUrl}${endpoint}`;
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`,
-      'Content-Type': 'application/json',
-    });
+    const headers = this.getAuthHeaders();
 
     const response = await firstValueFrom(this.http.get(url, { headers }));
   
@@ -173,10 +186,7 @@ export class CoordinatorPage implements OnInit {
 
   private async fetchLeaders(endpoint: string): Promise<any[]> {
     const url = `${API_CONFIG.baseUrl}${endpoint}`;
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`,
-      'Content-Type': 'application/json',
-  });
+    const headers = this.getAuthHeaders();
 
     const response = await firstValueFrom(this.http.get(url, { headers }));
     console.log(response);

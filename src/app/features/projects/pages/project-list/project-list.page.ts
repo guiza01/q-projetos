@@ -1,75 +1,108 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectsService } from '../../services/projects.service';
-import { Project } from '../../models/project.model';
+import { CommonModule, DatePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { addIcons } from 'ionicons';
+import { homeOutline, personOutline, ellipsisHorizontal, peopleOutline, documentTextOutline, openOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-project-list',
   templateUrl: './project-list.page.html',
   styleUrls: ['./project-list.page.scss'],
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, FormsModule, IonicModule, HttpClientModule],
+  providers: [DatePipe]
 })
 export class ProjectListPage implements OnInit {
-  projects: Project[] = [];
-  filteredProjects: Project[] = [];
-  isLoading = false;
-  errorMessage = '';
+  
+  // 1. Variáveis de listagem e filtros que o HTML precisa
+  projetosCompletos: any[] = [];
+  projetosFiltrados: any[] = [];
+  filtroSelecionado: string = 'TODOS';
+  termoBusca: string = '';
 
-  // Variáveis para controlar os filtros atuais
-  searchTerm = '';
-  selectedStatus = 'Todos'; 
+  // 2. Variáveis do Modal de Detalhes cobradas no erro
+  isModalAberto: boolean = false;
+  projetoSelecionado: any = null;
 
-  constructor(private readonly projectsService: ProjectsService) {}
-
-  ngOnInit(): void {
-    this.loadProjects();
-  }
-
-  loadProjects(): void {
-    this.isLoading = true;
-    this.errorMessage = '';
-
-    this.projectsService.list().subscribe({
-      next: (projects) => {
-        this.projects = projects;
-        this.filteredProjects = projects;
-        this.isLoading = false;
-      },
-      error: (error: Error) => {
-        this.errorMessage = error.message;
-        this.isLoading = false;
-      },
+  constructor(private http: HttpClient, private router: Router) { 
+    // Registra todos os ícones necessários para as abas e para o modal
+    addIcons({ 
+      homeOutline, 
+      personOutline, 
+      ellipsisHorizontal, 
+      peopleOutline, 
+      documentTextOutline, 
+      openOutline 
     });
   }
 
-  // Captura o texto digitado na pesquisa
-  handleSearch(event: any) {
-    this.searchTerm = event.target.value ? event.target.value.toLowerCase() : '';
-    this.applyFilters();
+  ngOnInit() {
+    this.carregarProjetos();
   }
 
-  // Captura o clique no Chip de Filtro
-  selectStatus(status: string) {
-    this.selectedStatus = status;
-    this.applyFilters();
+  // 3. Função para carregar os projetos da API
+  carregarProjetos() {
+    const url = 'https://q-projetos-backend.onrender.com/api/projetos';
+    this.http.get<any[]>(url).subscribe({
+      next: (dados) => {
+        this.projetosCompletos = dados.filter(p => p.statusModeracao === 'PUBLICADO');
+        this.aplicarFiltros();
+      },
+      error: (erro) => console.error('Erro ao buscar projetos:', erro)
+    });
   }
 
-  // Combina o Filtro de Texto + Filtro do Chip de forma segura
-  applyFilters() {
-    this.filteredProjects = this.projects.filter(project => {
-      const p = project as any;
+  // 4. Função de busca por texto (ionInput)
+  buscarProjeto(event: any) {
+    this.termoBusca = event.target.value ? event.target.value.toLowerCase() : '';
+    this.aplicarFiltros();
+  }
 
-      // 1. Validação da busca por texto (testa propriedades comuns como title ou nome)
-      const matchesSearch = !this.searchTerm || 
-        (p.title && p.title.toLowerCase().includes(this.searchTerm)) ||
-        (p.nome && p.nome.toLowerCase().includes(this.searchTerm));
+  // 5. Função de filtro por categoria (Ensino, Pesquisa, Extensão)
+  filtrarPorTipo(tipo: string) {
+    this.filtroSelecionado = tipo;
+    this.aplicarFiltros();
+  }
 
-      // 2. Validação do status vindo da API (testa propriedades comuns como status ou situacao)
-      const projectStatus = p.status || p.situacao || '';
-      
-      const matchesStatus = this.selectedStatus === 'Todos' || 
-        projectStatus.toLowerCase() === this.selectedStatus.toLowerCase();
+  // 6. Lógica que une a busca por texto e os chips de filtro
+  aplicarFiltros() {
+    let resultado = [...this.projetosCompletos];
 
-      return matchesSearch && matchesStatus;
+    if (this.filtroSelecionado !== 'TODOS') {
+      resultado = resultado.filter(
+        projeto => projeto.tipo?.toUpperCase() === this.filtroSelecionado.toUpperCase()
+      );
+    }
+
+    if (this.termoBusca.trim() !== '') {
+      resultado = resultado.filter(projeto => {
+        const tituloContem = projeto.titulo?.toLowerCase().includes(this.termoBusca);
+        const descricaoContem = projeto.descricao?.toLowerCase().includes(this.termoBusca);
+        return tituloContem || descricaoContem;
+      });
+    }
+
+    this.projetosFiltrados = resultado;
+  }
+
+  // 7. Funções do Modal de detalhes (click)
+  abrirDetalhes(projeto: any) {
+    this.projetoSelecionado = projeto;
+    this.isModalAberto = true;
+  }
+
+  fecharDetalhes() {
+    this.isModalAberto = false;
+    this.projetoSelecionado = null;
+  }
+
+  // 8. Função de navegação do Footer inferior
+  navegar(rota: string) {
+    this.router.navigateByUrl(rota).catch(erro => {
+      console.error('Erro ao navegar para ' + rota, erro);
     });
   }
 }
